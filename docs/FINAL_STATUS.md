@@ -12,7 +12,7 @@
 ├── sync_profiles.py             # 프로파일 자동 동기화 (langgraph.json 갱신)
 ├── start_server.sh              # 서버 시작 스크립트 (동기화 → Docker → langgraph dev)
 │
-├── docker-compose.yml           # Docker 컨테이너 설정
+├── docker compose.yml           # Docker 컨테이너 설정
 ├── .env                         # 환경변수 (gitignore)
 ├── .env.example                 # 환경변수 템플릿
 │
@@ -315,5 +315,5 @@ LangGraph가 클래스를 그래프로 인식 못함.
 예: `search_scienceon_papers_details`(복수) -> `search_scienceon_paper_details`(단수)
 
 ### Docker 컨테이너 host/ 마운트 안됨
-`docker-compose down && docker-compose up -d`로 컨테이너 재생성 필요.
+`docker compose down && docker compose up -d`로 컨테이너 재생성 필요.
 기존 컨테이너가 남아있으면 `docker stop deepagents-sandbox && docker rm deepagents-sandbox` 후 재시작.

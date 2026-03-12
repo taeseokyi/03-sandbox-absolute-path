@@ -145,7 +145,7 @@ SANDBOX_BACKEND=local
 # langgraph dev --allow-blocking --no-reload --no-browser
 ```
 
-Docker 컨테이너, docker-compose 모두 불필요.
+Docker 컨테이너, docker compose 모두 불필요.
 
 ### 동작 원리
 
@@ -178,7 +178,7 @@ SANDBOX_BACKEND=docker
 ./start_server.sh
 ```
 
-`start_server.sh`가 컨테이너 실행 여부를 확인하고 필요 시 `docker-compose up -d`를 자동 실행한다.
+`start_server.sh`가 컨테이너 실행 여부를 확인하고 필요 시 `docker compose up -d`를 자동 실행한다.
 
 컨테이너가 `./host/`를 `/tmp/workspace/host/`로 읽기 전용 마운트한다:
 
@@ -190,11 +190,11 @@ volumes:
 
 ### Docker 컨테이너 설정 변경 시
 
-`docker-compose.yml`이나 `host/` 내용을 바꾼 뒤에는 컨테이너를 재생성해야 한다:
+`docker compose.yml`이나 `host/` 내용을 바꾼 뒤에는 컨테이너를 재생성해야 한다:
 
 ```bash
 docker stop deepagents-sandbox && docker rm deepagents-sandbox
-./start_server.sh   # 자동으로 docker-compose up -d 후 서버 시작
+./start_server.sh   # 자동으로 docker compose up -d 후 서버 시작
 ```
 
 ## 새 프로파일 추가

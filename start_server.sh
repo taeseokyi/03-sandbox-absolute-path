@@ -42,8 +42,8 @@ if [ "$SANDBOX_BACKEND" = "docker" ]; then
     if docker ps --format '{{.Names}}' 2>/dev/null | grep -q "^deepagents-sandbox$"; then
         echo "      deepagents-sandbox 컨테이너 이미 실행 중"
     else
-        echo "      docker-compose up -d 실행 중 ..."
-        docker-compose up -d
+        echo "      docker compose up -d 실행 중 ..."
+        docker compose up -d
         echo "      컨테이너 시작 완료"
     fi
 else
