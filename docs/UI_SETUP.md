@@ -36,7 +36,7 @@ cd 03-sandbox-absolute-path
 |----------|------------|----------|----------------|
 | `"openai"` | `ChatOpenAI` | `kistillm`, `gpt-4o` | `OPENAI_API_KEY` |
 | `"anthropic"` | `ChatAnthropic` | `claude-sonnet-4-6` | `ANTHROPIC_API_KEY` |
-| `"google"` | `ChatGoogleGenerativeAI` | `gemini-2.0-flash` | `GOOGLE_API_KEY` |
+| `"google"` | `ChatGoogleGenerativeAI` | `gemini-flash-lite-latest` | `GOOGLE_API_KEY` |
 
 ### OpenAI 호환 (KISTI, LiteLLM proxy 등)
 
@@ -73,14 +73,28 @@ cd 03-sandbox-absolute-path
 ```json
 {
   "provider": "google",
-  "model": "gemini-2.0-flash",
+  "model": "gemini-flash-lite-latest",
   "temperature": 0.5,
   "max_tokens": 4096,
-  "max_retries": 2
+  "max_retries": 2,
+  "thinking_budget": 0
 }
 ```
 
 `api_key` 생략 시 `.env`의 `GOOGLE_API_KEY` 환경변수를 사용한다.
+
+#### thinking_budget (Gemini 2.5 계열 전용)
+
+Gemini 2.5 Flash 등 thinking 지원 모델은 응답 전 내부 추론 토큰을 생성한다.
+이 시간 동안 UI가 멈춘 것처럼 보이며, 도구 호출이 반복될수록 지연이 누적된다.
+
+| 값 | 동작 |
+|----|------|
+| 미지정 | 모델 기본값 — 자동 추론 (수십 초 지연 발생) |
+| `0` | thinking 비활성화 — 즉시 응답 (에이전트 루프 권장) |
+| `1` ~ `24576` | 최대 추론 토큰 수 제한 |
+
+에이전트로 사용할 때는 `"thinking_budget": 0`을 권장한다.
 
 ### 프로파일마다 다른 LLM 사용 예시
 
@@ -335,6 +349,19 @@ echo 'GOOGLE_API_KEY=AIzaSy-...'   >> .env
 ```json
 { "provider": "anthropic", "model": "claude-sonnet-4-6", "api_key": "sk-ant-..." }
 ```
+
+### Gemini 에이전트가 도구 호출 중 멈추는 현상
+
+Gemini 2.5 Flash 계열(`gemini-flash-latest`, `gemini-2.5-flash` 등)은 응답 전
+내부 추론(thinking) 토큰을 생성한다. 도구 호출이 반복되는 에이전트 루프에서는
+매 호출마다 수십 초의 thinking 지연이 누적되어 UI가 멈춘 것처럼 보인다.
+
+```json
+{ "provider": "google", "model": "gemini-flash-latest", "thinking_budget": 0 }
+```
+
+`thinking_budget: 0`으로 thinking을 비활성화하거나,
+thinking이 없는 `gemini-flash-lite-latest`를 사용한다.
 
 ### 지원하지 않는 provider 오류
 

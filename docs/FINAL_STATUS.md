@@ -195,13 +195,25 @@
 ```json
 {
   "provider": "google",
-  "model": "gemini-2.0-flash",
+  "model": "gemini-flash-lite-latest",
   "api_key": "AIzaSy-...",
   "temperature": 0.5,
   "max_tokens": 4096,
-  "max_retries": 2
+  "max_retries": 2,
+  "thinking_budget": 0
 }
 ```
+
+`thinking_budget` — Gemini 2.5 계열의 내부 추론(thinking) 토큰 수 제어:
+
+| 값 | 동작 |
+|----|------|
+| 미지정 | 모델 기본값 (Gemini 2.5는 자동 추론 — 응답 전 수십 초 지연 발생) |
+| `0` | thinking 완전 비활성화 (즉시 응답, 에이전트 루프 권장) |
+| `1` ~ `24576` | 최대 추론 토큰 수 제한 |
+
+에이전트처럼 도구 호출이 반복되는 환경에서는 `thinking_budget: 0` 설정을 권장한다.
+지연 없이 즉시 응답하며, 토큰 소비도 줄어든다.
 
 | provider | LangChain 클래스 | api_key 환경변수 |
 |----------|-----------------|-----------------|
