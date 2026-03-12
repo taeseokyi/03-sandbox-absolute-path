@@ -176,7 +176,14 @@ def _create_anthropic_model(config: Dict[str, Any]):
 
 
 def _create_google_model(config: Dict[str, Any]):
-    """ChatGoogleGenerativeAI 생성 (Gemini 계열)."""
+    """ChatGoogleGenerativeAI 생성 (Gemini 계열).
+
+    thinking_budget 설정:
+      - 미지정        : 모델 기본값 (Gemini 2.5는 자동 추론, 응답 전 수십 초 지연 발생)
+      - 0             : thinking 완전 비활성화 (빠른 응답)
+      - 1 ~ 24576     : 최대 추론 토큰 수 제한
+    config.json 예시: { "thinking_budget": 0 }
+    """
     from langchain_google_genai import ChatGoogleGenerativeAI
 
     api_key = config.get("api_key") or os.environ.get("GOOGLE_API_KEY")
@@ -200,6 +207,12 @@ def _create_google_model(config: Dict[str, Any]):
 
     if config.get("max_retries") is not None:
         kwargs["max_retries"] = config["max_retries"]
+
+    # thinking_budget: Gemini 2.5 계열의 내부 추론 토큰 제어
+    # 0 = thinking 비활성화, 미지정 = 모델 기본값
+    if "thinking_budget" in config:
+        kwargs["thinking_config"] = {"thinking_budget": config["thinking_budget"]}
+        logger.info(f"Gemini thinking_budget={config['thinking_budget']}")
 
     return ChatGoogleGenerativeAI(**kwargs)
 

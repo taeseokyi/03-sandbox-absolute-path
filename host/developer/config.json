@@ -1,6 +1,6 @@
 {
   "provider": "google",
-  "model": "gemini-2.5-flash",
+  "model": "gemini-flash-lite-latest",
   "api_key": "AIzaSyDsllGVoXLpM0QEGKWbUSdD2TKEGl42jBM",
   "temperature": 0.5,
   "max_tokens": 4096,
