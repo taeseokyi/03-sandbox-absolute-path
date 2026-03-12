@@ -5,7 +5,7 @@
 ```
 03-sandbox-absolute-path/
 ├── agent_server.py              # 통합 엔트리 포인트 (Graph factory, 프로파일 자동 등록)
-├── agent_config_loader.py       # 모델 설정 로더 (환경변수 fallback)
+├── agent_config_loader.py       # 모델 설정 로더 (openai / anthropic / google 멀티 provider)
 ├── mcp_tools_loader.py          # MCP 도구 로더 (uvloop 호환)
 ├── docker_util.py               # Docker 샌드박스 (AdvancedDockerSandbox)
 ├── langgraph.json               # LangGraph 서버 설정 (sync_profiles.py로 자동 갱신)
@@ -236,10 +236,16 @@
 LANGSMITH_TRACING=true
 LANGSMITH_API_KEY=...
 
-# LLM
+# OpenAI 호환 LLM (provider: "openai") - KISTI, LiteLLM proxy 등
 OPENAI_API_BASE="https://aida.kisti.re.kr:10411/v1"
 OPENAI_API_KEY="dummy"
 KISTI_MODEL=kistillm
+
+# Anthropic (provider: "anthropic") - config.json에 api_key 없을 때 사용
+# ANTHROPIC_API_KEY=sk-ant-your-key-here
+
+# Google Gemini (provider: "google") - config.json에 api_key 없을 때 사용
+# GOOGLE_API_KEY=AIzaSy-your-key-here
 
 # 백엔드 선택: "docker" 또는 "local"
 SANDBOX_BACKEND=docker
@@ -272,10 +278,11 @@ description: 에이전트 설명
 시스템 프롬프트 내용...
 EOF
 
-# config.json (선택)
+# config.json (선택) - provider 생략 시 openai 기본값
 cat > host/developer/subagents/new-agent/config.json << 'EOF'
-{ "model": "kistillm", "temperature": 0.5 }
+{ "provider": "openai", "model": "kistillm", "temperature": 0.5 }
 EOF
+# Claude를 쓰려면: { "provider": "anthropic", "model": "claude-sonnet-4-6", ... }
 
 # tools.json (선택), skills/ 디렉토리 (선택) 추가 가능
 # 서버 재시작 시 자동 인식

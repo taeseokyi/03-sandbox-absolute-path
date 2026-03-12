@@ -27,6 +27,82 @@ cd 03-sandbox-absolute-path
 ./start_server.sh --port 2025
 ```
 
+## LLM 모델 설정
+
+각 프로파일의 `host/{profile}/config.json` 에서 LLM 벤더와 모델을 독립적으로 지정한다.
+`"provider"` 필드 하나로 LLM 클래스가 전환되며, 생략 시 `"openai"` (하위 호환).
+
+| provider | 사용 클래스 | 대표 모델 | API 키 환경변수 |
+|----------|------------|----------|----------------|
+| `"openai"` | `ChatOpenAI` | `kistillm`, `gpt-4o` | `OPENAI_API_KEY` |
+| `"anthropic"` | `ChatAnthropic` | `claude-sonnet-4-6` | `ANTHROPIC_API_KEY` |
+| `"google"` | `ChatGoogleGenerativeAI` | `gemini-2.0-flash` | `GOOGLE_API_KEY` |
+
+### OpenAI 호환 (KISTI, LiteLLM proxy 등)
+
+```json
+{
+  "provider": "openai",
+  "model": "kistillm",
+  "base_url": "https://aida.kisti.re.kr:10411/v1",
+  "api_key": "dummy",
+  "temperature": 0.5,
+  "max_tokens": 4096,
+  "timeout": 120,
+  "max_retries": 2
+}
+```
+
+### Anthropic (Claude)
+
+```json
+{
+  "provider": "anthropic",
+  "model": "claude-sonnet-4-6",
+  "temperature": 0.5,
+  "max_tokens": 4096,
+  "timeout": 120,
+  "max_retries": 2
+}
+```
+
+`api_key` 생략 시 `.env`의 `ANTHROPIC_API_KEY` 환경변수를 사용한다.
+
+### Google (Gemini)
+
+```json
+{
+  "provider": "google",
+  "model": "gemini-2.0-flash",
+  "temperature": 0.5,
+  "max_tokens": 4096,
+  "max_retries": 2
+}
+```
+
+`api_key` 생략 시 `.env`의 `GOOGLE_API_KEY` 환경변수를 사용한다.
+
+### 프로파일마다 다른 LLM 사용 예시
+
+```
+host/beginner/config.json   → provider: "openai"     (KISTI LLM)
+host/developer/config.json  → provider: "anthropic"  (Claude)
+host/expert/config.json     → provider: "google"     (Gemini)
+```
+
+서브에이전트도 같은 방식으로 `host/{profile}/subagents/{name}/config.json`에 지정한다.
+
+### API 키 관리
+
+config.json에 직접 기입하거나 `.env`에 환경변수로 설정한다.
+환경변수 방식은 `.env`(gitignore)에만 기록되어 키를 코드에서 분리할 수 있다.
+
+```bash
+# .env
+ANTHROPIC_API_KEY=sk-ant-your-key-here
+GOOGLE_API_KEY=AIzaSy-your-key-here
+```
+
 ## 백엔드 선택
 
 `.env` 파일의 `SANDBOX_BACKEND`로 백엔드를 선택한다.
@@ -240,3 +316,31 @@ pip install -e /path/to/deepagents/libs/deepagents
 # 확인
 python -c "from deepagents.backends import LocalShellBackend; print('OK')"
 ```
+
+### Anthropic/Google API 키 오류
+
+```
+ValueError: Anthropic API 키 필요: config.json의 api_key 또는 ANTHROPIC_API_KEY 환경변수를 설정하세요.
+```
+
+config.json에 `api_key`가 없고 환경변수도 미설정인 경우 발생한다.
+
+```bash
+# .env에 키 추가
+echo 'ANTHROPIC_API_KEY=sk-ant-...' >> .env
+echo 'GOOGLE_API_KEY=AIzaSy-...'   >> .env
+```
+
+또는 config.json에 직접 기입:
+```json
+{ "provider": "anthropic", "model": "claude-sonnet-4-6", "api_key": "sk-ant-..." }
+```
+
+### 지원하지 않는 provider 오류
+
+```
+ValueError: 지원하지 않는 provider: 'xxx'. 지원 목록: openai, anthropic, google
+```
+
+config.json의 `"provider"` 값이 오타이거나 지원하지 않는 벤더명인 경우 발생한다.
+`openai`, `anthropic`, `google` 중 하나만 사용 가능하다.
