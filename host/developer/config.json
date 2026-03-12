@@ -1,9 +1,9 @@
 {
   "provider": "google",
-  "model": "gemini-flash-lite-latest",
+  "model": "gemini-2.5-flash",
   "api_key": "AIzaSyDsllGVoXLpM0QEGKWbUSdD2TKEGl42jBM",
   "temperature": 0.5,
-  "max_tokens": 4096,
+  "max_tokens": 128000,
   "timeout": 120,
   "max_retries": 2,
   "description": "메인 에이전트 모델 설정 (Google Gemini 2.5 Flash)"
