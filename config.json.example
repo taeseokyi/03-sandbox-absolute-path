@@ -1,10 +1,36 @@
 {
-  "model": "kistillm",
-  "base_url": "https://aida.kisti.re.kr:10411/v1",
-  "api_key": "dummy",
-  "temperature": 0.7,
-  "max_tokens": 4096,
-  "timeout": 120,
-  "max_retries": 2,
-  "description": "메인 에이전트 모델 설정"
+  "_comment": "provider 값에 따라 다른 LLM 클래스가 사용됩니다. 아래 예시 중 하나를 선택하여 config.json 으로 복사하세요.",
+
+  "_example_openai": {
+    "provider": "openai",
+    "model": "kistillm",
+    "base_url": "https://aida.kisti.re.kr:10411/v1",
+    "api_key": "dummy",
+    "temperature": 0.5,
+    "max_tokens": 4096,
+    "timeout": 120,
+    "max_retries": 2,
+    "description": "OpenAI 호환 API (KISTI, LiteLLM proxy 등)"
+  },
+
+  "_example_anthropic": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-6",
+    "api_key": "sk-ant-your-key-here",
+    "temperature": 0.5,
+    "max_tokens": 4096,
+    "timeout": 120,
+    "max_retries": 2,
+    "description": "Anthropic Claude (api_key 미설정 시 ANTHROPIC_API_KEY 환경변수 사용)"
+  },
+
+  "_example_google": {
+    "provider": "google",
+    "model": "gemini-2.0-flash",
+    "api_key": "AIzaSy-your-key-here",
+    "temperature": 0.5,
+    "max_tokens": 4096,
+    "max_retries": 2,
+    "description": "Google Gemini (api_key 미설정 시 GOOGLE_API_KEY 환경변수 사용)"
+  }
 }

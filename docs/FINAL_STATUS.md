@@ -162,8 +162,12 @@
 
 ### host/{profile}/config.json (모델 설정)
 
+`provider` 필드로 LLM 벤더를 선택한다. 생략 시 `"openai"` (하위 호환).
+
+**OpenAI 호환 (KISTI, LiteLLM proxy 등)**
 ```json
 {
+  "provider": "openai",
   "model": "kistillm",
   "base_url": "https://aida.kisti.re.kr:10411/v1",
   "api_key": "dummy",
@@ -174,7 +178,39 @@
 }
 ```
 
-환경변수 fallback: `KISTI_MODEL`, `OPENAI_API_BASE`, `OPENAI_API_KEY`, `LLM_TEMPERATURE`, `LLM_TIMEOUT`
+**Anthropic (Claude)**
+```json
+{
+  "provider": "anthropic",
+  "model": "claude-sonnet-4-6",
+  "api_key": "sk-ant-...",
+  "temperature": 0.5,
+  "max_tokens": 4096,
+  "timeout": 120,
+  "max_retries": 2
+}
+```
+
+**Google (Gemini)**
+```json
+{
+  "provider": "google",
+  "model": "gemini-2.0-flash",
+  "api_key": "AIzaSy-...",
+  "temperature": 0.5,
+  "max_tokens": 4096,
+  "max_retries": 2
+}
+```
+
+| provider | LangChain 클래스 | api_key 환경변수 |
+|----------|-----------------|-----------------|
+| `openai` | `ChatOpenAI` | `OPENAI_API_KEY` |
+| `anthropic` | `ChatAnthropic` | `ANTHROPIC_API_KEY` |
+| `google` | `ChatGoogleGenerativeAI` | `GOOGLE_API_KEY` |
+
+`api_key`를 config.json 에 직접 쓰지 않을 경우 `.env` 의 해당 환경변수를 설정한다.
+환경변수 fallback (openai): `KISTI_MODEL`, `OPENAI_API_BASE`, `OPENAI_API_KEY`, `LLM_TEMPERATURE`, `LLM_TIMEOUT`
 
 ### host/{profile}/tools.json (MCP 도구)
 
