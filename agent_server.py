@@ -297,19 +297,59 @@ def _create_agent(profile_name: str):
 _agent_cache = {}
 
 
-def beginner_agent():
-    """LangGraph graph factory: beginner 프로필"""
-    if "beginner" not in _agent_cache:
-        _agent_cache["beginner"] = _create_agent("beginner")
-    return _agent_cache["beginner"]
+def _make_agent_factory(profile_name: str):
+    """프로파일 이름으로 LangGraph factory 함수 동적 생성"""
+    def factory():
+        if profile_name not in _agent_cache:
+            _agent_cache[profile_name] = _create_agent(profile_name)
+        return _agent_cache[profile_name]
+    factory.__name__ = f"{profile_name}_agent"
+    factory.__qualname__ = f"{profile_name}_agent"
+    factory.__doc__ = f"LangGraph graph factory: {profile_name} 프로필"
+    return factory
 
 
-def developer_agent():
-    """LangGraph graph factory: developer 프로필"""
-    if "developer" not in _agent_cache:
-        _agent_cache["developer"] = _create_agent("developer")
-    return _agent_cache["developer"]
+def _auto_register_profiles() -> list:
+    """
+    host/ 디렉토리를 스캔하여 프로파일별 factory 함수를 모듈 전역에 동적 등록.
+
+    AGENTS.md가 존재하는 하위 폴더를 유효한 프로파일로 인식합니다.
+    새 프로파일을 host/<name>/ 으로 추가하면 다음 서버 재시작 시 자동 인식됩니다.
+    (langgraph.json 동기화는 sync_profiles.py 를 먼저 실행하세요)
+
+    Returns:
+        list: 등록된 프로파일 이름 목록
+    """
+    host_dir = Path("./host")
+    if not host_dir.exists():
+        logger.warning("host/ 디렉토리 없음 - 프로파일 자동 등록 건너뜀")
+        return []
+
+    registered = []
+    for profile_dir in sorted(host_dir.iterdir()):
+        if not profile_dir.is_dir() or profile_dir.name.startswith('.'):
+            continue
+        # AGENTS.md가 있는 폴더만 유효한 프로파일로 인식
+        if not (profile_dir / "AGENTS.md").exists():
+            logger.debug(f"host/{profile_dir.name}: AGENTS.md 없음 (스킵)")
+            continue
+
+        factory_name = f"{profile_dir.name}_agent"
+        globals()[factory_name] = _make_agent_factory(profile_dir.name)
+        registered.append(profile_dir.name)
+        logger.info(f"프로파일 등록: {profile_dir.name} → {factory_name}()")
+
+    logger.info(f"자동 등록된 프로파일: {registered}")
+    return registered
 
 
-# 기본 에이전트 factory (하위 호환성)
-agent = developer_agent
+# 모듈 로드 시 host/ 스캔하여 프로파일 자동 등록
+_registered_profiles = _auto_register_profiles()
+
+# 기본 에이전트 factory (하위 호환성 - developer 우선, 없으면 첫 번째 프로파일)
+if "developer_agent" in globals():
+    agent = globals()["developer_agent"]
+elif _registered_profiles:
+    agent = globals()[f"{_registered_profiles[0]}_agent"]
+else:
+    agent = None
