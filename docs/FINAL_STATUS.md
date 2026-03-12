@@ -4,11 +4,13 @@
 
 ```
 03-sandbox-absolute-path/
-├── agent_server.py              # 통합 엔트리 포인트 (Graph factory)
+├── agent_server.py              # 통합 엔트리 포인트 (Graph factory, 프로파일 자동 등록)
 ├── agent_config_loader.py       # 모델 설정 로더 (환경변수 fallback)
 ├── mcp_tools_loader.py          # MCP 도구 로더 (uvloop 호환)
 ├── docker_util.py               # Docker 샌드박스 (AdvancedDockerSandbox)
-├── langgraph.json               # LangGraph 서버 설정
+├── langgraph.json               # LangGraph 서버 설정 (sync_profiles.py로 자동 갱신)
+├── sync_profiles.py             # 프로파일 자동 동기화 (langgraph.json 갱신)
+├── start_server.sh              # 서버 시작 스크립트 (동기화 → Docker → langgraph dev)
 │
 ├── docker-compose.yml           # Docker 컨테이너 설정
 ├── .env                         # 환경변수 (gitignore)
@@ -16,7 +18,7 @@
 │
 ├── host/                        # 에이전트 설정 (Docker에서 /tmp/workspace/host/:ro 마운트)
 │   ├── beginner/                # 초보자 프로파일 (독립 구성)
-│   │   ├── AGENTS.md            # 시스템 프롬프트
+│   │   ├── AGENTS.md            # 시스템 프롬프트 (필수 - 프로파일 인식 기준)
 │   │   ├── config.json          # 메인 에이전트 모델 설정
 │   │   ├── tools.json           # 메인 에이전트 MCP 도구
 │   │   ├── skills/              # SkillsMiddleware (3개)
@@ -27,20 +29,21 @@
 │   │       ├── code-reviewer/
 │   │       ├── data-analyst/
 │   │       └── report-writer/
-│   └── developer/               # 개발자 프로파일 (독립 구성)
-│       ├── AGENTS.md            # 시스템 프롬프트
-│       ├── config.json          # 메인 에이전트 모델 설정
-│       ├── tools.json           # 메인 에이전트 MCP 도구
-│       ├── skills/              # SkillsMiddleware (5개)
-│       │   ├── python-dev/
-│       │   ├── data-processing/
-│       │   ├── debugging/
-│       │   ├── kisti-research/
-│       │   └── workspace-awareness/
-│       └── subagents/           # SubAgentMiddleware
-│           ├── code-reviewer/
-│           ├── data-analyst/
-│           └── report-writer/
+│   ├── developer/               # 개발자 프로파일 (독립 구성)
+│   │   ├── AGENTS.md            # 시스템 프롬프트
+│   │   ├── config.json          # 메인 에이전트 모델 설정
+│   │   ├── tools.json           # 메인 에이전트 MCP 도구
+│   │   ├── skills/              # SkillsMiddleware (5개)
+│   │   │   ├── python-dev/
+│   │   │   ├── data-processing/
+│   │   │   ├── debugging/
+│   │   │   ├── kisti-research/
+│   │   │   └── workspace-awareness/
+│   │   └── subagents/           # SubAgentMiddleware
+│   │       ├── code-reviewer/
+│   │       ├── data-analyst/
+│   │       └── report-writer/
+│   └── <name>/                  # 추가 프로파일 (AGENTS.md만 있으면 자동 인식)
 │
 ├── workspace/                   # 에이전트 작업 디렉토리
 └── docs/
@@ -48,9 +51,12 @@
 
 ### `host/` 디렉토리의 역할
 
-프로파일별(beginner, developer) 독립 구성을 관리한다.
+프로파일별 독립 구성을 관리한다.
 각 프로파일은 시스템 프롬프트(AGENTS.md), 모델 설정(config.json), MCP 도구(tools.json),
 스킬(skills/), 서브에이전트(subagents/)를 독립적으로 가진다.
+
+**프로파일 자동 인식 조건**: `host/<name>/AGENTS.md` 파일이 존재해야 한다.
+`start_server.sh` 실행 시 자동으로 `langgraph.json`과 factory 함수가 등록된다.
 
 - **Docker**: `/tmp/workspace/host/`로 읽기 전용 마운트. 에이전트가 읽을 수 있지만 수정 불가.
 - **Local**: 호스트 절대경로로 직접 참조. 별도 제약 없음.
@@ -127,11 +133,13 @@
 
 ### langgraph.json
 
+`sync_profiles.py`가 `host/` 스캔 결과에 맞게 자동 갱신한다. 수동 편집 불필요.
+
 ```json
 {
   "dependencies": ["."],
   "graphs": {
-    "sandbox-beginner": "./agent_server.py:beginner_agent",
+    "sandbox-beginner":  "./agent_server.py:beginner_agent",
     "sandbox-developer": "./agent_server.py:developer_agent"
   },
   "env": ".env",
@@ -139,6 +147,16 @@
     "agent_server.py", "mcp_tools_loader.py", "agent_config_loader.py",
     "docker_util.py", "host/beginner/", "host/developer/"
   ]
+}
+```
+
+새 프로파일 `host/expert/`를 추가하면 `start_server.sh` 실행 시 자동으로:
+
+```json
+"graphs": {
+  "sandbox-beginner":  "./agent_server.py:beginner_agent",
+  "sandbox-developer": "./agent_server.py:developer_agent",
+  "sandbox-expert":    "./agent_server.py:expert_agent"
 }
 ```
 
@@ -235,7 +253,7 @@ LangGraph가 uvloop을 사용하는 환경에서 MCP 로더가 `loop.run_until_c
 
 ### "Variable 'beginner_agent' is not a Graph or Graph factory function"
 LangGraph가 클래스를 그래프로 인식 못함.
-`agent_server.py`가 `beginner_agent()`, `developer_agent()` 함수(Graph factory)로 구현되어 해결됨.
+`agent_server.py`가 `_make_agent_factory()`로 생성한 Graph factory 함수를 모듈 전역에 동적 등록하여 해결됨.
 
 ### MCP 도구 매칭 실패
 `host/tools.json`의 도구명과 MCP 서버 실제 도구명 불일치 시 WARNING 로그 출력.
