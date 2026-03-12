@@ -1,0 +1,31 @@
+# docker-compose.yml
+
+services:
+  deepagent-sandbox:
+    build: .
+    image: deepagents-sandbox
+    container_name: deepagents-sandbox  # 중요: 이름 지정
+    #command: tail -f /dev/null  # 컨테이너를 계속 실행 상태로 유지 방법 아래와 같음
+    command: sleep infinity  # 컨테이너를 계속 실행 상태로 유지
+    volumes:
+      - ./workspace:/tmp/workspace
+      - ./host:/tmp/workspace/host:ro
+    working_dir: /tmp/workspace
+    user: "1000:1000"
+    mem_limit: 512m
+    cpus: 0.5
+    networks:
+      - isolated-networks  # 외부 인터넷 차단 네트워크
+    security_opt:
+      - no-new-privileges
+    cap_drop:
+      - ALL
+    read_only: true  # 루트 파일시스템 읽기 전용 (workspace, /tmp만 쓰기 가능)
+    tmpfs:
+      - /tmp/scratch:size=100m
+    pids_limit: 100
+
+networks:
+  isolated-networks:
+    driver: bridge
+    internal: false  # 외부 인터넷 허용

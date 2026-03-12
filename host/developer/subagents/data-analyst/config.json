@@ -1,0 +1,9 @@
+{
+  "model": "kistillm",
+  "base_url": "https://aida.kisti.re.kr:10411/v1",
+  "api_key": "dummy",
+  "temperature": 0.3,
+  "timeout": 120,
+  "max_retries": 2,
+  "description": "데이터 분석용 - 낮은 온도로 정확한 분석"
+}

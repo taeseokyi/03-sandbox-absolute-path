@@ -1,0 +1,22 @@
+# LangGraph 내부 파일 (Hot Reload 제외)
+.langgraph_api/
+*.pckl
+*.pckl.tmp
+
+# Python 캐시
+__pycache__/
+*.pyc
+*.pyo
+
+# Docker workspace (변경 감시 불필요)
+workspace/
+
+# 로그 파일
+*.log
+
+# Git
+.git/
+
+# IDE
+.vscode/
+.idea/

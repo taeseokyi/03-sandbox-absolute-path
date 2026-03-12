@@ -1,0 +1,21 @@
+{
+  "mcp_servers": [
+    {
+      "name": "kisti-mcp",
+      "url": "https://aida.kisti.re.kr:10498/mcp/",
+      "transport": "streamable_http",
+      "tools": [
+        "search_scienceon_papers",
+        "search_ntis_rnd_projects"
+      ]
+    },
+    {
+      "name": "kisti-mcp-2",
+      "url": "https://aida.kisti.re.kr:10498/mcp/",
+      "transport": "streamable_http",
+      "tools": [
+        "search_dataon_research_data"
+      ]
+    }
+  ]
+}

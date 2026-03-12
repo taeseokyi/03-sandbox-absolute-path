@@ -1,0 +1,41 @@
+{
+  "mcp_servers": [
+    {
+      "name": "kisti-papers",
+      "url": "https://aida.kisti.re.kr:10498/mcp/",
+      "transport": "streamable_http",
+      "tools": [
+        "search_scienceon_papers",
+        "search_scienceon_papers_details"
+      ]
+    },
+    {
+      "name": "kisti-patents",
+      "url": "https://aida.kisti.re.kr:10498/mcp/",
+      "transport": "streamable_http",
+      "tools": [
+        "search_scienceon_patents",
+        "search_scienceon_patent_details",
+        "search_scienceon_patent_citations"
+      ]
+    },
+    {
+      "name": "kisti-rnd",
+      "url": "https://aida.kisti.re.kr:10498/mcp/",
+      "transport": "streamable_http",
+      "tools": [
+        "search_ntis_rnd_projects",
+        "search_ntis_science_tech_classifications"
+      ]
+    },
+    {
+      "name": "kisti-data",
+      "url": "https://aida.kisti.re.kr:10498/mcp/",
+      "transport": "streamable_http",
+      "tools": [
+        "search_dataon_research_data",
+        "search_dataon_research_data_details"
+      ]
+    }
+  ]
+}

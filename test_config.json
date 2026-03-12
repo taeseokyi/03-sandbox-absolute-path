@@ -1,0 +1,8 @@
+{
+  "model": "gpt-4",
+  "base_url": "https://api.openai.com/v1",
+  "api_key": "sk-test",
+  "temperature": 0.5,
+  "max_tokens": 2048,
+  "timeout": 60
+}

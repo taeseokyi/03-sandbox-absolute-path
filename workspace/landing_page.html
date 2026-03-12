@@ -1,0 +1,1868 @@
+﻿<!DOCTYPE html> 
+<html lang="en" class="no-js">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>KPDC - Korea Polar Data Center</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="/theme/img/favicon_180x180.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/theme/img/favicon_32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/theme/img/favicon_16x16.png">
+	<link rel="manifest" href="/theme/img/site.webmanifest">
+	<link rel="shortcut icon" href="/theme/img/favicon.ico">
+	<meta name="theme-color" content="#ffffff">
+	
+	<!-- styles -->
+	<link rel="stylesheet" href="/theme/css/bootstrap-grid.min.css?20p">
+	<link rel="stylesheet" href="/theme/css/main.css?v=20251030">
+    <link rel="stylesheet" href="/static/plugins/waitme/waitMe.min.css">
+	<link rel="stylesheet" href="/theme/css/custom.css?v=20251109">
+	<style>
+		.other_account a.twt { background-position: 0px 0px; }
+		.other_account a.goo { background-position: -74px 0px; }
+		
+		.parsley-errors { text-align: left; color: #b14a4a; }
+		.parsley-errors-list { padding: 5px 5px 0 5px !important; }
+		.parsley-errors-list li:not(:first-child) { display: none; }
+		
+		.table .has-count a { max-width: 90%;}
+		.map_summ dd { font-weight: normal; }
+		.map_summ dt:after { content: ' : '; font-weight: normal; }
+	</style>
+	
+	<!-- Hotjar Tracking Code for http://kpdc.kopri.re.kr -->
+	<script>
+		(function(h,o,t,j,a,r){
+			h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+			h._hjSettings={hjid:1097115,hjsv:6};
+			a=o.getElementsByTagName('head')[0];
+			r=o.createElement('script');r.async=1;
+			r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+			a.appendChild(r);
+		})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+	</script>
+	
+    <meta name="Description" content="To determine the marine heat flow distribution in the Chukchi Basin (Chukchi Abyssal Plain), we obtained in situ geothermal gradients at five stations and laboratory-measured thermal conductivities at three stations along an east–west transect across the Chukchi Abyssal Plain.">
+    <meta name="author" content="Jongkuk Hong (jkhong@kopri.re.kr)">    
+    <meta name="keyword" content="Geoscientific Information">
+    <meta name="keyword" content="EARTH SCIENCE SOLID EARTH GEOTHERMAL DYNAMICS GEOTHERMAL TEMPERATURE   ">
+    <meta name="keyword" content="EARTH SCIENCE SOLID EARTH GEOTHERMAL DYNAMICS    ">
+    <meta name="date" content="2026-02-10 05:37:35 UTC">
+    <meta name="location" content="OCEAN ARCTIC OCEAN CHUKCHI SEA   ">
+    <meta name="location" content="OCEAN ARCTIC OCEAN CHUKCHI SEA   Chukchi Basin">
+
+</head>
+
+<body>
+	<!--[if lt IE 9]>
+	<p style="position:relative;height:50px;margin:0;font-family:sans-serif;font-size:14px;color:#fff;line-height:40px;border-bottom:2px outset #fff;text-align:center;background:#43474d;">
+		<strong style="font-size:14px;color:#f30;">Your browser is out of date!</strong> Update your browser to view this website correctly. 
+		<a href="http://outdatedbrowser.com/" target="_blank" style="display:inline-block;margin:0 1em;padding:6px 12px;font-size:12px;color:#fff;font-weight:bold;line-height:1;text-decoration:none;background:#f30;">Update my browser now</a> 
+		<button type="button" onClick="this.parentNode.style.display='none'" style="font-size:20px;border:none;background:none;">&times;</button>
+	</p>
+	<![endif]-->
+	<a href="#mainContent" class="skip">Skip to content</a>
+	<a href="#hdSrch" class="skip">Skip to search</a>
+
+	 <!-- loading -->
+    <div class="loading">Loging...</div>
+
+                
+	<!-- Header -->
+	<header class="header">
+		<h1 class="logo">
+			<a href="/">
+				<img src="/theme/img/common/logo.jpg" alt="KPDC, Korea Polar Data Center" class="img">
+			</a>
+		</h1>
+
+		<div class="hd_nav">
+			<nav class="upper_menu">
+				<ul>
+											<li><a href="/user/login">Login</a></li>
+						<li><a href="/user/join">Sign Up</a></li>
+									</ul>
+			</nav>
+			
+			<nav class="gnb">
+				<ul class="top_menu">
+					<li class="">
+						<a href="/about/intro">About Us</a>
+						<ul class="sub_menu">
+							<li><a href="/about/intro">Introduction</a></li>
+							<!--
+								<li><a href="/about/history">History</a></li>
+							-->
+							<li><a href="/about/members">Members</a></li>
+							<li><a href="/about/sites">Associative Sites</a></li>
+							<li><a href="/news/search">News</a></li>
+						</ul>
+					</li>
+					<li class="on">
+						<a href="/search/">Metadata</a>
+						<ul class="sub_menu">
+							<li><a href="/search/">Keyword Search</a></li>
+              <li><a href="/collection/">Data Collection</a></li>
+							<li><a href="/browse/group">Browse of types</a></li>
+                            <li><a href="/search/advanced">Advanced Search</a></li>
+							<li><a href="/metadata/order">How to order</a></li>
+						</ul>
+					</li>
+					<li class="">
+						<a href="/live-data/araon">Live Data</a>
+						<ul class="sub_menu">
+							<li><a href="/live-data/araon">IBRV ARAON Route</a></li>
+<!-- 							<li><a href="/live-data/dadis">Araon Route (Dadis)</a></li> -->
+							<li><a href="/live-data/weather">Weather & CCTV</a></li>
+						</ul>
+					</li>
+					<li class="">
+						<a href="/science-data/pamc">Science Data</a>
+						<ul class="sub_menu">
+							<li><a href="/science-data/pamc">PAMC</a></li>
+							<li><a href="/science-data/kvh">KVH</a></li>
+							<li><a href="/science-data/antagen">AntaGen</a></li>
+							<li><a href="/science-data/koreamet">KOREAMET</a></li>
+							<li><a href="/science-data/icecore">IceCore</a></li>
+							<li><a href="/science-data/sedicore">SediCore</a></li>
+							<li><a href="/science-data/rock2fossil">Rock &amp; Fossil</a></li>
+              <li><a href="/science-data/kaos">KAOS</a></li>
+							<li><a href="/science-data/star">STAR</a></li>
+						</ul>
+					</li>
+					<li class="">
+						<a href="/policy/general-provisions">Policy</a>
+						<ul class="sub_menu">
+							<li><a href="/policy/general-provisions">General Provisions</a></li>
+							<li><a href="/policy/data-management">Data Management</a></li>
+							<li><a href="/policy/data-disclosure">Data Disclosure<!-- and Utilization --></a></li>
+						</ul>
+					</li>
+					<li class="">
+            <a href="/user/request/">My Page</a>
+            <ul class="sub_menu">
+						  <li><a href="/user/request/">Request List <!-- span id="count-request" class="badge v2"></span --></a></li>
+              <li><a href="/user/favorite">Favorite data <!-- span id="count-favorites" class="badge v1"></span --></a></li>
+              <li><a href="/user/edit">Edit Profile</a></li>
+            </ul>
+					</li>
+				</ul>
+			</nav>
+      
+      
+			<form action="/search/">
+				<div class="hd_search">
+					<label for="hdSrch" class="is_hide">SEARCH</label>
+					<input type="search" name="q" id="hdSrch" class="i_frm">
+					<button type="submit" class="btn">search</button>
+				</div>
+			</form>
+
+			<button class="navbar-toggler" type="button">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		</div>
+		
+		<div class="cover"></div>
+
+		<div id="mySidenav" class="sidenav">
+						<ul class="">
+				<li class="">
+					<a href="/about/intro">About Us</a>
+					<ul>
+						<li><a href="/about/intro">Introduction</a></li>
+						<li><a href="/about/members">Members</a></li>
+						<li><a href="/about/sites">Associative Sites</a></li>
+						<li><a href="/news/search">News</a></li>
+					</ul>
+				</li>
+				<li class="on">
+					<a href="/search/">Metadata</a>
+					<ul>
+						<li><a href="/search/">Keyword Search</a></li>
+						<li><a href="/collection/">Data Collection</a></li>
+						<li><a href="/browse/group">Browse of types</a></li>
+						<li><a href="/search/advanced">Advanced Search</a></li>
+						<li><a href="/metadata/order">How to order</a></li>
+					</ul>
+				</li>
+				<li class="">
+					<a href="/live-data/araon">Live Data</a>
+					<ul>
+						<li><a href="/live-data/araon">IBRV ARAON Route</a></li>
+						<!-- 							<li><a href="/live-data/dadis">Araon Route (Dadis)</a></li> -->
+						<li><a href="/live-data/weather">Weather & CCTV</a></li>
+					</ul>
+				</li>
+				<li class="">
+					<a href="/science-data/pamc">Science Data</a>
+					<ul>
+						<li><a href="/science-data/pamc">PAMC</a></li>
+						<li><a href="/science-data/kvh">KVH</a></li>
+						<li><a href="/science-data/antagen">AntaGen</a></li>
+						<li><a href="/science-data/koreamet">KOREAMET</a></li>
+						<li><a href="/science-data/icecore">IceCore</a></li>
+						<li><a href="/science-data/sedicore">SediCore</a></li>
+						<li><a href="/science-data/rock2fossil">Rock &amp; Fossil</a></li>
+						<li><a href="/science-data/kaos">KAOS</a></li>
+					</ul>
+				</li>
+				<li class="">
+					<a href="/policy/general-provisions">Policy</a>
+					<ul>
+						<li><a href="/policy/general-provisions">General Provisions</a></li>
+						<li><a href="/policy/data-management">Data Management</a></li>
+						<li><a href="/policy/data-disclosure">Data Disclosure</a></li>
+					</ul>
+				</li>
+				<li class="">
+					<a href="/user/request/">My Page</a>
+					<ul>
+						<li><a href="/user/request/">Request List</a></li>
+						<li><a href="/user/favorite">Favorite data</a></li>
+						<li><a href="/user/edit">Edit Profile</a></li>
+					</ul>
+				</li>
+								<li><a href="/user/login">Login</a></li>
+				<li><a href="/user/join">Sign Up</a></li>
+							</ul>
+		</div>
+
+		<div class="backdrop"></div>
+	</header>
+
+	
+                                            
+<div class="main" id="mainContent">
+
+  
+<!-- subpage Top -->
+<div class="subpage_top">
+	<div class="top_bx">
+		<span class="first">Korea Polar Data Center</span>
+		<small>Scientific observations and results from Antarctica shall<br> be exchanged and made freely available</small>
+	</div>
+	<nav class="breadcrumbs">
+		<ol class="outer">
+			<li>
+				<a href="/" class="home">Home</a>
+			</li>
+			<li>
+									<a href="#" role="button" class="current">
+													Metadata
+											</a>
+					<div class="inner">
+						<ul class="other_loc">
+							<li class="">
+							   <a href="/about/intro">About US</a>
+							</li>
+							<li class="on">
+								<a href="/search/">Metadata</a>
+							</li>
+							<li class="">
+								<a href="/live-data/araon">Live Data</a>
+							</li>
+							<li class="">
+								<a href="/science-data/pamc">Science Data</a>
+							</li>
+							<li class="">
+								<a href="/policy/general-provisions">Policy</a>
+							</li>
+							<li class="">
+								<a href="/news/search">News</a>
+							</li>
+						</ul>
+					</div>
+							</li>
+			<li>
+					<a href="#" role="button" class="current">
+					Keyword Search
+    	</a>
+	<div class="inner">
+		<ul class="other_loc">
+			<li class="on">
+				<a href="/search/">Keyword Search</a>
+			</li>
+      <li class="">
+        <a href="/collection/">Data Collection</a>
+      </li>
+			<li class="">
+				<a href="/browse/group">Browse of types</a>
+			</li>
+            <li class="">
+              <a href="/search/advanced">Advanced Search</a>
+            </li>
+			<li class="">
+				<a href="/metadata/order">How to order</a>
+			</li>
+		</ul>
+	</div>
+			</li>
+		</ol>
+	</nav>
+</div>
+<!-- //subpage Top -->
+  <input type="hidden" id="email" name="email" value="">
+  <div class="page_wrap page_05">
+    <div class="container">
+    
+                  <a href="/search/ed5b7fb1-3273-4df4-bd6d-7ae11229f693">
+        <div class="section info">
+          <span class="GO">&#x279C Go</span>
+          <h4 class="title">This is an old version of this data.</h4>
+           You can view the most recent version.
+        </div>
+      </a>
+                
+  
+      <h2 class="page_secondary">Geothermal gradient, thermal conductivity</h2>
+      <div class="section" style="margin-top: 5px;">
+        <div class="dview_wrap">
+          <div class="dview_header">
+            <div class="dview_summ">
+                              <p class="description">To determine the marine heat flow distribution in the Chukchi Basin (Chukchi Abyssal Plain), we obtained in situ geothermal gradients at five stations and laboratory-measured thermal conductivities at three stations along an east–west transect across the Chukchi Abyssal Plain.</p>
+                          </div>
+            <div class="dview_feature" >
+                            <div class="reg_fav">
+                Register faveorites
+                <form method="POST" class="form-inline" action="/user/favorite/">
+                  <input type="hidden" name="item" value="3802de66-e64b-4706-bea3-25e11b80c65c">
+                  <input type="hidden" name="action" value="add">
+                  <button type="submit" class="btn send">+ Add</button>
+                </form>
+              </div>
+                            	              <div class="op_req">
+                                  Disclosure Request
+                  <form method="POST" class="form-inline" action="/user/request">
+                    <input type="hidden" name="item" value="3802de66-e64b-4706-bea3-25e11b80c65c">
+                    <input type="hidden" name="action" value="add">
+                    <button type="submit" class="btn request">+ Add</button>
+                  </form>
+                	              </div>
+              
+              <div class="shared">
+                <p class="item-stats">
+                  <span class="count">255</span>Views
+                </p>
+                
+                <div class="btn-group">
+                <button type="button" class="btn fb" onclick="shareFacebook('Geothermal gradient, thermal conductivity');">Shared Facebook</button>
+                <button type="button" class="btn twt" onclick="shareTwitter('Geothermal gradient, thermal conductivity');">Shared Twitter</button>
+                                                                </div>
+              </div>
+
+            </div><!-- end of dview_feature -->
+
+          </div><!-- end of dview_header -->
+        </div><!-- end of dview_wrap -->
+
+        <div class="dview_body">
+          <div class="dview_info_wrap">
+              <dl>
+                <dt>Entry ID</dt>
+                <dd class="dview_link_list"><ul><li>KOPRI-KPDC-00003085</li>
+                              </ul></dd>
+              </dl>
+
+                            <dl>
+                <dt>DOI</dt>
+                <dd><a href="https://dx.doi.org/doi:10.22663/KOPRI-KPDC-00003085.1">https://dx.doi.org/doi:10.22663/KOPRI-KPDC-00003085.1</a></dd>
+              </dl>
+              
+            <dl>
+              <dt>Copyright</dt>
+              <dd><a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="creativecommons"><img decoding="async" loading="lazy" src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-nd.png" width="118" height="41"></a></dd>
+            </dl>
+
+                                          <dl>
+                <dt>Science Keyword</dt>
+                <dd class="dview_link_list"><ul>
+                                  <li><a href="/search/?fq=Science_Keywords:%5C%7CEARTH%5C+SCIENCE%5C%7CSolid%5C+Earth%5C%7CGeothermal%5C+Dynamics%5C%7CGeothermal%5C+Temperature">
+                  EARTH SCIENCE                  &gt; SOLID EARTH                  &gt; GEOTHERMAL DYNAMICS                   &gt; GEOTHERMAL TEMPERATURE                                                                        </a></li>
+                                  <li><a href="/search/?fq=Science_Keywords:%5C%7CEARTH%5C+SCIENCE%5C%7CSolid%5C+Earth%5C%7CGeothermal%5C+Dynamics">
+                  EARTH SCIENCE                  &gt; SOLID EARTH                  &gt; GEOTHERMAL DYNAMICS                                                                                          </a></li>
+                                </ul></dd>
+              </dl>
+              
+                                          <dl>
+       	        <dt>ISO Topic</dt>
+                                <dd>Geoscientific Information</dd>
+                              </dl>
+              
+                            
+                              
+                              
+                      <dl>
+              <dt>Personnel</dt>
+              <dd class="dview_personnel_list"><ul>
+                              <li>Jongkuk Hong (jkhong@kopri.re.kr)<span class="orcid" data-email="jkhong@kopri.re.kr"></span>                  </li>
+                            </ul></dd>
+            </dl>
+          
+                      <dl>
+              <dt>Project</dt>
+              <dd class="dview_link_list"><ul>
+                              <li>
+                                    <a href="/browse/research/PM24050"><strong>PM24050</strong>, Survey of Geology and Seabed Enviromental Change in the Arctic Seas.
+                  <strong>PI.Jong Kuk Hong</strong></a>
+                </li>
+                            </ul></dd>
+            </dl>
+          
+                      <dl>
+              <dt>Research period</dt>
+                                        <dd class="temporal.Range_DateTime">2024-09-10 ~ 2024-09-11</dd>
+                                                    </dl>
+          
+                      <dl>
+              <dt>Create/Update Date</dt>
+              <dd>2026-02-10 /
+                                  2026-02-10                </dd>
+            </dl>
+          
+                                                                                            
+                                <dl>
+              <dt>Location</dt>
+                            <dd>
+                                OCEAN                 &gt; ARCTIC OCEAN                 &gt; CHUKCHI SEA                                                              </dd>
+                            <dd>
+                                OCEAN                 &gt; ARCTIC OCEAN                 &gt; CHUKCHI SEA                                                 &gt; Chukchi Basin              </dd>
+                          </dl>
+          
+          
+          
+            <dl>
+              <dt>Citation</dt>
+              <dd>The data(KOPRI-KPDC-00003085) used in this work was provided by the Korea Polar Research Institute.</dd>
+            </dl>
+
+                                    <dl class="dview_map_list">
+              <dt>Spatial Coverage</dt>
+              <dd>
+                                            
+                                              <div class="point-block">
+                  <p class="point-header">POLYGON</p>
+                  <ul class="point-list">
+                                      <li><span class="text-muted">lat:</span>76.440167, <span class="text-muted">lon:</span>-175.769000</li>
+                                      <li><span class="text-muted">lat:</span>76.347617, <span class="text-muted">lon:</span>-169.426667</li>
+                                    </ul>
+                </div>
+                                            </dd>
+                          </dl>
+
+          <div id="map" class="route_map gisMap">
+  <!-- 시작 -->
+  <div class="tools_bx" style="z-index: 99999">
+    <div class="toggle_bx rt">
+       <button id="btnFullScreen" type="button" class="btn exp_map" data-tooltip="FullScreen Map" data-placement="left" onclick="MapModule.toolBar('fullScreen');">
+           <span class="sr_only">FullScreen Map</span>
+       </button>
+    </div>
+                  <div class="toggle_bx lt expanded">
+                      <button type="button" data-title="" class="btn toggle active" data-tooltip="Map Toolbar" data-placement="right"></button>
+                      <div class="btn_group buttonZone">
+                        <div class="col">
+                          <div class="has_btn first">
+                                <button type="button" class="btn t_09 highlight active" onclick="LayerModule.setBaseLayer(this, 'googleMap_terrain');" data-tooltip="Standard RoadMap" data-name="Standard Map"></button>
+<!--                                <label for="" class="chk_sm" onclick="LayerModule.setBaseLayer(this, 'googleMap_terrain');"> -->
+<!--                                    <input type="checkbox" name="abc" checked="checked"> -->
+<!--                                    <span class="box"></span> -->
+<!--                                    Terrain -->
+<!--                                </label> -->
+                            </div>
+                            <div class="has_btn first">
+                                <button type="button" class="btn t_10 highlight" onclick="LayerModule.setBaseLayer(this, 'googleMap_hybrid');" data-tooltip="Satellite Map" id="mapGoogleS" data-name="Satellite Map"></button>
+<!--                                <label for="" class="chk_sm" onclick="LayerModule.setBaseLayer(this, 'googleMap_satellite');"> -->
+<!--                                    <input type="checkbox" name="abcd" checked="checked"> -->
+<!--                                    <span class="box"></span> -->
+<!--                                    Label -->
+<!--                                </label> -->
+                            </div>
+                          </div>
+                          <div class="col">
+                            <button type="button" class="btn t_02" onclick="MapModule.toolBar('zoomIn');" data-tooltip="Zoom In"></button>
+                            <button type="button" class="btn t_03" onclick="MapModule.toolBar('zoomOut');" data-tooltip="Zoom Out"></button>
+                            <button type="button" class="btn t_11" onclick="MapModule.toolBar('resetRotate');" data-tooltip="Rotation (shift+alt-drag on map to start rotation)" style="opacity:.6">
+                                <span class="pointer" style="transform: rotate(0rad);"></span>
+                            </button>
+<!--                            <button type="button" class="btn t_05" onclick="MapModule.toolBar('mapReset');" data-tooltip="Reset"></button> -->
+                </div>
+                <div class="col">
+                  <button type="button" class="btn t_06 highlight" onclick="MapModule.toolBar('3857');" data-tooltip="Pseudo Mercator" data-placement="right bottom"></button>
+                  <button type="button" class="btn t_07 highlight" onclick="MapModule.toolBar('3995');" data-tooltip="Arctic Polar Stereographic" data-placement="right bottom"></button>
+                  <button type="button" class="btn t_08 highlight active" onclick="MapModule.toolBar('3031');" data-tooltip="Antarctic Polar Stereographic" data-placement="right bottom"></button>
+                </div>
+                      </div>
+                  </div>
+              </div>
+              
+<div class="map_panels">
+                        <!-- 20181112 수정 -->
+                        <!-- Favorite Area -->
+                        <div id="notLoginUserTab" class="toggle_bx p_01" style="display: none;">
+                            <button type="button" data-title="" class="btn toggle" onclick="clearMeasure()" data-placement="right" data-tooltip="My Favorite Areas\n /Measure Area">
+                                <span class="title_bx">My Favorite Areas <br></span>
+                            </button>
+                            <!-- 20181113 수정 -->
+                            <div class="content">
+                                <div data-scroll=""><div class="scrolltrack"><div class="scrollbar ui-draggable ui-draggable-handle" style="height: 186.778px; display: none;"></div></div>
+                                    <div data-scrollable=""><div class="bottom">
+                                        <h3 class="panel_title">Measure</h3>
+                                        <ul class="tabs v2">
+                                        <li class="on" onclick="clearMeasure();">
+                                            <a>Distance</a>
+                                        </li>
+                                        <li onclick="clearMeasure();">
+                                            <a>Area</a>
+                                        </li>
+                                    </ul>
+                                    
+                                        <div class="tab_panels">
+                                          <!-- distance content -->
+                                          <div class="tab_content show" tabindex="-1">
+                                              <form action="/">
+                                                  <fieldset class="fieldset">
+                                                      <legend class="sr_only">distance</legend>
+                                                      <p class="label">Unit Selection</p>
+                                                      <div class="srch_frm_v2">
+                                                          <label for="unit3" class="sr_only">Unit selection</label>
+                                                          <!-- 20181025 수정 -->
+                                                          <div class="frm_play">
+                                                              <div class="select_bx">
+                                                                  <select name="unit3" id="unit3">
+                                                                  <option value="0">Kilometers</option>
+                                                                  <option value="1">Miles</option>
+                                                              </select>
+                                                                  <span class="selected" aria-hidden="true">kilometers</span>
+                                                              </div>
+                                                              <!-- 20181022 수정 -->
+                                                              <button type="button" name="btnMeasure" data-type="LineString" data-state="play" data-tooltip="Draw Line to Measure\n on map-double-click\n to finish" data-placement="right" class="btn toggle_play">Play</button>
+                                                          </div>
+                                                      </div>
+                                                  </fieldset>
+                                              </form>
+                                          </div>
+                                          <!-- area content -->
+                                          <div class="tab_content" tabindex="-1">
+                                        <form action="/">
+                                            <fieldset class="fieldset">
+                                                <legend class="sr_only">Area</legend>
+                                                <p class="label">Unit Selection</p>
+                                                <div class="srch_frm_v2">
+                                                    <label for="unit4" class="sr_only">Unit selection</label>
+                            <div class="frm_play">
+                                                    <div class="select_bx">
+                                                        <select name="unit4" id="unit4">
+                                                            <option value="1">Circle</option>
+                                                            <option value="0">Polygon</option>
+                                                        </select>
+                                                        <span class="selected" aria-hidden="true">Circle</span>
+                                                    </div>
+                                                    <button type="button" name="btnMeasure" data-type="Area" data-state="play" data-tooltip="Draw Area to Measure\n on map-double-click\n to finish" data-placement="right" class="btn toggle_play">Play</button>
+                                                </div>
+                          </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                      </div><!-- //tab_panels -->
+                                    </div></div>
+                                </div>
+                            </div>
+                            <!-- //20181113 수정 -->
+                        </div>
+                        <div id="loginUserTab" class="toggle_bx p_01 logged_in">
+                           <button type="button" data-title class="btn toggle"  onclick="clearMeasure()" data-tooltip="My Favorite Areas\n /Measure Area" data-placement="right">
+                              <span class="title_bx">My Favorite Areas <br></span>
+                           </button>
+                           <div class="content">
+                              <div data-scroll>
+                                 <div class="top">
+                                    <h3 class="panel_title">My Favorite Areas</h3>
+                                    <button onclick="FavoriteModule.showInsertFavorite();" type="button" class="btn xs regist">Add</button>
+                                    <form action="/">
+                                       <div class="table v1" id="favoriteDiv">
+                                          <table id="favoriteTable">
+                                             <caption>Favorite Area</caption>
+                                             <colgroup>
+                                                <col style="width: 9%;">
+                                                <col style="width: 38%;">
+                                                <col style="width: 16.6%;">
+                                                <col style="width: 16.6%;">
+                                                <col style="width: 10.0%;">
+                                                <col style="width: 10%;">
+                                             </colgroup>
+                                             <thead>
+                                                <tr>
+                                                   <th>EPSG</th>
+                                                   <th>Title</th>
+                                                   <th>Lat</th>
+                                                   <th>Lon</th>
+                                                   <th>ZoomLv</th>
+                                                   <th>DEL</th>
+                                                </tr>
+                                             </thead>
+                                             <!-- 20181022 수정 -->
+                                             <tbody id="favoriteAreaSubList">
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                       <div id="favoritePaging" class="pagination"></div>
+                                    </form>
+                                 </div>
+                                 <div class="bottom">
+                                    <h3 class="panel_title">Measure</h3>
+                                    <ul class="tabs v2">
+                                                <li class="on" onclick="clearMeasure();">
+                                                    <a>Distance</a>
+                                                </li>
+                                                <li onclick="clearMeasure();">
+                                                    <a>Area</a>
+                                                </li>
+                                            </ul>
+   
+                                    <div class="tab_panels">
+                                                 <div class="tab_content show" tabindex="-1">
+                                                     <form action="/">
+                                                         <fieldset class="fieldset">
+                                                             <legend class="sr_only">distance</legend>
+                                                             <p class="label">Unit Selection</p>
+                                                             <div class="srch_frm_v2">
+                                                                 <label for="unit1" class="sr_only">Unit selection</label>
+                                                                 <div class="frm_play">
+                                                                     <div class="select_bx">
+                                                                         <select name="unit1" id="unit1">
+                                                                           <option value="0">Kilometers</option>
+                                                                           <option value="1">Miles</option>
+                                                                       </select>
+                                                                         <span class="selected" aria-hidden="true">kilometers</span>
+                                                                     </div>
+   <!--                                                                   20181022 수정 -->
+                                                                     <button name="btnMeasure" data-type="LineString" type="button" data-state="play" class="btn toggle_play">SEARCH</button>
+                                                                 </div>
+                                                             </div>
+                                                         </fieldset>
+                                                     </form>
+                                                 </div>
+   <!--                                               area content -->
+                                                 <div class="tab_content" tabindex="-1">
+                                              <form action="/">
+                                                  <fieldset class="fieldset">
+                                                      <legend class="sr_only">Area</legend>
+                                                      <p class="label">Unit Selection</p>
+                                                      <div class="srch_frm_v2">
+                                                          <label for="unit2" class="sr_only">Unit selection</label>
+                                                <div class="frm_play">
+                                                          <div class="select_bx">
+                                                              <select name="unit2" id="unit2">
+                                                                  <option value="0">Polygon</option>
+                                                                  <option value="1">Circle</option>
+                                                              </select>
+                                                              <span class="selected" aria-hidden="true">Circle</span>
+                                                          </div>
+                                                          <button name="btnMeasure" data-type="Area" type="button" data-state="play" class="btn toggle_play">SEARCH</button>
+                                                      </div>
+                                             </div>
+                                                  </fieldset>
+                                              </form>
+                                          </div>
+                                              </div>
+                                    <!-- //tab_panels -->
+                                 </div>
+                              </div>
+                           </div>
+                     </div>
+
+                        <!-- Base Map -->
+                        <div class="toggle_bx p_02">
+                            <button type="button" data-tooltip="Layer List Area" data-placement="left" class="btn toggle">Layer List Area</button>
+                            <div class="content">
+<!--                                <h3 id="layerTitle" class="panel_title"></h3>-->
+                
+                <!--세계지도 레이어 리스트 -->
+                                <div id="worldLayerList" data-scroll data-epsg="3857" style="display: none;" class="kpdcLayerList">
+                       <dl class="map_options">
+                           <dt>Coastline</dt>
+                           <dd>
+                               <ul class="worldList">
+                                   <li>
+                                       <div class="toggle_bx" id="coastlineOptionDiv">
+                                           <input type="checkbox" name="opt1" id="coastline" value="coastline" class="sr_only">
+                                           <label for="coastline" class="chk_bx"><span class="prefix"></span>Coastline</label>
+<!--                                           <button type="button" class="btn info_mark" data-popup="worldCoastLine">View Info</button> -->
+                                           <button type="button" name="coastline" class="btn toggle opt_menu">Show List</button>
+                                           <div id="coastlineOpt_list" class="opt_list"></div>
+                                       </div>
+                                   </li>
+                               </ul>
+                           </dd>
+                       </dl>
+                       <dl class="map_options">
+                           <dt>Facilities</dt>
+                           <dd>
+                               <ul class="worldList">
+                                   <li>
+                                       <div class="toggle_bx" id="facilitiesOptionDiv">
+                                           <input type="checkbox" name="opt1" id="facilities" value="facilities" class="sr_only">
+                                           <label for="facilities" class="chk_bx"><span class="prefix"></span>Facilities</label>
+<!--                                           <button type="button" class="btn info_mark" data-popup="facilities">View Info</button> -->
+                                           <button name="facilities" type="button" class="btn toggle opt_menu">Show List</button>
+                                           <div id="facilitiesOpt_list" class="opt_list"></div>
+                                       </div>
+                                   </li>
+                               </ul>
+                           </dd>
+                       </dl>
+                       <dl class="map_options">
+                           <dt>Lake</dt>
+                           <dd>
+                               <ul class="worldList">
+                                   <li>
+                                       <div class="toggle_bx" id="lakeOptionDiv">
+                                           <input type="checkbox" name="opt1" id="lake" value="lake" class="sr_only">
+                                        <label for="lake" class="chk_bx"><span class="prefix"></span>Lake</label>
+<!--                                           <button type="button" class="btn info_mark" data-popup="worldCoastLine">View Info</button> -->
+                                           <button name="lake" type="button" class="btn toggle opt_menu">Show List</button>
+                                           <div id="lakeOpt_list" class="opt_list"></div>
+                                       </div>
+                                   </li>
+                               </ul>
+                           </dd>
+                       </dl>
+                       <dl class="map_options">
+                           <dt>Grids</dt>
+                           <dd>
+                               <ul class="worldList">
+                                   <li>
+                                       <div class="toggle_bx" id="grid_circleOptionDiv">
+                                           <input type="checkbox" name="opt1" id="grid_circle" value="grid_circle" class="sr_only">
+                                           <label for="grid_circle" class="chk_bx"><span class="prefix"></span>Circle</label>
+<!--                                           <button type="button" class="btn info_mark" data-popup="grid_circle">View Info</button> -->
+                                           <button name="grid_circle" type="button" class="btn toggle opt_menu">Show List</button>
+                                           <div id="grid_circleOpt_list" class="opt_list"></div>
+                                       </div>
+                                   </li>
+                                   <li>
+                                       <div class="toggle_bx" id="grid_graticuleOptionDiv">
+                                           <input type="checkbox" name="opt1" id="grid_graticule" value="grid_graticule" class="sr_only">
+                                           <label for="grid_graticule" class="chk_bx"><span class="prefix"></span>Graticule</label>
+<!--                                           <button type="button" class="btn info_mark" data-popup="grid_graticule">View Info</button> -->
+                                           <button name="grid_graticule" type="button" class="btn toggle opt_menu">Show List</button>
+                                           <div id="grid_graticuleOpt_list" class="opt_list"></div>
+                                       </div>
+                                   </li>
+                               </ul>
+                           </dd>
+                       </dl>
+                   </div>
+                                
+<!--                                 남극 레이어 목록 -->
+                                <div id="antarcticLayerList" data-scroll data-epsg="3031" style="display: none;" class="kpdcLayerList">
+                                    <dl class="map_options">
+                                        <dt>Base Layer</dt>
+                                        <dd>
+                                            <ul id="antarcticBaseMapGroupRadio">
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_backdrop_remaOptionDiv">
+                                                        <input type="checkbox" name="opt1" id="antarctic_backdrop_rema" value="Rema Dem" class="sr_only">
+                                                      <label for="antarctic_backdrop_rema" class="chk_bx"><span class="prefix"></span>REMA DEM</label>
+                                                        <button name="antarctic_backdrop_rema" type="button" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_backdrop_remaOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_backdrop_surface_groupOptionDiv">
+                                                        <input type="checkbox" name="opt1" id="antarctic_backdrop_surface_group" value="Surface DEM" class="sr_only">
+                                                      <label for="antarctic_backdrop_surface_group" class="chk_bx"><span class="prefix"></span>Surface DEM</label>
+                                                        <button name="antarctic_backdrop_surface_group" type="button" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_backdrop_surface_groupOpt_list" class="opt_list">
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_backdrop_bedmapOptionDiv">
+                                                        <input type="checkbox" name="opt1" id="antarctic_backdrop_bedmap" value="Bed DEM" class="sr_only">
+                                                      <label for="antarctic_backdrop_bedmap" class="chk_bx"><span class="prefix"></span>Bed DEM</label>
+                                                        <button type="button" name="antarctic_backdrop_bedmap" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_backdrop_bedmapOpt_list" class="opt_list">
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </dd>
+                                        <dt>Coastline</dt>
+                                        <dd>
+                                            <ul class="mylist">
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_coastline_groupOptionDiv">
+                                                        <input type="checkbox" name="opt2" id="antarctic_coastline_group" value="Coastline" class="sr_only">
+                                                      <label for="antarctic_coastline_group" class="chk_bx"><span class="prefix"></span>Coastline</label>
+                                                        <button type="button" class="btn info_mark" onclick="LayerModule.infoPopUp('33','antarctic_coastline_high','1540348309593','antarctic coastLine','polygon')">View Info</button>
+                                                        <button type="button" class="btn toggle opt_menu" name ="antarctic_coastline_group">Show List</button>
+                                                        <!-- Inner Option List -->
+                                                        <div id="antarctic_coastline_groupOpt_list" class="opt_list"></div>
+                                                        <!-- //Inner Option List -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_sub_coastlineOptionDiv">
+                                                      <input type="checkbox" name="opt2" id="antarctic_sub_coastline" value="Sub-Antarctic coastline" class="sr_only">
+                                                      <label for="antarctic_sub_coastline" class="chk_bx"><span class="prefix"></span>Sub-Antarctic Coastline</label>
+                                                        <button onclick="LayerModule.infoPopUp('40','antarctic_sub_coastline','1540348485238','Sub-Antarctic coastline','polygon')" type="button" class="btn info_mark" data-popup="coastlineSub">View Info</button>
+                                                        <button type="button" name="antarctic_sub_coastline" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_sub_coastlineOpt_list" class="opt_list">
+                                                        </div>
+                                                    </div>    
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_coastline_coast_changeOptionDiv">
+                                                      <input type="checkbox" name="opt2" id="antarctic_coastline_coast_change" value="Coastal change" class="sr_only">
+                                                      <label for="antarctic_coastline_coast_change" class="chk_bx"><span class="prefix"></span>Coastal Change</label>
+                                                        <button onclick="LayerModule.infoPopUp('31','antarctic_coastline_coast_change','1540347868420','CoastLine change','line')" type="button" class="btn info_mark" data-popup="coastlineSub">View Info</button>
+                                                        <button type="button" name="antarctic_coastline_coast_change" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_coastline_coast_changeOpt_list" class="opt_list">
+                                                        </div>
+                                                    </div>    
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_backdrop_seamask_groupOptionDiv">
+                                                      <input type="checkbox" name="opt2" id="antarctic_backdrop_seamask_group" value="seamask" class="sr_only">
+                                                      <label for="antarctic_backdrop_seamask_group" class="chk_bx"><span class="prefix"></span>SeaMask</label>
+                                                        <button onclick="LayerModule.infoPopUp('5','antarctic_backdrop_seamask_high','1540356960411','seamask group','polygon')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name="antarctic_backdrop_seamask_group" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_backdrop_seamask_groupOpt_list" class="opt_list">
+                                                        </div>
+                                                    </div>    
+                                                </li>
+                                            </ul>
+                                        </dd>
+                                        <dt>Topography</dt>
+                                        <dd>
+                                            <ul class="mylist">
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_topography_contours_groupOptionDiv">
+                                                        <input type="checkbox" name="opt3" id="antarctic_topography_contours_group" value="Contour" class="sr_only">
+                                                      <label for="antarctic_topography_contours_group" class="chk_bx"><span class="prefix"></span>Contours</label>
+                                                        <button onclick="LayerModule.infoPopUp('41','antarctic_topography_contours_high','1540348516689','Contours','line')" type="button" class="btn info_mark" data-popup="contour">View Info</button>
+                                                        <button type="button" name="antarctic_topography_contours_group" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_topography_contours_groupOpt_list" class="opt_list">
+                                                        </div>
+                                                    </div>    
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_topography_morainesOptionDiv">
+                                                        <input type="checkbox" name="opt3" id="antarctic_topography_moraines" value="Moraine" class="sr_only">
+                                                      <label for="antarctic_topography_moraines" class="chk_bx"><span class="prefix"></span>Moraine</label>
+                                                        <button onclick="LayerModule.infoPopUp('44','antarctic_topography_moraines','1540348609635','Moraine','polygon')" type="button" class="btn info_mark">View Info</button>
+                                                        <button name="antarctic_topography_moraines" type="button" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_topography_morainesOpt_list" class="opt_list"></div>
+                                                    </div>    
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_topography_rock_groupOptionDiv">
+                                                        <input type="checkbox" name="opt3" id="antarctic_topography_rock_group" value="Rock outcrop" class="sr_only">
+                                                      <label for="antarctic_topography_rock_group" class="chk_bx"><span class="prefix"></span>Rock outcrop</label>
+                                                        <button onclick="LayerModule.infoPopUp('45','antarctic_topography_rock_high','1540348631743','Moraine','polygon')" type="button" class="btn info_mark" data-popup="Rock outcrop">View Info</button>
+                                                        <button name="antarctic_topography_rock_group" type="button" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_topography_rock_groupOpt_list" class="opt_list">
+                                                        </div>
+                                                    </div>    
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_topography_iceOptionDiv">
+                                                        <input type="checkbox" name="opt3" id="antarctic_topography_ice" value="Ice feature catchments" class="sr_only">
+                                                      <label for="antarctic_topography_ice" class="chk_bx"><span class="prefix"></span>Ice Feature Catchments</label>
+                                                        <button onclick="LayerModule.infoPopUp('43','antarctic_topography_ice','1540348589043','Ice feature catchments','polygon')" type="button" class="btn info_mark" data-popup="Rock outcrop">View Info</button>
+                                                        <button name="antarctic_topography_ice" type="button" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_topography_iceOpt_list" class="opt_list"></div>
+                                                    </div>    
+                                                </li>
+                                            </ul>
+                                        </dd>
+                                        <dt>Water</dt>
+                                        <dd>
+                                            <ul class="mylist">
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_water_lakesOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="antarctic_water_lakes" value="lake" class="sr_only">
+                                                      <label for="antarctic_water_lakes" class="chk_bx"><span class="prefix"></span>Lake</label>
+                                                        <button onclick="LayerModule.infoPopUp('48','antarctic_water_lakes','1540348710957','Lake','polygon')" type="button" class="btn info_mark" data-popup="Rock outcrop">View Info</button>
+                                                        <button type="button" name="antarctic_water_lakes" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_water_lakesOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_water_streamsOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="antarctic_water_streams" value="Streams" class="sr_only">
+                                                      <label for="antarctic_water_streams" class="chk_bx"><span class="prefix"></span>Streams</label>
+                                                        <button onclick="LayerModule.infoPopUp('49','antarctic_water_streams','1540348733768','Streams','polygon')" type="button" class="btn info_mark" data-popup="Rock outcrop">View Info</button>
+                                                        <button type="button" name="antarctic_water_streams" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_water_streamsOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </dd>
+                                        <dt>Human Activity</dt>
+                                        <dd>
+                                            <ul class="mylist">
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_human_facilitiesOptionDiv">
+                                                        <input type="checkbox" name="opt6" id="antarctic_human_facilities" value="Facilities" class="sr_only">
+                                                      <label for="antarctic_human_facilities" class="chk_bx"><span class="prefix"></span>Facilities</label>
+                                                        <button onclick="LayerModule.infoPopUp('38','antarctic_human_facilities','1540348429976','Facilities','point')" type="button" class="btn info_mark" data-popup="Rock outcrop">View Info</button>
+                                                        <button type="button" name ="antarctic_human_facilities" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_human_facilitiesOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_human_historicOptionDiv">
+                                                        <input type="checkbox" name="opt7" id="antarctic_human_historic" value="Historic sites and monuments" class="sr_only">
+                                                      <label for="antarctic_human_historic" class="chk_bx"><span class="prefix"></span>Historic</label>
+                                                        <button onclick="LayerModule.infoPopUp('39','antarctic_human_historic','1540348454958','Historic','point')" type="button" class="btn info_mark" data-popup="Rock outcrop">View Info</button>
+                                                        <button type="button" name="antarctic_human_historic" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_human_historicOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </dd>
+                                        <dt>Grids</dt>
+                                        <dd>
+                                            <ul class="mylist">
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_grid_circleOptionDiv">
+                                                        <input type="checkbox" name="opt8" id="antarctic_grid_circle" value="Antarctic Circle" class="sr_only">
+                                                      <label for="antarctic_grid_circle" class="chk_bx"><span class="prefix"></span>Antarctic Circle</label>
+                                                        <button onclick="LayerModule.infoPopUp('35','antarctic_grid_circle','1540348361012','Antarctic Circle','line')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name="antarctic_grid_circle" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_grid_circleOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_grid_graticuleOptionDiv">
+                                                        <input type="checkbox" name="opt9" id="antarctic_grid_graticule" value="Graticule" class="sr_only">
+                                                      <label for="antarctic_grid_graticule" class="chk_bx"><span class="prefix"></span>Graticule</label>
+                                                        <button onclick="LayerModule.infoPopUp('36','antarctic_grid_graticule','1540348382901','Graticule','line')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name="antarctic_grid_graticule" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_grid_graticuleOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="antarctic_grid_limit_60sOptionDiv">
+                                                        <input type="checkbox" name="opt10" id="antarctic_grid_limit_60s" value="ADD data limit" class="sr_only">
+                                                      <label for="antarctic_grid_limit_60s" class="chk_bx"><span class="prefix"></span>ADD Data Limit</label>
+                                                        <button onclick="LayerModule.infoPopUp('37','antarctic_grid_limit_60s','1540348403915','ADD data limit','line')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name ="antarctic_grid_limit_60s" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="antarctic_grid_limit_60sOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </dd>                                        
+                                    </dl>
+                                </div>
+                <!-- 북극 레이어 목록 -->
+                                <div id="arcticLayerList" data-scroll data-epsg="3995" style="display: none;" class="kpdcLayerList">
+                                    <dl class="map_options">
+                                        <dt>Base Layer</dt>
+                                        <dd>
+                                            <ul id="arcticBaseMapGroupRadio">
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_backdrop_bluemarble_groupOptionDiv">
+                                                        <input type="checkbox" name="opt1" id="arctic_backdrop_bluemarble_group" value="arctic_backdrop_bluemarble_group" class="sr_only">
+                                                      <label for="arctic_backdrop_bluemarble_group" class="chk_bx"><span class="prefix"></span>Bluemarble</label>
+<!--                                                         <button type="button" class="btn info_mark" data-popup="arctic_backdrop_bluemarble_group">View Info</button> -->
+                                                        <button type="button" name="arctic_backdrop_bluemarble_group" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_backdrop_bluemarble_groupOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </dd>
+                                        <dt>Coastline</dt>
+                                        <dd>
+                                            <ul class="mylist">
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_coastlines_lineOptionDiv">
+                                                        <input type="checkbox" name="opt2" id="arctic_coastlines_line" value="arctic_coastlines_line" class="sr_only">
+                                                      <label for="arctic_coastlines_line" class="chk_bx"><span class="prefix"></span>Coastline</label>
+                                                        <button onclick="LayerModule.infoPopUp('19','arctic_coastlines_line','1540358918452','coastline','line')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name = arctic_coastlines_line class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_coastlines_lineOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_coastlines_islandsOptionDiv">
+                                                      <input type="checkbox" name="opt2" id="arctic_coastlines_islands" value="arctic_coastline_islands" class="sr_only">
+                                                      <label for="arctic_coastlines_islands" class="chk_bx"><span class="prefix"></span>Coastline Islands</label>
+                                                        <button onclick="LayerModule.infoPopUp('51','arctic_coastlines_islands','1540348811278','coastline islands','point')" type="button" class="btn info_mark">View Info</button>
+                                                        <button name="arctic_coastlines_islands" type="button" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_coastlines_islandsOpt_list" class="opt_list"></div>
+                                                    </div>    
+                                                </li>
+                                            </ul>
+                                        </dd>
+                                        <dt>Water</dt>
+                                        <dd>
+                                            <ul class="mylist">
+                        <li>
+                                                    <div class="toggle_bx" id="arctic_water_lakesOptionDiv">
+                                                        <input type="checkbox" name="opt41" id="arctic_water_lakes" value="arctic_water_lakes" class="sr_only">
+                                                      <label for="arctic_water_lakes" class="chk_bx"><span class="prefix"></span>Lake</label>
+                                                        <button onclick="LayerModule.infoPopUp('69','arctic_water_lakes','1540349297464','water_lakes','polygon')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name="arctic_water_lakes" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_water_lakesOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_water_riversOptionDiv">
+                                                        <input type="checkbox" name="opt4" id="arctic_water_rivers" value="arctic_water_rivers" class="sr_only">
+                                                      <label for="arctic_water_rivers" class="chk_bx"><span class="prefix"></span>River</label>
+                                                        <button onclick="LayerModule.infoPopUp('70','arctic_water_rivers','1540349323806','water rivers','polygon')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name="arctic_water_rivers" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_water_riversOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </dd>
+                                        <dt>Human Activity</dt>
+                                        <dd>
+                                            <ul class="mylist">
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_human_facilitiesOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="arctic_human_facilities" value="Facilities" class="sr_only">
+                                                      <label for="arctic_human_facilities" class="chk_bx"><span class="prefix"></span>Facilities</label>
+                                                        <button onclick="LayerModule.infoPopUp('36','arctic_human_facilities','1540359821891','facilities','point')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name="arctic_human_facilities" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_human_facilitiesOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_human_airportsOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="arctic_human_airports" value="airPort" class="sr_only">
+                                                      <label for="arctic_human_airports" class="chk_bx"><span class="prefix"></span>Airport</label>
+                                                        <button onclick="LayerModule.infoPopUp('58','arctic_human_airports','1540349015483','airports','point')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name="arctic_human_airports" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_human_airportsOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_human_ibruOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="arctic_human_ibru" value="arctic_human_ibru" class="sr_only">
+                                                      <label for="arctic_human_ibru" class="chk_bx"><span class="prefix"></span>ibru</label>
+                                                        <button onclick="LayerModule.infoPopUp('60','arctic_human_ibru','1540349066261','ibru','polygon')" type="button" class="btn info_mark">View Info</button>
+                                                        <button name="arctic_human_ibru" type="button" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_human_ibruOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_human_oil_gasOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="arctic_human_oil_gas" value="arctic_human_oil_gas" class="sr_only">
+                                                      <label for="arctic_human_oil_gas" class="chk_bx"><span class="prefix"></span>Oil And Gas</label>
+                                                        <button onclick="LayerModule.infoPopUp('61','arctic_human_oil_gas','1540349107586','oil gas','polygon')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name="arctic_human_oil_gas" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_human_oil_gasOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_human_populated_placesOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="arctic_human_populated_places" value="arctic_human_populated_places" class="sr_only">
+                                                      <label for="arctic_human_populated_places" class="chk_bx"><span class="prefix"></span>populated places</label>
+                                                        <button onclick="LayerModule.infoPopUp('62','arctic_human_populated_places','1540349131147','populated places','point')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name="arctic_human_populated_places" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_human_populated_placesOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_human_roadsOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="arctic_human_roads" value="arctic_human_roads" class="sr_only">
+                                                      <label for="arctic_human_roads" class="chk_bx"><span class="prefix"></span>Road</label>
+                                                        <button onclick="LayerModule.infoPopUp('63','arctic_human_roads','1540349154051','roads','line')" type="button" class="btn info_mark">View Info</button>
+                                                        <button name="arctic_human_roads" type="button" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_human_roadsOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </dd>
+                                        <dt>Environment</dt>
+                                        <dd>
+                                            <ul class="mylist">
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_environment_boreal_forestOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="arctic_environment_boreal_forest" value="arctic_environment_boreal_forest" class="sr_only">
+                                                      <label for="arctic_environment_boreal_forest" class="chk_bx"><span class="prefix"></span>Forest</label>
+                                                        <button onclick="LayerModule.infoPopUp('53','arctic_environment_boreal_forest','1540348876711','forest','polygon')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name="arctic_environment_boreal_forest" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_environment_boreal_forestOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_environment_tundra_areasOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="arctic_environment_tundra_areas" value="arctic_environment_tundra_areas" class="sr_only">
+                                                      <label for="arctic_environment_tundra_areas" class="chk_bx"><span class="prefix"></span>Tundra Area</label>
+                                                        <button onclick="LayerModule.infoPopUp('54','arctic_environment_tundra_areas','1540348898881','tundra areas','polygon')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name="arctic_environment_tundra_areas" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_environment_tundra_areasOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_environment_vegetation_unitsOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="arctic_environment_vegetation_units" value="arctic_environment_vegetation_units" class="sr_only">
+                                                      <label for="arctic_environment_vegetation_units" class="chk_bx"><span class="prefix"></span>Vegetation</label> 
+                                                        <button onclick="LayerModule.infoPopUp('55','arctic_environment_vegetation_units','1540348928192','vegetation units','polygon')" type="button" class="btn info_mark">View Info</button>
+                                                        <button name="arctic_environment_vegetation_units" type="button" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_environment_vegetation_unitsOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </dd>                                        
+                                        <dt>Topographic</dt>
+                                        <dd>
+                                            <ul class="mylist">
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_topography_bathymetric_contoursOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="arctic_topography_bathymetric_contours" value="arctic_topography_bathymetric_contours" class="sr_only">
+                                                      <label for="arctic_topography_bathymetric_contours" class="chk_bx"><span class="prefix"></span>Bathymetric Contour</label>
+                                                        <button onclick="LayerModule.infoPopUp('43','arctic_topography_bathymetric_contours','1540361089037','bathymetric contours','line')" type="button" class="btn info_mark">View Info</button>
+                                                        <button name="arctic_topography_bathymetric_contours" type="button" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_topography_bathymetric_contoursOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_topography_bathymetryOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="arctic_topography_bathymetry" value="arctic_topography_bathymetry" class="sr_only">
+                                                      <label for="arctic_topography_bathymetry" class="chk_bx"><span class="prefix"></span>Bathymetry</label>
+                                                        <button onclick="LayerModule.infoPopUp('65','arctic_topography_bathymetry','1540349206532','bathymetry','line')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name="arctic_topography_bathymetry" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_topography_bathymetryOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_topography_permafrost_iceOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="arctic_topography_permafrost_ice" value="arctic_topography_permafrost_ice" class="sr_only">
+                                                      <label for="arctic_topography_permafrost_ice" class="chk_bx"><span class="prefix"></span>Permafrost Ice</label>
+                                                        <button onclick="LayerModule.infoPopUp('68','arctic_topography_permafrost_ice','1540349277793','ice','polygon')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name="arctic_topography_permafrost_ice" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_topography_permafrost_iceOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+<!--                                                 <li> -->
+<!--                                                     <div class="toggle_bx" id="arctic_topographic_extended_feature_labelsOptionDiv"> -->
+<!--                                                         <input type="checkbox" name="opt5" id="arctic_topographic_extended_feature_labels" value="arctic_topographic_extended_feature_labels" class="sr_only"> -->
+<!--                                                      <label for="arctic_topographic_extended_feature_labels" class="chk_bx"><span class="prefix"></span>extended feature labels</label> -->
+<!--                                                         <button type="button" class="btn info_mark" data-popup="arctic_topographic_extended_feature_labels">View Info</button> -->
+<!--                                                         <button name="arctic_topographic_extended_feature_labels" type="button" class="btn toggle opt_menu">Show List</button> -->
+<!--                                                         <div id="arctic_topographic_extended_feature_labelsOpt_list" class="opt_list"></div> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
+                                            </ul>
+                                        </dd>                                        
+                                        <dt>Grids</dt>
+                                        <dd>
+                                            <ul class="mylist">
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_grid_circleOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="arctic_grid_circle" value="arctic_grid_circle" class="sr_only">
+                                                      <label for="arctic_grid_circle" class="chk_bx"><span class="prefix"></span>Arctic Circle</label>
+                                                        <button onclick="LayerModule.infoPopUp('56','arctic_grid_circle','1540348950956','grid circle','line')" type="button" class="btn info_mark">View Info</button>
+                                                        <button name="arctic_grid_circle" type="button" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_grid_circleOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="toggle_bx" id="arctic_grid_graticuleOptionDiv">
+                                                        <input type="checkbox" name="opt5" id="arctic_grid_graticule" value="arctic_grid_graticule" class="sr_only">
+                                                      <label for="arctic_grid_graticule" class="chk_bx"><span class="prefix"></span>Graticule</label>
+                                                        <button onclick="LayerModule.infoPopUp('57','arctic_grid_graticule','1540348976032','Graticule','line')" type="button" class="btn info_mark">View Info</button>
+                                                        <button type="button" name="arctic_grid_graticule" class="btn toggle opt_menu">Show List</button>
+                                                        <div id="arctic_grid_graticuleOpt_list" class="opt_list"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </dd>                                        
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- //Base Map -->
+                    </div>
+          <!-- 끝 -->
+</div>          
+
+
+
+<!-- Coastline Popup -->
+<div id="bumrePopup" class="popup_wrap" tabindex="-1">
+  <div class="popup_container">
+    <div class="popup_header">
+      <h4 id="popupSthyleName">Loading...</h4>
+      <button type="button" data-close="popup" class="btn close_popup">Close Popup</button>
+    </div>
+    <div class="popup_body">
+      <div class="map_info_bx">
+        <h5>Legend</h5>
+        <dl id="popupBodyList" class="def_list">
+        </dl>
+
+        <div class="text_center">
+          <button type="button" data-close="popup" class="btn sm send">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- //Coastline Popup -->
+
+
+<!-- common alert  -->
+<div class="popup_wrap sm" id="noticeAlert" tabindex="-1" style="display: none;z-index: 99999;">
+        <div class="popup_container">
+            <div class="popup_header">
+                <h4 id="alertTitle">Notice</h4>
+                <button type="button" data-close="popup" class="btn close_popup">Close Popup</button>
+            </div>
+            <div class="popup_body">
+                <!-- Popup Content -->
+                <div class="popup_bx">
+                    <div class="inner">
+                        <p id="alertMsg"></p>
+                        <div class="text_center">
+                            <button type="button" data-close="popup" class="btn cancel">Close</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- //Popup Content -->
+            </div>
+        </div>
+</div>
+<!-- common alert end-->
+
+<!-- confirm alert -->
+<div class="popup_wrap sm" id="confirmAlert" tabindex="-1" style="display: none;">
+  <div class="popup_container">
+    <div class="popup_header">
+      <h4 id="confirmTitle">Notice</h4>
+      <button type="button" data-close="popup" class="btn close_popup">Close Popup</button>
+    </div>
+    <div class="popup_body">
+      <!-- Popup Content -->
+      <div class="popup_bx">
+        <div class="inner">
+          <p id="confirmMsg"></p>
+          <div class="text_center">
+            <button type="button" id="confirmOk" class="btn send">Confirm</button>
+            <button type="button" id="confirmCancel" data-close="popup" class="btn cancel">Close</button>
+          </div>
+        </div>
+      </div>
+      <!-- //Popup Content -->
+    </div>
+  </div>
+</div>
+<!-- confirm alert end-->
+
+<!-- insert interest layer -->
+<div id="registForm" class="popup_wrap" data-id="registArea" tabindex="-1" style="display: none;">
+        <div class="popup_container">
+            <div class="popup_header">
+                <h4>My Favorite Areas</h4>
+                <button type="button" data-close="popup" class="btn close_popup">Close Popup</button>
+            </div>
+            <div class="popup_body">
+                <!-- Popup Content -->
+                <form action="/">
+                    <div class="map_info_bx">
+                        <dl class="def_list v2">
+                            <dt style="display: none;">Screen Information</dt>
+                            <dd>
+                                <table style="display: none;">
+                                    <colgroup>
+                                        <col style="width:36%;">
+                                        <col style="width:64%;">
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <th>
+                                                <label for="frm1">Center coordinate X</label>
+                                            </th>
+                                            <td>
+                                                <input type="text" name="frm1" id="frm1" disabled="disabled" class="i_frm text_right">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <label for="frm2">Center coordinate Y</label>
+                                            </th>
+                                            <td>
+                                                <input type="text" name="frm2" id="frm2" disabled="disabled" class="i_frm text_right">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <label for="frm3">Current zoom Level</label>
+                                            </th>
+                                            <td>
+                                                <input type="text" name="frm3" id="frm3" value="5" disabled="disabled" class="i_frm text_right">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <label for="crrentEpsg">Current map EPSG</label>
+                                            </th>
+                                            <td>
+                                                <input id="crrentEpsg" type="text" name="frm4" disabled="disabled" class="i_frm text_right">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <hr class="hr" style="display: none;">
+
+                                <table>
+                                    <colgroup>
+                                        <col style="width:36%;">
+                                        <col style="width:64%;">
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <th>
+                                                <label for="frm5">Title</label>
+                                            </th>
+                                            <td>
+                                                <input type="text" name="frm5" id="frm5" class="i_frm" maxlength="30" onkeydown="if(event.keyCode == 13) FavoriteModule.insertFavorite();">
+                                                <em class="i_rule">Required, Please enter a title Max Length : 30</em>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="v_top">
+                                                <label for="frm6">Description</label>
+                                            </th>
+                                            <td>
+                                                <textarea name="frm6" id="frm6" cols="30" rows="10" class="i_frm" style="font-size: 15px;"></textarea>
+                                                <em class="i_rule">Please enter a Description Max Length : 300</em>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </dd>
+                        </dl>
+                    
+                        <div class="text_center">
+                            <button id="regfnBtn" type="button"  class="btn sm send" onclick="FavoriteModule.insertFavorite();">Add</button>
+                            <button type="button" data-close="popup" class="btn sm cancel">Cancel</button>
+                        </div>
+                    </div> 
+                </form>
+                <!-- //Popup Content -->
+            </div>
+        </div>
+</div>  
+<!-- insert interest layer end-->
+                      <dl>
+              <dt>Raw Data</dt>
+              <dd><em class="file_sm_t">File Size</em><span class="file-size" title="875,147">      <span class="file-size" title="875147">875.15 Kb</span> 
+  </span> for 6 items</dd>
+            </dl>
+            <div id="file-list-containers">
+              <div class="table v1 lg">
+                <table>
+                <thead>
+                  <tr>
+                    <th style="width:10%">Category</th>
+                    <th>File Name</th>
+                    <th>Description</th>
+                    <th style="width:10%">Size</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                                                                                                                                                                                                                                                                                              <tr class="files file selectable" data-file-id="4c41d97d-8e27-46d8-9fa3-e84cb2a22af5">
+                        <td class="file-category">Rawdata</td>
+                        <td><span class="file-name">Log.xlsx</span></td>
+                        <td class="file-description">station name, location coordinates, time, measured parameters</td>
+                        <td class="file-size">      <span class="file-size" title="11511">11.51 Kb</span> 
+  </td>
+                        <td class="file-status">Download</td>
+                      </tr>
+                                                                                                                                                                                                                                                                                                                                                                                                            <tr class="files file " >
+                        <td class="file-category">Analysis Data</td>
+                        <td><span class="file-name">ARA15BST57.pdf</span></td>
+                        <td class="file-description"></td>
+                        <td class="file-size">      <span class="file-size" title="180610">180.61 Kb</span> 
+  </td>
+                        <td class="file-status">Request required</td>
+                      </tr>
+                                                                                                    <tr class="files file " >
+                        <td class="file-category">Analysis Data</td>
+                        <td><span class="file-name">ARA15BST58.pdf</span></td>
+                        <td class="file-description"></td>
+                        <td class="file-size">      <span class="file-size" title="162670">162.67 Kb</span> 
+  </td>
+                        <td class="file-status">Request required</td>
+                      </tr>
+                                                                                                    <tr class="files file " >
+                        <td class="file-category">Analysis Data</td>
+                        <td><span class="file-name">ARA15BST59.pdf</span></td>
+                        <td class="file-description"></td>
+                        <td class="file-size">      <span class="file-size" title="178815">178.81 Kb</span> 
+  </td>
+                        <td class="file-status">Request required</td>
+                      </tr>
+                                                                                                    <tr class="files file " >
+                        <td class="file-category">Analysis Data</td>
+                        <td><span class="file-name">ARA15BST60.pdf</span></td>
+                        <td class="file-description"></td>
+                        <td class="file-size">      <span class="file-size" title="162448">162.45 Kb</span> 
+  </td>
+                        <td class="file-status">Request required</td>
+                      </tr>
+                                                                                                    <tr class="files file " >
+                        <td class="file-category">Analysis Data</td>
+                        <td><span class="file-name">ARA15BST61.pdf</span></td>
+                        <td class="file-description"></td>
+                        <td class="file-size">      <span class="file-size" title="179093">179.09 Kb</span> 
+  </td>
+                        <td class="file-status">Request required</td>
+                      </tr>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </tbody>
+                </table>
+              </div>
+            </div>
+          
+                      <div id="item-version-results" class="section mgt-lg">
+            <div class="section">
+  <h4 class="sct_secondary">Version History</h4>
+  
+  <form method="get" action="/search/3802de66-e64b-4706-bea3-25e11b80c65c" id="data-compare-versions" target="compare">
+  <input type="hidden" name="compare">
+  <div class="table v1 lg">
+    <table>
+      <colgroup>
+        <col style="width:120px;" />
+        <col style="width:200px;" />
+        <col style="width:150px" />
+        <col />
+        <col style="width:140px;" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Registration Date</th>
+          <th>Submitter</th>
+          <th>Summary</th>
+          <th><button type="submit" class="btn send xs">Compare</button></th>
+        </tr>
+      </thead>
+      <tbody>
+                    <tr>
+          <td>2</td>
+          <td>2026-02-11 07:09</td>
+          <td>Young-Gyun Kim</td>
+          <td>2026-02-11 07:09 Update</td>
+          <td><input type="checkbox" name="v" value="2" checked></td>
+        </tr>         
+       
+                    <tr>
+          <td>1</td>
+          <td>2026-02-10 05:37</td>
+          <td>Young-Gyun Kim</td>
+          <td>2026-02-10 05:37 Update</td>
+          <td><input type="checkbox" name="v" value="1" checked></td>
+        </tr>         
+       
+            </tbody>
+    </table>
+  </div>
+  </form>
+</div>
+            </div>
+          
+                      <div id="repository-results"></div>
+		      
+          </div><!-- //dview_info_wrap -->
+        </div><!-- //dview_body -->
+      </div><!-- //section -->
+    </div><!-- //container -->
+  </div><!-- //page_wrap -->
+  
+</div><!-- mainContent -->
+
+<!-- Open Request Popup -->
+<div class="popup_wrap" data-id="sendEmail" tabindex="-1">
+	<div class="popup_container">
+		<div class="popup_header">
+			<h4>send mail</h4>
+			<button type="button" data-close="popup" class="btn close_popup">Close Popup</button>
+		</div>
+		<div class="popup_body">
+			<!-- Popup Content -->
+			<div class="popup_bx">
+				<div class="inner">
+					<form>
+						<div class="frm_wrap">
+							<div class="row">
+								<label for="toPerson">To.</label>
+								<input type="text" name="toPerson" id="toPerson" class="i_frm">
+							</div>
+							<div class="row">
+								<label for="subject">Title</label>
+								<input type="text" name="subject" id="subject" class="i_frm" value="Geothermal gradient, thermal conductivity">
+							</div>
+							<div class="row">
+								<label for="content">Content</label>
+								<textarea name="content" id="content" cols="30" rows="10" class="i_frm req">To determine the marine heat flow distribution in the Chukchi Basin (Chukchi Abyssal Plain), we obtained in situ geothermal gradients at five stations and laboratory-measured thermal conductivities at three stations along an east–west transect across the Chukchi Abyssal Plain.&#10;</textarea>
+							</div>
+							<div class="text_center">
+								<button type="button" data-close="popup" class="btn send" id="submitBtn" style="height: 32px; margin: 20px 0 0; font-size: 15px; font-weight: normal;">Send</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- //Popup Content -->
+		</div>
+	</div>
+</div>
+
+<div class="popup_wrap" id="modal-download-rawdata" data-id="modal-download-rawdata" tabindex="-1">
+  <div class="popup_container">
+    <div class="popup_header">
+      <h4>Download</h4>
+      <button type="button" data-close="popup" class="btn close_popup">Close Popup</button>
+    </div>
+    <div class="popup_body">
+      <form class="popup_bx" method="POST">
+        <p>Please briefly enter the purpose of the data you want to use.</p>
+        <textarea name="purpose" class="i_frm" rows="10"></textarea>
+
+        <div class="text_center">
+          <button type="submit" data-close="popup" class="btn send">Download</button>
+          <button type="button" data-close="popup" class="btn cancel">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+	<!-- aside banners -->
+	<div class="flow_banners">
+		<div class="carousel">
+			<span class="item">
+				<a href="https://eng.kopri.re.kr/" target="_blank" class="b_01">Kopri</a>
+			</span>
+			<span class="item">
+				<a href="https://pamc.kopri.re.kr/" target="_blank" class="b_02">PAMC</a>
+			</span>
+			<span class="item">
+				<a href="https://kvh.kopri.re.kr/" target="_blank" class="b_03">KVH</a>
+			</span>
+			<span class="item">
+				<a href="https://antagen.kopri.re.kr/" target="_blank" class="b_04">AntaGen</a>
+			</span>
+			<span class="item">
+				<a href="https://koreamet.kopri.re.kr/" target="_blank" class="b_05">KOREAMET</a>
+			</span>
+			<span class="item">
+				<a href="https://www.scar.org/" target="_blank" class="b_06">SCAR</a>
+			</span>
+			<span class="item">
+				<a href="https://scar.org/science/standing/scadm" target="_blank" class="b_07">SCADM</a>
+			</span>
+			<span class="item">
+				<a href="https://search.earthdata.nasa.gov/portal/amd/search" target="_blank" class="b_08">AMD</a>
+			</span>
+            <span class="item">
+        <a href="https://kaos.kopri.re.kr" target="_blank" class="b_10">KAOS</a>
+      </span>
+		</div>
+		<div class="arrows"></div>
+	</div>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="license">
+			<div class="logo_footer">
+				<img src="/theme/img/common/logo_footer.png" alt="KPDC, Korea Polar Data Center" class="img">
+			</div>
+			<address>
+				<div class="footer-menu">
+					<a href="/about/privacy" class="privacy">개인정보처리방침</a>
+				</div>
+				<p>Korea Polar Data Center | <a href="mailto:kpdc@kopri.re.kr" target="_blank">kpdc@kopri.re.kr</a><br>
+					26 Songdomirae-ro, Yeonsu-gu, Incheon 21990, Korea  <br>
+					<small>COPYRIGHT &copy; KOREA POLAR RESEARCH INSTITUTE ALL RIGHTS RESERVED</small></p>
+			</address>
+		</div>
+
+		<ul class="rel_links">
+          			<li>
+				<a href="https://www.re3data.org/" target="_blank">
+					<img src="/theme/img/re3datalogo_small.png" alt="Registry of Research Data Repositories" class="img"
+						style="height:40px;margin-top:-5px;">
+				</a>
+			</li>
+			<li>
+				<a href="https://eng.kopri.re.kr/" target="_blank">
+					<img src="/theme/img/common/logo_kopri.png" alt="Korea Polar Research Institute" class="img">
+				</a>
+			</li>
+		</ul>
+	</footer>
+
+	<!-- js -->
+	<script src="/theme/js/jquery-min.js?v=20250515"></script>
+	<script src="/theme/js/vendors/jquery-ui.min.js"></script>
+	<script src="/theme/js/plugins.js"></script>
+    <script src="/static/plugins/waitme/waitMe.min.js"></script>
+	<script src="/theme/js/main.js?v=20220714"></script>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-5PVF3XB3DF"></script>
+	<script>
+  		
+	// Google Analytics
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-5PVF3XB3DF');
+	</script>
+  <!-- 로딩 테스트 스크립트. 추후 삭제 필요 -->
+  <script>
+      (function () {
+          //window.addEventListener('load', function () {
+          window.addEventListener('DOMContentLoaded', function () {
+              siteLoading.hide();//로딩 숨김
+              // siteLoading.show();//로딩 표시
+          });
+      }());
+  </script>
+
+  <link rel="stylesheet" href="/static/gis/ol/css/ol.css">
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMC_EWsGWuIhyiGWJW5Z2z46YxOH4EkPs" async defer></script>
+  <script src="/static/gis/ol/js/ol3gm.js" ></script>
+  <script src="/static/gis/ol/js/ol-ext.js" ></script>
+  <script src="/static/gis/ol/js/proj4.js" ></script>
+  <script src="/static/gis/ol/js/epsg.js" ></script>
+  <script src="/static/gis/ol/js/animatedclusterlayer.js" ></script>
+  <script src="/static/gis/js/layer.js?v=20250613" ></script>
+  <script src="/static/gis/js/lodash.min.js" ></script>
+  <script src="/static/gis/js/dms.js" ></script>
+  <script src="/static/gis/js/latlon-spherical.js" ></script>
+  <script src="/static/gis/js/common.js" ></script>
+  <script src="/static/gis/js/measure.js" ></script>
+  <script src="/static/gis/js/map.v2.js?t=20210803" ></script>
+  <script src="/static/plugins/moment/moment.min.js"></script>
+  <script src="/static/plugins/moment/moment-with-locales.min.js"></script>
+
+	<script>
+		$(function() {
+			var $side = $('#mySidenav');
+			var $backdrop = $('.backdrop');
+			function toggleSide() {
+				$side.toggleClass('show');
+				if ($side.hasClass('show')) {
+					$backdrop.css('display', 'block')
+				} else {
+					$backdrop.css('display', 'none')
+				}
+			}
+
+			$backdrop.click(toggleSide);
+			$('.navbar-toggler').click(toggleSide);
+			$('#mySidenav .closebtn').click(toggleSide);
+		});
+	</script>
+
+		<script src="/static/plugins/highcharts/highcharts.js" ></script>
+	<script src="/static/plugins/highcharts/modules/series-label.js" ></script>
+	<script src="/static/plugins/highcharts/modules/exporting.js" ></script>
+	<script src="/static/plugins/highcharts/modules/no-data-to-display.js" ></script>
+  <script src="/theme/js/vendors/jquery.easing.1.3.js" ></script>
+	
+<!--
+	<script src="/static/js/htmldiff.js" ></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/scala.min.js"></script>
+	<script type="text/javascript" src="https://diff2html.xyz/assets/diff2html.js"></script>
+	<script type="text/javascript" src="https://diff2html.xyz/assets/diff2html-ui.min.js"></script>
+-->
+
+<script>
+/** Purpose?
+	$(function() {
+		$('#file-list-containers').find('.file-list-container')
+			.each(function(index, con) {
+	   			var $con = $(con);
+	   			var $span = $('#' + $con.attr('id') + '-size');
+	   			var size = $con.find('table tr.file').length;
+	   		});
+	});
+*/
+</script>
+
+<script>
+$(document).ready(function() {
+	initMainPage();
+	setCommonPeriod();
+	MapModule.initMap('3857');
+	
+		var data0 = {
+	  geom: [{'x':-175.769000,'y':76.440167},{'x':-169.426667,'y':76.347617}], 
+	  title: 'Geothermal gradient, thermal conductivity', 
+	  desc: '',
+	  type: 'Rectangle'
+	};
+	MapModule.renderReadMetaDetail(data0, 1);
+	})	
+
+</script>
+
+<script>
+
+function shareFacebook(title) {
+    var url = window.location.href;
+window.open('https://www.facebook.com/sharer.php'
+    + '?t=' + encodeURIComponent(title)
+    + '&u=' + encodeURIComponent(url));
+}
+function shareTwitter(title) {
+ var url = window.location.href;
+ window.open('https://twitter.com/home'
+       + '?status=' + encodeURIComponent(title) 
+       + '+' + encodeURIComponent(url));
+}
+
+$(function(){
+	$('#submitBtn').click(function(){
+		var url = window.location.href;
+		var toPerson = $('#toPerson').val();
+		var subject = $('#subject').val();
+		var content = $('#content').val();
+		
+		var allData = {id: '3802de66-e64b-4706-bea3-25e11b80c65c', 'url':url, 'toPerson':toPerson, 'subject':subject, 'content':content};
+		
+		$.ajax({
+			url : 'sendmail',
+			type : 'POST',
+			dataType : 'json',
+			data : allData
+		});
+	});
+});
+
+$(function() {
+	setTimeout(function() {
+    	$('img.lazy')
+    	  .on('error', function() { console.log("error loading image", $(this).data('src')); $(this).attr('src', '/theme/img/unavailable-image.jpg'); })
+    	  .each(function() {
+    		var src = $(this).data('src');
+    		if (src.indexOf('http://') == 0) {
+    			$(this).attr('src', '/thumbnail/image/' + src.substring(7));	
+    		} else if (src.indexOf('https://') == 0) {
+    			$(this).attr('src', '/thumbnail/image/' + src.substring(8));
+    		} else {
+    			// how?
+    			$(this).attr('src', '/thumbnail/image/' + src);
+    		}
+    	});
+	}, 100);
+	
+		setTimeout(function() {
+    	$('#repository-results').load(
+    		'/search/repository/?pjt=PM24050'
+    	);
+	}, 100);
+		
+	/*
+	setTimeout(function() {
+    	$('#item-version-results').load(
+    		'/search/3802de66-e64b-4706-bea3-25e11b80c65c?version'
+    	).on('submit', function() {
+    		window.open('about:blank', 'compare', 'width=1200,height=900,menubar=no,toolbar=no,status=no');
+    	});
+	}, 1000);
+	*/
+	
+	$('#item-version-results').on('submit', function() {
+    	window.open('about:blank', 'compare', 'width=1200,height=900,menubar=no,toolbar=no,status=no');
+	});
+	
+	$('tr.file.selectable').on('click', function() {
+		var $tr = $(this);
+		var $modal = $('#modal-download-rawdata');
+		$modal.find('form').attr('action', '/rawdata/' + $tr.data('file-id') + '/');
+		$modal.showPopup();
+	});
+	
+	var $f = $('#form-disclosure-request');
+  $f.submit(function(e) {
+	  e.preventDefault();
+	  e.stopPropagation();
+	  
+	  var $target = $f.find('button:submit').eq(0);
+	  console.log($target);
+	  if ($target) {
+		  sendToCart($target);
+	  }
+	  
+	  $.ajax({
+		  url: $f.attr('action'),
+		  data: $f.serialize(),
+		  type: 'post'
+	  }).done(function() {
+		  $f.trigger('refresh.count');
+	  }).always(function() {
+		  
+	  });
+      
+	  function sendToCart($target) {
+		  var $cart = $('#request-cart');
+      var $clone = $('<div id="transport"></div>');
+      $clone
+      .offset({
+        top: $target.offset().top,
+        left: $target.offset().left
+      })
+      .css({
+       'opacity': '0.5',
+          'position': 'absolute',
+          'z-index': '100'
+      })
+      .appendTo($('body'))
+      .animate({
+        'top': $cart.offset().top + 10,
+        'left': $cart.offset().left + 10,
+        'width': 5,
+        'height': 5
+      }, 1000, 'easeInOutExpo');
+      
+      $clone.animate({
+        'width': 0,
+        'height': 0
+      }, function () {
+        $(this).detach()
+      });
+	  }
+  });
+});
+</script>
+
+<script>
+  // <img decoding="async" loading="lazy" width="16" height="16" src="https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif" alt="orcid logo 16px">
+$(function() {
+  $('.orcid').each(function() {
+    var $e = $(this);
+    var email = $e.data('email');
+    $.get('/metadata/api/orcid?email=' + encodeURIComponent(email))
+            .then(function(res) {
+              console.log('res', res);
+              if (res) {
+                var $a = $('<a target="_blank" href="https://orcid.org/' + res + '"></a>');
+                $a.append('<img width="16" height="16" src="https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif" alt="orcid logo">');
+                $e.append($a);
+              }
+            });
+  });
+});
+</script>
+  
+    </body>
+</html>

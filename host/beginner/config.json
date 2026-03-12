@@ -1,0 +1,10 @@
+{
+  "model": "kistillm",
+  "base_url": "https://aida.kisti.re.kr:10411/v1",
+  "api_key": "dummy",
+  "temperature": 0.5,
+  "max_tokens": 4096,
+  "timeout": 120,
+  "max_retries": 2,
+  "description": "메인 에이전트 모델 설정 (OpenRouter Qwen3 Coder Next)"
+}

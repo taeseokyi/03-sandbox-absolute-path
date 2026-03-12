@@ -1,0 +1,16 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "sandbox-beginner": "./agent_server.py:beginner_agent",
+    "sandbox-developer": "./agent_server.py:developer_agent"
+  },
+  "env": ".env",
+  "watch": [
+    "agent_server.py",
+    "mcp_tools_loader.py",
+    "agent_config_loader.py",
+    "docker_util.py",
+    "host/beginner/",
+    "host/developer/"
+  ]
+}
