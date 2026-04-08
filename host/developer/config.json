@@ -1,10 +1,13 @@
 {
-  "provider": "google",
-  "model": "gemini-2.5-flash",
-  "api_key": "AIzaSyDsllGVoXLpM0QEGKWbUSdD2TKEGl42jBM",
-  "temperature": 0.5,
-  "max_tokens": 128000,
+  "provider": "openai",
+  "model": "stepfun-ai/step-3.5-flash",
+  "base_url": "https://integrate.api.nvidia.com/v1",
+  "api_key": "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",
+  "max_tokens": 100000,
   "timeout": 120,
   "max_retries": 2,
+  "temperature":1,
+  "top_p":0.95,
+  "top_k":40,
   "description": "메인 에이전트 모델 설정 (Google Gemini 2.5 Flash)"
 }

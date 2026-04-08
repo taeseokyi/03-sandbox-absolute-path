@@ -31,4 +31,4 @@ RUN useradd -u 1000 -m agent
 RUN pip install --no-cache-dir \
     --trusted-host pypi.org \
     --trusted-host files.pythonhosted.org \
-    pandas matplotlib scipy openpyxl
+    pandas matplotlib scipy openpyxl pydantic pyyaml requests beautifulsoup4 openai

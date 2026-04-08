@@ -190,12 +190,27 @@ volumes:
 
 ### Docker 컨테이너 설정 변경 시
 
-`docker compose.yml`이나 `host/` 내용을 바꾼 뒤에는 컨테이너를 재생성해야 한다:
+`docker compose.yml`이나 `Dockerfile`이 변경된 경우 이미지를 새로 빌드해야 한다:
 
 ```bash
-docker stop deepagents-sandbox && docker rm deepagents-sandbox
-./start_server.sh   # 자동으로 docker compose up -d 후 서버 시작
+docker compose down
+docker compose build --no-cache
+docker compose up -d
 ```
+
+`host/` 내용(볼륨 마운트)만 바꾼 경우에는 컨테이너 재생성으로 충분하다:
+
+```bash
+docker compose down && docker compose up -d
+```
+
+### 연구원 내부망에서 Docker 빌드
+
+연구원 내부망은 `deb.debian.org` 직접 접속을 차단한다. WSL2 환경에서는 Windows 프록시 설정을 활성화하면 Docker 빌드 시 자동으로 프록시가 적용된다.
+
+- 프록시 주소: `http://203.250.226.73:8888`
+- Windows 설정 → 네트워크 및 인터넷 → 프록시 → 수동 프록시 설정 활성화
+- Dockerfile에 프록시를 직접 기입할 필요 없음
 
 ## 새 프로파일 추가
 

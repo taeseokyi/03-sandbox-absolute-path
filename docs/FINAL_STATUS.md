@@ -317,3 +317,27 @@ LangGraph가 클래스를 그래프로 인식 못함.
 ### Docker 컨테이너 host/ 마운트 안됨
 `docker compose down && docker compose up -d`로 컨테이너 재생성 필요.
 기존 컨테이너가 남아있으면 `docker stop deepagents-sandbox && docker rm deepagents-sandbox` 후 재시작.
+
+### Docker 빌드 시 apt-get 실패 (연구원 내부망)
+
+```
+Err:1 http://deb.debian.org/debian trixie InRelease
+  Unable to connect to deb.debian.org:http:
+E: Unable to locate package curl
+```
+
+연구원 내부망에서 `deb.debian.org` 직접 접속이 차단되어 발생한다.
+
+**해결 방법 (WSL2 환경):**
+WSL2는 Windows 프록시 설정을 자동으로 상속받는다. Windows 시스템 프록시를 활성화하면 Docker 빌드도 프록시를 통해 외부 저장소에 접근할 수 있다.
+
+- 프록시 주소: `http://203.250.226.73:8888`
+- Windows 설정 → 네트워크 및 인터넷 → 프록시에서 수동 프록시 설정 활성화
+- Dockerfile에 프록시를 직접 하드코딩할 필요 없음
+
+프록시 설정 후 재빌드:
+```bash
+docker compose down
+docker compose build --no-cache
+docker compose up -d
+```
