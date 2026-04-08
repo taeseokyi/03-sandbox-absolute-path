@@ -212,34 +212,83 @@ docker compose down && docker compose up -d
 - Windows 설정 → 네트워크 및 인터넷 → 프록시 → 수동 프록시 설정 활성화
 - Dockerfile에 프록시를 직접 기입할 필요 없음
 
-## 공유 라이브러리 (host/shared/)
+## 공유 라이브러리 및 스킬 (host/shared/)
 
-스킬 헬퍼 스크립트에서 공통으로 사용하는 Python 모듈은 `host/shared/`에 배치한다.
+프로파일 간 공유 라이브러리와 공유 스킬을 `host/shared/`에 배치한다.
 
 ```
 host/
-├── shared/         ← 프로파일 간 공유 라이브러리 (AGENTS.md 없음 → 프로파일 아님)
-│   ├── lib/        ← 유틸리티 패키지 (data_tools, dev_tools, pipeline_tools 등)
-│   └── src/        ← 도메인 로직 패키지 (collectors, transformers, storages 등)
+├── shared/               ← AGENTS.md 없음 → 프로파일로 인식되지 않음
+│   ├── __init__.py
+│   ├── lib/              ← 유틸리티 패키지 (data_tools, dev_tools, pipeline_tools 등)
+│   ├── src/              ← 도메인 로직 패키지 (collectors, transformers, storages 등)
+│   └── skills/           ← 공유 스킬 (스킬 개발 프로젝트에서 배포)
+│       ├── __init__.py
+│       ├── kopri/
+│       ├── kfer/
+│       └── ...
 ├── beginner/
 └── developer/
+    └── skills/           ← 프로파일 전용 스킬 (shared/skills/ override 가능)
 ```
 
 ### PYTHONPATH 설정
 
-`PYTHONPATH=/tmp/workspace/host/shared`로 고정되어 있어, 스킬 스크립트에서 프로파일명 없이 바로 임포트할 수 있다:
+`PYTHONPATH=/tmp/workspace/host`로 고정되어 있어 `shared` 네임스페이스 전체에 접근할 수 있다:
 
 ```python
-from lib.data_tools import DataSampler
-from src.collectors import FileCollector
+from shared.lib.data_tools import DataSampler
+from shared.src.collectors import FileCollector
+from shared.skills.kopri.utils import build_dataon_form
 ```
 
-이 경로는 `.env`와 `docker-compose.yml` 양쪽에 설정되어 있어 Local/Docker 백엔드 모두 동일하게 적용된다.
+`.env`와 `docker-compose.yml` 양쪽에 설정되어 Local/Docker 백엔드 모두 동일하게 적용된다.
+
+### 스킬 로딩 구조 (SkillsMiddleware)
+
+`agent_server.py`의 `SkillsMiddleware`는 두 경로에서 스킬을 로드한다:
+
+```python
+sources=[
+    "/tmp/workspace/host/shared/skills/",    # 공유 스킬 (먼저 로드)
+    "/tmp/workspace/host/{profile}/skills/", # 프로파일 전용 (동일 이름은 여기가 우선)
+]
+```
+
+같은 이름의 스킬이 양쪽에 있으면 **프로파일 전용이 override**된다.
 
 ### 프로파일 인식 제외 원리
 
 `host/` 하위 디렉토리는 **`AGENTS.md` 파일이 있을 때만** 프로파일로 인식된다.
 `host/shared/`에는 `AGENTS.md`가 없으므로 `sync_profiles.py`와 `agent_server.py` 모두 자동으로 스킵한다.
+
+### langgraph watch 자동 포함
+
+`sync_profiles.py`가 `langgraph.json`의 watch 목록을 갱신할 때 `host/shared/`를 항상 고정으로 포함한다.
+프로파일이 추가/삭제되어 `sync_profiles.py`가 재실행되어도 `host/shared/` watch는 유지된다.
+
+### 스킬 개발 프로젝트 구조
+
+외부에서 개발한 스킬을 배포할 때는 아래 구조를 맞춰야 임포트 경로가 일치한다:
+
+```
+skill-project/            ← PYTHONPATH 기준점 (개발 시)
+└── shared/
+    ├── lib/
+    ├── src/
+    └── skills/
+        └── kopri/
+            ├── SKILL.md
+            ├── main.py
+            └── utils.py
+```
+
+| 항목 | 개발 환경 | 샌드박스 |
+|------|-----------|----------|
+| PYTHONPATH | `skill-project/` | `/tmp/workspace/host` |
+| lib 임포트 | `from shared.lib.x import ...` | 동일 |
+| 스킬 실행 | `python -m shared.skills.kopri.main` | 동일 |
+| 배포 경로 | `shared/` 전체 | `host/shared/` |
 
 ### 새 공유 모듈 추가 시
 
@@ -248,8 +297,8 @@ from src.collectors import FileCollector
 mkdir -p host/shared/lib/my_tools
 touch host/shared/lib/my_tools/__init__.py
 
-# 스킬 스크립트에서 바로 사용 가능 (서버 재시작 불필요)
-# from lib.my_tools import ...
+# 스킬 스크립트에서 사용
+# from shared.lib.my_tools import ...
 ```
 
 ---
