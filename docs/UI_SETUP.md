@@ -212,6 +212,48 @@ docker compose down && docker compose up -d
 - Windows 설정 → 네트워크 및 인터넷 → 프록시 → 수동 프록시 설정 활성화
 - Dockerfile에 프록시를 직접 기입할 필요 없음
 
+## 공유 라이브러리 (host/shared/)
+
+스킬 헬퍼 스크립트에서 공통으로 사용하는 Python 모듈은 `host/shared/`에 배치한다.
+
+```
+host/
+├── shared/         ← 프로파일 간 공유 라이브러리 (AGENTS.md 없음 → 프로파일 아님)
+│   ├── lib/        ← 유틸리티 패키지 (data_tools, dev_tools, pipeline_tools 등)
+│   └── src/        ← 도메인 로직 패키지 (collectors, transformers, storages 등)
+├── beginner/
+└── developer/
+```
+
+### PYTHONPATH 설정
+
+`PYTHONPATH=/tmp/workspace/host/shared`로 고정되어 있어, 스킬 스크립트에서 프로파일명 없이 바로 임포트할 수 있다:
+
+```python
+from lib.data_tools import DataSampler
+from src.collectors import FileCollector
+```
+
+이 경로는 `.env`와 `docker-compose.yml` 양쪽에 설정되어 있어 Local/Docker 백엔드 모두 동일하게 적용된다.
+
+### 프로파일 인식 제외 원리
+
+`host/` 하위 디렉토리는 **`AGENTS.md` 파일이 있을 때만** 프로파일로 인식된다.
+`host/shared/`에는 `AGENTS.md`가 없으므로 `sync_profiles.py`와 `agent_server.py` 모두 자동으로 스킵한다.
+
+### 새 공유 모듈 추가 시
+
+```bash
+# 패키지 디렉토리 생성
+mkdir -p host/shared/lib/my_tools
+touch host/shared/lib/my_tools/__init__.py
+
+# 스킬 스크립트에서 바로 사용 가능 (서버 재시작 불필요)
+# from lib.my_tools import ...
+```
+
+---
+
 ## 새 프로파일 추가
 
 새 프로파일을 `host/`에 추가하면 `start_server.sh`가 자동으로 인식한다.

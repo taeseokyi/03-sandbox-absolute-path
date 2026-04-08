@@ -7,6 +7,8 @@ services:
     container_name: deepagents-sandbox  # 중요: 이름 지정
     #command: tail -f /dev/null  # 컨테이너를 계속 실행 상태로 유지 방법 아래와 같음
     command: sleep infinity  # 컨테이너를 계속 실행 상태로 유지
+    environment:
+      - PYTHONPATH=/tmp/workspace/host/shared
     volumes:
       - ./workspace:/tmp/workspace
       - ./host:/tmp/workspace/host:ro
