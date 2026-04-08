@@ -1,7 +1,7 @@
 """Pipeline Checker - Verifies each stage output meets minimum expectations."""
 
 from typing import Any
-from lib.base_tool import BaseTool
+from ..base_tool import BaseTool
 
 
 class PipelineChecker(BaseTool):

@@ -1,8 +1,8 @@
 """Schema Generator - Auto-generates a validator schema from sample records."""
 
 from typing import Any
-from lib.base_tool import BaseTool
-from lib.data_tools.schema_inspector import SchemaInspector
+from ..base_tool import BaseTool
+from ..data_tools.schema_inspector import SchemaInspector
 
 
 class SchemaGenerator(BaseTool):

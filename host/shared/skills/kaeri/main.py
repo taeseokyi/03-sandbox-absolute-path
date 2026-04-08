@@ -7,7 +7,7 @@ import json
 import sys
 from pathlib import Path
 
-from skills.kaeri.utils import load_source, build_dataon_form
+from .utils import load_source, build_dataon_form
 
 
 def main() -> None:

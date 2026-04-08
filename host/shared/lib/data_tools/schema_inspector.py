@@ -1,7 +1,7 @@
 """Schema Inspector - Infers field types and null rates from records."""
 
 from typing import Any
-from lib.base_tool import BaseTool
+from ..base_tool import BaseTool
 
 
 class SchemaInspector(BaseTool):

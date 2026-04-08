@@ -2,7 +2,7 @@
 
 import inspect
 from pathlib import Path
-from lib.base_tool import BaseTool
+from ..base_tool import BaseTool
 
 
 class DocGenerator(BaseTool):

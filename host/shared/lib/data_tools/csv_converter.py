@@ -4,7 +4,7 @@ import csv
 import io
 from pathlib import Path
 from typing import Any
-from lib.base_tool import BaseTool
+from ..base_tool import BaseTool
 
 
 class CSVConverter(BaseTool):

@@ -11,7 +11,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from lib.dataon_reg import (
+from shared.lib.dataon_reg import (
     DataON_연구데이터등록,
     기본정보, 인물, 인물구분,
     이메일, 이메일도메인,
@@ -22,13 +22,13 @@ from lib.dataon_reg import (
     연관정보, 과제정보, 관계유형_과제, 식별자유형_과제,
     과제책임자, 과제상세정보,
 )
-from skills.kopri.ntis_client import search_ntis_project, extract_project_fields
-from src.collectors.file_collector import FileCollector
-from src.collectors.api_collector import APICollector
-from src.transformers.cleaner import Cleaner
-from src.transformers.mapper import Mapper
-from skills.kopri.scraper import scrape_kpdc_page
-from skills.kopri.translator import (
+from .ntis_client import search_ntis_project, extract_project_fields
+from shared.src.collectors.file_collector import FileCollector
+from shared.src.collectors.api_collector import APICollector
+from shared.src.transformers.cleaner import Cleaner
+from shared.src.transformers.mapper import Mapper
+from .scraper import scrape_kpdc_page
+from .translator import (
     translate_en_to_ko,
     translate_keywords_en_to_ko,
     map_author_names,

@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 from typing import Any
-from lib.base_tool import BaseTool
+from ..base_tool import BaseTool
 
 
 class LogAnalyzer(BaseTool):

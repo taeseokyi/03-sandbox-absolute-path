@@ -2,7 +2,7 @@
 
 import random
 from typing import Any
-from lib.base_tool import BaseTool
+from ..base_tool import BaseTool
 
 
 class DataSampler(BaseTool):

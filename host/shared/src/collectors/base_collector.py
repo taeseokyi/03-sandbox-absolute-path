@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
-from lib.pipeline_tools.retry_manager import RetryManager
+from shared.lib.pipeline_tools.retry_manager import RetryManager
 
 
 class BaseCollector(ABC):

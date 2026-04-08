@@ -67,7 +67,7 @@ class PipelineMonitor:
         lib.pipeline_tools.LogAnalyzer를 활용합니다.
         log_path 미지정 시 생성자에서 설정한 log_path를 사용합니다.
         """
-        from lib.pipeline_tools.log_analyzer import LogAnalyzer
+        from shared.lib.pipeline_tools.log_analyzer import LogAnalyzer
         target = log_path or self._log_path
         if not target:
             raise ValueError("log_path가 지정되지 않았습니다.")

@@ -7,7 +7,7 @@ import json
 import sys
 from pathlib import Path
 
-from skills.kopri.utils import load_source, build_dataon_form
+from .utils import load_source, build_dataon_form
 
 
 def main() -> None:

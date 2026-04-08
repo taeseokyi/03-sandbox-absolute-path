@@ -13,7 +13,7 @@ from __future__ import annotations
 import re
 from typing import Any, Optional
 
-from skills.kopri.translator import extract_structured
+from .translator import extract_structured
 
 _EXTRACTION_PROMPT = """\
 아래 연구데이터 페이지 텍스트에서 다음 JSON 스키마대로 정보를 추출하세요.
