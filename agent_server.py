@@ -257,11 +257,14 @@ def _create_agent(profile_name: str):
     # 양쪽 백엔드 동일 경로
     skills_source = f"{HOST_PREFIX}/{profile_name}/skills/"
 
-    # SkillsMiddleware 설정
+    # SkillsMiddleware 설정 (shared 공유 스킬 + 프로파일 전용 스킬, 동일 이름은 프로파일 우선)
     middleware = [
         SkillsMiddleware(
             backend=sandbox,
-            sources=[skills_source]
+            sources=[
+                f"{HOST_PREFIX}/shared/skills/",
+                skills_source,
+            ]
         )
     ]
 

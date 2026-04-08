@@ -51,10 +51,10 @@ def sync_langgraph_json(config_path: Path, profiles: list[str], dry_run: bool = 
         for profile in profiles
     }
 
-    # watch: 프로파일 무관 항목 유지 + 새 프로파일 watch 항목 추가
+    # watch: 프로파일 무관 항목 유지 + shared 고정 + 새 프로파일 watch 항목 추가
     static_watches = [w for w in old_watch if not w.startswith("host/")]
     profile_watches = [f"host/{profile}/" for profile in profiles]
-    new_watch = static_watches + profile_watches
+    new_watch = static_watches + ["host/shared/"] + profile_watches
 
     if old_graphs == new_graphs and old_watch == new_watch:
         print("langgraph.json: 변경 없음 (이미 최신 상태)")
