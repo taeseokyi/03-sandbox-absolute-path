@@ -50,7 +50,25 @@ docker compose ps
 - 스킬 임포트 방식: `from shared.lib.x`, `from shared.src.x`, `from shared.skills.kopri.x`
 - `host/shared/`에는 `AGENTS.md`가 없으므로 프로파일로 인식되지 않는다.
 - `./host:/tmp/workspace/host:ro` 마운트가 `shared/`도 포함하므로 docker-compose.yml 추가 설정 불필요.
-- `sync_profiles.py`가 `langgraph.json` watch에 `host/shared/`를 항상 고정 포함한다.
+- `sync_profiles.py`가 `langgraph.json` watch에 `host/shared/`와 `host/data_pipeline/`을 항상 고정 포함한다.
+
+## 데이터 파이프라인 라이브러리 (host/data_pipeline/)
+
+- `host/data_pipeline/`에는 데이터 수집 특화 스킬과 라이브러리가 배치된다.
+- 스킬 수가 많아 모든 에이전트에 노출하지 않고, 서브에이전트에 필요한 스킬만 `SKILL.md`를 복사해 선택 노출한다.
+- **구조:**
+  ```
+  host/data_pipeline/
+  ├── __init__.py
+  ├── lib/        ← 데이터 파이프라인 유틸리티
+  ├── src/        ← 도메인 로직 (collectors, transformers 등)
+  └── skills/     ← 기관별 데이터 수집 스킬 (kaeri, kfe, kier, kigam, kopri 등)
+  ```
+- 기존 `PYTHONPATH=/tmp/workspace/host`로 커버됨 — 별도 PYTHONPATH 추가 불필요.
+- 임포트 방식: `from data_pipeline.lib.x`, `from data_pipeline.src.x`, `from data_pipeline.skills.kopri.x`
+- `host/data_pipeline/`에는 `AGENTS.md`가 없으므로 프로파일로 인식되지 않는다.
+- `./host:/tmp/workspace/host:ro` 마운트가 `data_pipeline/`도 포함하므로 docker-compose.yml 추가 설정 불필요.
+- `sync_profiles.py`가 `langgraph.json` watch에 `host/data_pipeline/`을 항상 고정 포함한다.
 
 ## 스킬 로딩 구조
 
