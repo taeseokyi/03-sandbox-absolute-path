@@ -103,7 +103,3 @@ search_dataon_research_data_details(data_id="<데이터셋ID>")
 3. DataON JSON `관련논문`, `관련특허` 필드 삽입
 ```
 
-## Additional resources
-- KISTI MCP 전체 레퍼런스: [docs/references/kisti-mcp.md](../../docs/references/kisti-mcp.md)
-- DataON 스키마 모델: [lib/dataon_reg.py](../../lib/dataon_reg.py)
-- NST 기관 목록: [docs/references/nst-institutions.md](../../docs/references/nst-institutions.md)

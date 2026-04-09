@@ -38,7 +38,7 @@ class SchemaValidator:
         lib.data_tools.SchemaInspector를 활용하여 필드 타입과 null 비율을 분석하고
         null_rate == 0인 필드를 required로 설정합니다.
         """
-        from shared.lib.data_tools.schema_inspector import SchemaInspector
+        from data_pipeline.lib.data_tools.schema_inspector import SchemaInspector
         field_info = SchemaInspector().run(records)
         schema = {
             field: {

@@ -212,9 +212,9 @@ docker compose down && docker compose up -d
 - Windows 설정 → 네트워크 및 인터넷 → 프록시 → 수동 프록시 설정 활성화
 - Dockerfile에 프록시를 직접 기입할 필요 없음
 
-## 공유 라이브러리 및 스킬 (host/shared/)
+## 공유 라이브러리 및 스킬 (host/shared/, host/data_pipeline/)
 
-프로파일 간 공유 라이브러리와 공유 스킬을 `host/shared/`에 배치한다.
+프로파일 간 공유 라이브러리와 스킬을 `host/shared/`, 데이터 수집 특화 스킬을 `host/data_pipeline/`에 배치한다.
 
 ```
 host/
@@ -222,11 +222,19 @@ host/
 │   ├── __init__.py
 │   ├── lib/              ← 유틸리티 패키지 (data_tools, dev_tools, pipeline_tools 등)
 │   ├── src/              ← 도메인 로직 패키지 (collectors, transformers, storages 등)
-│   └── skills/           ← 공유 스킬 (스킬 개발 프로젝트에서 배포)
-│       ├── __init__.py
-│       ├── kopri/
-│       ├── kfer/
-│       └── ...
+│   └── skills/           ← 공통 스킬 (모든 에이전트에 노출)
+│       ├── kisti-mcp/
+│       ├── kisti-research/
+│       └── workspace-awareness/
+├── data_pipeline/        ← AGENTS.md 없음 → 프로파일로 인식되지 않음
+│   ├── lib/              ← 데이터 파이프라인 유틸리티
+│   ├── src/              ← 도메인 로직 (collectors, transformers 등)
+│   └── skills/           ← 기관별 수집 스킬 (서브에이전트에 선택 노출)
+│       ├── kaeri/
+│       ├── kfe/
+│       ├── kier/
+│       ├── kigam/
+│       └── kopri/
 ├── beginner/
 └── developer/
     └── skills/           ← 프로파일 전용 스킬 (shared/skills/ override 가능)
@@ -234,12 +242,12 @@ host/
 
 ### PYTHONPATH 설정
 
-`PYTHONPATH=/tmp/workspace/host`로 고정되어 있어 `shared` 네임스페이스 전체에 접근할 수 있다:
+`PYTHONPATH=/tmp/workspace/host`로 고정되어 있어 `shared`, `data_pipeline` 네임스페이스 모두에 접근할 수 있다:
 
 ```python
 from shared.lib.data_tools import DataSampler
 from shared.src.collectors import FileCollector
-from shared.skills.kopri.utils import build_dataon_form
+from data_pipeline.skills.kopri.utils import build_dataon_form
 ```
 
 `.env`와 `docker-compose.yml` 양쪽에 설정되어 Local/Docker 백엔드 모두 동일하게 적용된다.
@@ -260,12 +268,12 @@ sources=[
 ### 프로파일 인식 제외 원리
 
 `host/` 하위 디렉토리는 **`AGENTS.md` 파일이 있을 때만** 프로파일로 인식된다.
-`host/shared/`에는 `AGENTS.md`가 없으므로 `sync_profiles.py`와 `agent_server.py` 모두 자동으로 스킵한다.
+`host/shared/`와 `host/data_pipeline/`에는 `AGENTS.md`가 없으므로 `sync_profiles.py`와 `agent_server.py` 모두 자동으로 스킵한다. `sync_profiles.py`는 이 두 디렉토리를 `langgraph.json` watch에 고정 포함한다.
 
 ### langgraph watch 자동 포함
 
-`sync_profiles.py`가 `langgraph.json`의 watch 목록을 갱신할 때 `host/shared/`를 항상 고정으로 포함한다.
-프로파일이 추가/삭제되어 `sync_profiles.py`가 재실행되어도 `host/shared/` watch는 유지된다.
+`sync_profiles.py`가 `langgraph.json`의 watch 목록을 갱신할 때 `host/shared/`와 `host/data_pipeline/`을 항상 고정으로 포함한다.
+프로파일이 추가/삭제되어 `sync_profiles.py`가 재실행되어도 두 디렉토리의 watch는 유지된다.
 
 ### 스킬 개발 프로젝트 구조
 
@@ -273,7 +281,7 @@ sources=[
 
 ```
 skill-project/            ← PYTHONPATH 기준점 (개발 시)
-└── shared/
+└── data_pipeline/
     ├── lib/
     ├── src/
     └── skills/
@@ -286,9 +294,9 @@ skill-project/            ← PYTHONPATH 기준점 (개발 시)
 | 항목 | 개발 환경 | 샌드박스 |
 |------|-----------|----------|
 | PYTHONPATH | `skill-project/` | `/tmp/workspace/host` |
-| lib 임포트 | `from shared.lib.x import ...` | 동일 |
-| 스킬 실행 | `python -m shared.skills.kopri.main` | 동일 |
-| 배포 경로 | `shared/` 전체 | `host/shared/` |
+| lib 임포트 | `from data_pipeline.lib.x import ...` | 동일 |
+| 스킬 실행 | `python -m data_pipeline.skills.kopri.main` | 동일 |
+| 배포 경로 | `data_pipeline/` 전체 | `host/data_pipeline/` |
 
 ### 새 공유 모듈 추가 시
 

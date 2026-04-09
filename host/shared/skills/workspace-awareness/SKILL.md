@@ -38,18 +38,22 @@ System-provided configuration and reference files inside the workspace. You can 
 
 ```
 host/
-├── skills/              ← skill definitions
-│   ├── basic-python/
-│   ├── debugging/
-│   ├── python-dev/
-│   └── workspace-awareness/
-├── system_prompts/      ← system prompt files
-│   ├── AGENTS-beginner.md
-│   └── AGENTS-developer.md
-└── subagents/           ← sub-agent configurations
-    ├── code-reviewer/
-    ├── data-analyst/
-    └── report-writer/
+├── shared/              ← shared libs & skills (no AGENTS.md → not a profile)
+│   ├── lib/
+│   ├── src/
+│   └── skills/          ← skills exposed to all agents
+├── data_pipeline/       ← data collection skills (no AGENTS.md → not a profile)
+│   ├── lib/
+│   ├── src/
+│   └── skills/          ← skills selectively exposed to subagents
+├── beginner/            ← beginner profile (AGENTS.md present)
+│   └── skills/
+└── developer/           ← developer profile (AGENTS.md present)
+    ├── skills/
+    └── subagents/
+        ├── code-reviewer/
+        ├── data-analyst/
+        └── report-writer/
 ```
 
 ## Path Rules
@@ -65,8 +69,9 @@ host/
 
 2. **Current Directory**
    ```python
-   ls(path=".")          # Lists /tmp/workspace
+   ls(path=".")                        # Lists /tmp/workspace
    grep(pattern="test", path=".")
+   glob(pattern="**/*.py", path=".")   # Find files by pattern
    ```
 
 3. **Absolute Workspace Paths**
@@ -77,11 +82,12 @@ host/
 
 4. **Host Paths (Read-Only)**
    ```python
-   read_file(file_path="host/skills/basic-python/SKILL.md")     # OK (relative)
-   ls(path="host/subagents")                           # OK (relative)
-   read_file(file_path="/tmp/workspace/host/skills/basic-python/SKILL.md")  # OK (absolute)
-   write_file(file_path="host/test.txt", content="...")          # BLOCKED
-   edit_file(file_path="host/skills/basic-python/SKILL.md", ...) # BLOCKED
+   read_file(file_path="host/shared/skills/workspace-awareness/SKILL.md")  # OK (relative)
+   ls(path="host/developer/subagents")                                      # OK (relative)
+   glob(pattern="*.md", path="host/shared/skills")                         # OK (relative)
+   read_file(file_path="/tmp/workspace/host/shared/skills/workspace-awareness/SKILL.md")  # OK (absolute)
+   write_file(file_path="host/test.txt", content="...")                     # BLOCKED
+   edit_file(file_path="host/shared/skills/workspace-awareness/SKILL.md", ...) # BLOCKED
    ```
 
 ### Forbidden Paths
@@ -131,15 +137,30 @@ read_file(file_path="../outside.txt")           # BLOCKED
 3. **Check Your Location**
    ```python
    execute(command="pwd")    # /tmp/workspace
-   ls(path=".")         # See workspace contents
+   ls(path=".")              # See workspace contents
    ```
+
+5. **Track Progress with Todos**
+   ```python
+   write_todos(todos=["step 1", "step 2", "step 3"])   # Create todo list
+   write_todos(todos=["~~step 1~~", "step 2", "step 3"])  # Mark step 1 done
+   ```
+
+6. **Delegate to Subagents**
+   ```python
+   task(subagent="data-analyst", content="analyze data.csv and summarize")
+   task(subagent="code-reviewer", content="review src/main.py for issues")
+   ```
+   Available subagents are defined under `host/{profile}/subagents/`.
 
 4. **Read Host References When Needed**
    ```python
-   # Check available skills
-   ls(path="host/skills")
+   # Check available shared skills
+   ls(path="host/shared/skills")
+   # Find all skill definitions
+   glob(pattern="**/SKILL.md", path="host")
    # Read a skill definition
-   read_file(file_path="host/skills/debugging/SKILL.md")
+   read_file(file_path="host/shared/skills/workspace-awareness/SKILL.md")
    ```
 
 ## Quick Reference
@@ -149,8 +170,12 @@ read_file(file_path="../outside.txt")           # BLOCKED
 | Create file | `write_file("file.txt", "...")` |
 | Read file | `read_file("file.txt")` |
 | Edit file | `edit_file("file.txt", "old", "new")` |
-| List workspace | `ls(".")` |
-| Search files | `grep("pattern", ".")` |
-| Check location | `execute("pwd")` |
-| Read host file | `read_file("host/skills/basic-python/SKILL.md")` |
-| List host dir | `ls"host/subagents")` |
+| List directory | `ls(".")` |
+| Search content | `grep("pattern", ".")` |
+| Find by pattern | `glob("**/*.py", ".")` |
+| Run command | `execute("pwd")` |
+| Manage todos | `write_todos(todos=["task1", "task2"])` |
+| Call subagent | `task(subagent="data-analyst", content="...")` |
+| Read host file | `read_file("host/shared/skills/workspace-awareness/SKILL.md")` |
+| List host dir | `ls("host/developer/subagents")` |
+| Find host skills | `glob("**/SKILL.md", "host")` |

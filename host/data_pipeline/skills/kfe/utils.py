@@ -8,16 +8,16 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from shared.lib.dataon_reg import (
+from data_pipeline.lib.dataon_reg import (
     DataON_연구데이터등록,
     기본정보, 인물, 인물구분,
     공개및라이선스설정, 파일데이터,
     국내외구분, 라이선스,
 )
-from shared.src.collectors.file_collector import FileCollector
-from shared.src.collectors.api_collector import APICollector
-from shared.src.transformers.cleaner import Cleaner
-from shared.src.transformers.mapper import Mapper
+from data_pipeline.src.collectors.file_collector import FileCollector
+from data_pipeline.src.collectors.api_collector import APICollector
+from data_pipeline.src.transformers.cleaner import Cleaner
+from data_pipeline.src.transformers.mapper import Mapper
 
 # ──────────────────────────────────────────
 # 기관 정보
