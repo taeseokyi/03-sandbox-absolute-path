@@ -1,19 +1,7 @@
 ---
 name: kisti-mcp
 description: "KISTI AIDA MCP를 통해 ScienceON(논문·특허·보고서), NTIS(R&D 과제·분류), DataON(연구데이터)을 검색·조회한다. Use when searching or retrieving metadata from KISTI AIDA: papers, patents, reports, R&D projects, research datasets. Keywords: KISTI, ScienceON, NTIS, DataON, 논문, 특허, 보고서, 연구데이터, R&D과제, 과학기술분류"
-allowed-tools:
-  - mcp__kisti-aida__search_scienceon_papers
-  - mcp__kisti-aida__search_scienceon_paper_details
-  - mcp__kisti-aida__search_scienceon_patents
-  - mcp__kisti-aida__search_scienceon_patent_details
-  - mcp__kisti-aida__search_scienceon_patent_citations
-  - mcp__kisti-aida__search_scienceon_reports
-  - mcp__kisti-aida__search_scienceon_report_details
-  - mcp__kisti-aida__search_ntis_rnd_projects
-  - mcp__kisti-aida__search_ntis_science_tech_classifications
-  - mcp__kisti-aida__search_ntis_related_content_recommendations
-  - mcp__kisti-aida__search_dataon_research_data
-  - mcp__kisti-aida__search_dataon_research_data_details
+allowed-tools: mcp__kisti-aida__search_scienceon_papers, mcp__kisti-aida__search_scienceon_paper_details, mcp__kisti-aida__search_scienceon_patents, mcp__kisti-aida__search_scienceon_patent_details, mcp__kisti-aida__search_scienceon_patent_citations, mcp__kisti-aida__search_scienceon_reports, mcp__kisti-aida__search_scienceon_report_details, mcp__kisti-aida__search_ntis_rnd_projects, mcp__kisti-aida__search_ntis_science_tech_classifications, mcp__kisti-aida__search_ntis_related_content_recommendations, mcp__kisti-aida__search_dataon_research_data, mcp__kisti-aida__search_dataon_research_data_details
 ---
 # kisti-mcp — KISTI AIDA MCP 검색 스킬
 
