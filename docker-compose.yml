@@ -9,6 +9,7 @@ services:
     command: sleep infinity  # 컨테이너를 계속 실행 상태로 유지
     environment:
       - PYTHONPATH=/tmp/workspace/host
+      - JINA_API_KEY=${JINA_API_KEY}
     volumes:
       - ./workspace:/tmp/workspace
       - ./host:/tmp/workspace/host:ro
