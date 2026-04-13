@@ -13,6 +13,7 @@
     "agent_config_loader.py",
     "docker_util.py",
     "host/shared/",
+    "host/data_pipeline/",
     "host/beginner/",
     "host/developer/"
   ]
