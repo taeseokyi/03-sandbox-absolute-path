@@ -4,10 +4,18 @@
       "name": "kisti-mcp",
       "url": "https://aida.kisti.re.kr:10498/mcp/",
       "transport": "streamable_http",
+      "timeout": 30,
+      "sse_read_timeout": 300,
       "tools": [
         "search_scienceon_papers",
+        "search_scienceon_paper_details",
+        "search_scienceon_patents",
+        "search_scienceon_patent_details",
+        "search_ntis_rnd_projects",
         "search_dataon_research_data",
-        "search_dataon_research_data_details"
+        "search_dataon_research_data_details",
+        "search_scienceon_reports",
+        "search_scienceon_report_details"
       ]
     }
   ]

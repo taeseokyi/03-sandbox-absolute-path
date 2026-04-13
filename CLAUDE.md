@@ -42,7 +42,7 @@ docker compose ps
   ├── __init__.py
   ├── lib/        ← 유틸리티 패키지
   ├── src/        ← 도메인 로직 패키지
-  └── skills/     ← 공통 스킬 (모든 에이전트에 노출)
+  └── skills/     ← 공통 스킬 (메인 에이전트 및 모든 서브에이전트에 노출)
       ├── __init__.py
       ├── kisti-mcp/
       ├── kisti-research/
@@ -74,14 +74,31 @@ docker compose ps
 
 ## 스킬 로딩 구조
 
+### 메인 에이전트
+
 `SkillsMiddleware`는 두 경로에서 스킬을 로드한다 (동일 이름은 프로파일 우선):
 
 ```python
 sources=[
-    "/tmp/workspace/host/shared/skills/",   # 공유 스킬
+    "/tmp/workspace/host/shared/skills/",    # 공유 스킬
     "/tmp/workspace/host/{profile}/skills/", # 프로파일 전용 (override)
 ]
 ```
+
+### 서브에이전트
+
+서브에이전트도 동일한 우선순위 규칙으로 두 경로에서 스킬을 로드한다 (동일 이름은 서브에이전트 전용 우선):
+
+```python
+sources=[
+    "/tmp/workspace/host/shared/skills/",                                          # 공유 스킬
+    "/tmp/workspace/host/{profile}/subagents/{subagent}/skills/", # 서브에이전트 전용 (override)
+]
+```
+
+- `host/shared/skills/`의 스킬(`workspace-awareness`, `kisti-mcp`, `kisti-research`)은 모든 서브에이전트에 자동 노출된다.
+- 서브에이전트 전용 `skills/`에 같은 이름의 스킬을 두면 shared 스킬을 재정의(override)할 수 있다.
+- `host/data_pipeline/skills/`는 서브에이전트에 자동 노출되지 않는다 — 필요한 스킬의 `SKILL.md`만 서브에이전트 `skills/`에 복사해 선택 노출한다.
 
 ## 스킬 개발 프로젝트 구조
 

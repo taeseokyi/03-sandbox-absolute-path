@@ -153,15 +153,18 @@ def load_subagents_from_directory(subagents_dir, sandbox=None, host_prefix=HOST_
                 if skill_count > 0:
                     logger.info(f"{subagent_folder.name}: SkillsMiddleware 생성 중...")
 
-                    # 서브에이전트 전용 SkillsMiddleware 생성
+                    # 서브에이전트 전용 SkillsMiddleware 생성 (shared 공유 스킬 + 서브에이전트 전용, 동일 이름은 서브에이전트 우선)
                     container_skills_path = f"{host_prefix}/{profile_name}/subagents/{subagent_folder.name}/skills/"
                     middleware.append(
                         SkillsMiddleware(
                             backend=sandbox,
-                            sources=[container_skills_path]
+                            sources=[
+                                f"{host_prefix}/shared/skills/",
+                                container_skills_path,
+                            ]
                         )
                     )
-                    logger.info(f"{subagent_folder.name}: 스킬 {skill_count}개 (격리됨)")
+                    logger.info(f"{subagent_folder.name}: 스킬 {skill_count}개 (shared 포함)")
 
             # SubAgent 딕셔너리 생성
             subagent = {
