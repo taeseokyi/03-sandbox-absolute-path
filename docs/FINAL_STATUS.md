@@ -12,7 +12,7 @@
 ├── sync_profiles.py             # 프로파일 자동 동기화 (langgraph.json 갱신)
 ├── start_server.sh              # 서버 시작 스크립트 (동기화 → Docker → langgraph dev)
 │
-├── docker compose.yml           # Docker 컨테이너 설정
+├── docker-compose.yml           # Docker 컨테이너 설정
 ├── .env                         # 환경변수 (gitignore)
 ├── .env.example                 # 환경변수 템플릿
 │
@@ -33,16 +33,32 @@
 │   │   ├── AGENTS.md            # 시스템 프롬프트
 │   │   ├── config.json          # 메인 에이전트 모델 설정
 │   │   ├── tools.json           # 메인 에이전트 MCP 도구
-│   │   ├── skills/              # SkillsMiddleware (5개)
-│   │   │   ├── python-dev/
+│   │   ├── skills/              # SkillsMiddleware (4개, 프로파일 전용)
 │   │   │   ├── data-processing/
 │   │   │   ├── debugging/
-│   │   │   ├── kisti-research/
-│   │   │   └── workspace-awareness/
+│   │   │   ├── find-ntis-project-number-from-research-data/
+│   │   │   └── python-dev/
 │   │   └── subagents/           # SubAgentMiddleware
 │   │       ├── code-reviewer/
 │   │       ├── data-analyst/
 │   │       └── report-writer/
+│   ├── shared/                  # 공유 라이브러리 및 스킬 (프로파일 아님 - AGENTS.md 없음)
+│   │   ├── lib/                 # 공유 유틸리티 패키지
+│   │   ├── src/                 # 공유 소스 패키지
+│   │   └── skills/              # 공유 스킬 (모든 에이전트에 자동 노출)
+│   │       ├── kisti-mcp/
+│   │       ├── kisti-research/
+│   │       └── workspace-awareness/
+│   ├── data_pipeline/           # 데이터 파이프라인 스킬 (프로파일 아님 - AGENTS.md 없음)
+│   │   ├── lib/
+│   │   ├── src/
+│   │   └── skills/              # 기관별 수집 스킬 (서브에이전트에 선택 노출)
+│   │       ├── kaeri/
+│   │       ├── kfe/
+│   │       ├── kier/
+│   │       ├── kigam/
+│   │       ├── kopri/
+│   │       └── url2dataon/
 │   └── <name>/                  # 추가 프로파일 (AGENTS.md만 있으면 자동 인식)
 │
 ├── workspace/                   # 에이전트 작업 디렉토리
@@ -145,7 +161,8 @@
   "env": ".env",
   "watch": [
     "agent_server.py", "mcp_tools_loader.py", "agent_config_loader.py",
-    "docker_util.py", "host/beginner/", "host/developer/"
+    "docker_util.py", "host/shared/", "host/data_pipeline/",
+    "host/beginner/", "host/developer/"
   ]
 }
 ```
@@ -164,15 +181,30 @@
 
 `provider` 필드로 LLM 벤더를 선택한다. 생략 시 `"openai"` (하위 호환).
 
-**OpenAI 호환 (KISTI, LiteLLM proxy 등)**
+**OpenAI 호환 — KISTI LiteLLM proxy (beginner 프로파일)**
 ```json
 {
-  "provider": "openai",
   "model": "kistillm",
   "base_url": "https://aida.kisti.re.kr:10411/v1",
   "api_key": "dummy",
   "temperature": 0.5,
   "max_tokens": 4096,
+  "timeout": 120,
+  "max_retries": 2
+}
+```
+
+**OpenAI 호환 — NVIDIA API (developer 프로파일, top_p/top_k 지원)**
+```json
+{
+  "provider": "openai",
+  "model": "stepfun-ai/step-3.5-flash",
+  "base_url": "https://integrate.api.nvidia.com/v1",
+  "api_key": "nvapi-...",
+  "temperature": 1,
+  "top_p": 0.95,
+  "top_k": 40,
+  "max_tokens": 100000,
   "timeout": 120,
   "max_retries": 2
 }
@@ -265,13 +297,15 @@ SANDBOX_BACKEND=docker
 
 ## 에이전트 현황
 
-| 에이전트 | Temperature | MCP 도구 | 스킬 | 역할 |
-|---------|-------------|----------|------|------|
-| main (beginner) | 0.5 | 12개 | 3개 | 초보자 오케스트레이션 |
-| main (developer) | 0.5 | 12개 | 5개 | 개발자 오케스트레이션 |
-| data-analyst | 0.3 | 3개 | 2개 | 데이터 분석 |
-| code-reviewer | 0.2 | 0개 | 0개 | 코드 리뷰 |
-| report-writer | 0.8 | 0개 | 0개 | 문서 작성 |
+| 에이전트 | 모델 | Temperature | MCP 도구 | 스킬 | 역할 |
+|---------|------|-------------|----------|------|------|
+| main (beginner) | kistillm (KISTI) | 0.5 | 9개 | 공유 3 + 프로파일 3개 | 초보자 오케스트레이션 |
+| main (developer) | stepfun-ai/step-3.5-flash (NVIDIA) | 1.0 | 9개 | 공유 3 + 프로파일 4개 | 개발자 오케스트레이션 |
+| data-analyst | kistillm (KISTI) | 0.3 | 3개 | 2개 | 데이터 분석 |
+| code-reviewer | kistillm (KISTI) | 0.2 | 0개 | 0개 | 코드 리뷰 |
+| report-writer | kistillm (KISTI) | 0.8 | 0개 | 0개 | 문서 작성 |
+
+> **스킬 로딩**: 공유 스킬 3개(kisti-mcp, kisti-research, workspace-awareness)는 모든 메인 에이전트에 자동 노출. 프로파일 전용 스킬과 동일 이름이면 프로파일 우선.
 
 ## 서브에이전트 추가 방법
 
