@@ -120,6 +120,76 @@ read_file(file_path="../outside.txt")           # BLOCKED
 **Cause**: Tried to write or edit a file under `host/`.
 **Fix**: `host/` is read-only. Write your files to the workspace root instead.
 
+### "File already exists" (write_file)
+**Cause**: `write_file` creates new files only. Calling it on an existing path fails.
+**Fix**: Use `edit_file` to modify an existing file, or delete it first.
+
+## Tool Behaviors
+
+Non-obvious behaviors to keep in mind for each tool.
+
+### `write_file` — new files only
+
+`write_file` **fails if the file already exists**. To modify an existing file, use `edit_file`.
+
+```python
+write_file(file_path="result.txt", content="hello")   # OK — creates new file
+write_file(file_path="result.txt", content="updated") # ERROR — file already exists
+edit_file(file_path="result.txt", old_string="hello", new_string="updated")  # OK
+```
+
+### `edit_file` — read before editing, optional replace_all
+
+Always `read_file` the target file first. `edit_file` matches `old_string` exactly (including indentation and whitespace).
+
+```python
+# Correct workflow
+read_file(file_path="config.py")                          # 1. read first
+edit_file(file_path="config.py", old_string="debug=True",
+          new_string="debug=False")                        # 2. then edit
+
+# Replace all occurrences (e.g. rename a variable)
+edit_file(file_path="app.py", old_string="old_name",
+          new_string="new_name", replace_all=True)
+```
+
+`replace_all=False` (default) requires exactly one match — fails if the string appears multiple times.
+
+### `grep` — literal search, output_mode, glob filter
+
+`grep` searches for **literal strings**, not regular expressions. Special characters like `(`, `|`, `.*` are matched as-is.
+
+Use `output_mode` to control what is returned:
+
+```python
+grep(pattern="import os", path=".")                         # files_with_matches (default)
+grep(pattern="import os", path=".", output_mode="content")  # matching lines with context
+grep(pattern="import os", path=".", output_mode="count")    # per-file match count
+```
+
+Use `glob` to restrict search to specific file types:
+
+```python
+grep(pattern="TODO", path=".", glob="*.py")     # Python files only
+grep(pattern="error", path=".", glob="**/*.log") # all .log files recursively
+```
+
+### `execute` — timeout parameter, cd does not persist
+
+Use `timeout` (seconds) to cap long-running commands:
+
+```python
+execute(command="python train.py", timeout=300)  # fail after 5 minutes
+```
+
+`cd` inside `execute` does **not** affect subsequent calls. Each call starts from `/tmp/workspace`.
+
+```python
+execute(command="cd src && python main.py")   # OK — chained in one call
+execute(command="cd src")                     # has no effect on next execute()
+execute(command="python src/main.py")         # use path directly instead
+```
+
 ## Best Practices
 
 1. **Default to Relative Paths**
@@ -182,17 +252,22 @@ read_file(file_path="../outside.txt")           # BLOCKED
 
 | What You Want | How to Do It |
 |---------------|--------------|
-| Create file | `write_file("file.txt", "...")` |
-| Read file (first 100 lines) | `read_file("file.txt")` |
-| Read file (next page) | `read_file("file.txt", offset=100, limit=100)` |
-| Read specific line range | `read_file("file.txt", offset=499, limit=50)` |
-| Edit file | `edit_file("file.txt", "old", "new")` |
-| List directory | `ls(".")` |
-| Search content | `grep("pattern", ".")` |
-| Find by pattern | `glob("**/*.py", ".")` |
-| Run command | `execute("pwd")` |
+| Create new file | `write_file(file_path="file.txt", content="...")` |
+| Modify existing file | `edit_file(file_path="file.txt", old_string="old", new_string="new")` |
+| Rename/replace all occurrences | `edit_file(file_path="file.txt", old_string="x", new_string="y", replace_all=True)` |
+| Read file (first 100 lines) | `read_file(file_path="file.txt")` |
+| Read file (next page) | `read_file(file_path="file.txt", offset=100, limit=100)` |
+| Read specific line range | `read_file(file_path="file.txt", offset=499, limit=50)` |
+| List directory | `ls(path=".")` |
+| Search — file paths only | `grep(pattern="TODO", path=".")` |
+| Search — matching lines | `grep(pattern="TODO", path=".", output_mode="content")` |
+| Search — count per file | `grep(pattern="TODO", path=".", output_mode="count")` |
+| Search in specific file type | `grep(pattern="import", path=".", glob="*.py")` |
+| Find files by pattern | `glob(pattern="**/*.py", path=".")` |
+| Run command | `execute(command="python script.py")` |
+| Run with timeout | `execute(command="python train.py", timeout=300)` |
 | Manage todos | `write_todos(todos=["task1", "task2"])` |
 | Call subagent | `task(subagent="data-analyst", content="...")` |
-| Read host file | `read_file("host/shared/skills/workspace-awareness/SKILL.md")` |
-| List host dir | `ls("host/developer/subagents")` |
-| Find host skills | `glob("**/SKILL.md", "host")` |
+| Read host file | `read_file(file_path="host/shared/skills/workspace-awareness/SKILL.md")` |
+| List host dir | `ls(path="host/developer/subagents")` |
+| Find host skills | `glob(pattern="**/SKILL.md", path="host")` |
