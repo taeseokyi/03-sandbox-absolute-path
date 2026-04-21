@@ -139,7 +139,7 @@ execute(command='curl -s "https://{기관도메인}/pjt/{프로젝트코드}" | 
 KISTI AIDA MCP로 과제 상세정보를 조회하여 `연관.과제목록`에 채운다.
 
 ```
-kisti-mcp_search_ntis_rnd_projects(query="<10자리 숫자>", max_results=1)
+mcp__kisti-aida__search_ntis_rnd_projects(query="<10자리 숫자>", max_results=1)
 ```
 
 조회 결과를 다음과 같이 매핑한다:
@@ -308,7 +308,7 @@ execute(command="PYTHONPATH=/tmp/workspace/host python host/data_pipeline/skills
 
 ```
 # 4단계: NTIS 과제정보 조회
-kisti-mcp_search_ntis_rnd_projects(query="1525008151", max_results=1)
+mcp__kisti-aida__search_ntis_rnd_projects(query="1525008151", max_results=1)
 ```
 
 ## Additional resources
