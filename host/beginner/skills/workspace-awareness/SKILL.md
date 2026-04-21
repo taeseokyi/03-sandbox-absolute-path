@@ -65,8 +65,8 @@ host/
 
 2. **Current Directory**
    ```python
-   ls_info(path=".")          # Lists /tmp/workspace
-   grep_raw(pattern="test", path=".")
+   ls(path=".")          # Lists /tmp/workspace
+   grep(pattern="test", path=".")
    ```
 
 3. **Absolute Workspace Paths**
@@ -78,7 +78,7 @@ host/
 4. **Host Paths (Read-Only)**
    ```python
    read(file_path="host/skills/basic-python/SKILL.md")     # OK (relative)
-   ls_info(path="host/subagents")                           # OK (relative)
+   ls(path="host/subagents")                           # OK (relative)
    read(file_path="/tmp/workspace/host/skills/basic-python/SKILL.md")  # OK (absolute)
    write(file_path="host/test.txt", content="...")          # BLOCKED
    edit(file_path="host/skills/basic-python/SKILL.md", ...) # BLOCKED
@@ -94,7 +94,7 @@ read(file_path="/etc/passwd")              # BLOCKED
 write(file_path="/usr/bin/tool", content="...")  # BLOCKED
 
 # Root access
-ls_info(path="/")                          # BLOCKED
+ls(path="/")                          # BLOCKED
 
 # Path traversal
 read(file_path="../outside.txt")           # BLOCKED
@@ -131,13 +131,13 @@ read(file_path="../outside.txt")           # BLOCKED
 3. **Check Your Location**
    ```python
    execute(command="pwd")    # /tmp/workspace
-   ls_info(path=".")         # See workspace contents
+   ls(path=".")         # See workspace contents
    ```
 
 4. **Read Host References When Needed**
    ```python
    # Check available skills
-   ls_info(path="host/skills")
+   ls(path="host/skills")
    # Read a skill definition
    read(file_path="host/skills/debugging/SKILL.md")
    ```
@@ -149,8 +149,8 @@ read(file_path="../outside.txt")           # BLOCKED
 | Create file | `write("file.txt", "...")` |
 | Read file | `read("file.txt")` |
 | Edit file | `edit("file.txt", "old", "new")` |
-| List workspace | `ls_info(".")` |
-| Search files | `grep_raw("pattern", ".")` |
+| List workspace | `ls(".")` |
+| Search files | `grep("pattern", ".")` |
 | Check location | `execute("pwd")` |
 | Read host file | `read("host/skills/basic-python/SKILL.md")` |
-| List host dir | `ls_info("host/subagents")` |
+| List host dir | `ls("host/subagents")` |

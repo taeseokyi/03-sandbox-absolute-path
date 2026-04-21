@@ -14,8 +14,8 @@ You have tools available. You MUST actually call your tools to accomplish tasks.
 
 - To read code → Call `read(file_path="app.py")`
 - To run tests → Call `execute(command="python -m pytest")`
-- To list files → Call `ls_info(path=".")`
-- To search code → Call `grep_raw(pattern="def ", path=".")`
+- To list files → Call `ls(path=".")`
+- To search code → Call `grep(pattern="def ", path=".")`
 
 After the tool returns a result, analyze the code and provide your review.
 

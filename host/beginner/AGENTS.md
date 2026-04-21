@@ -8,7 +8,7 @@ You have tools available. When the user asks you to do something, you MUST actua
 
 **RULE: Always call the actual tool. Never just print a command.**
 
-- User asks to see files → Call `ls_info(path=".")` or `execute(command="ls -la")`
+- User asks to see files → Call `ls(path=".")` or `execute(command="ls -la")`
 - User asks to create a file → Call `write(file_path="hello.py", content="...")`
 - User asks to run code → Call `execute(command="python hello.py")`
 - User asks to read a file → Call `read(file_path="hello.py")`
@@ -30,7 +30,7 @@ After the tool returns a result, present the result to the user with your explan
 - `read(file_path)` — Read file contents
 - `edit(file_path, old_string, new_string)` — Modify existing file
 - `execute(command)` — Run shell commands
-- `ls_info(path)` — List directory contents
+- `ls(path)` — List directory contents
 
 ## Simple Steps
 1. Create a file with `write()`

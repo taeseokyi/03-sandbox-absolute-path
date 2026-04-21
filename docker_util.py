@@ -9,14 +9,18 @@ from datetime import datetime
 import time
 import shlex
 from deepagents.backends.protocol import (
-    SandboxBackendProtocol,  # ← 추가
+    SandboxBackendProtocol,
     ExecuteResponse,
     WriteResult,
     EditResult,
     FileDownloadResponse,
-    FileUploadResponse
+    FileUploadResponse,
+    ReadResult,
+    LsResult,
+    GrepResult,
+    GlobResult,
 )
-from deepagents.backends.utils import FileInfo, GrepMatch
+from deepagents.backends.utils import FileInfo, GrepMatch, FileData
 
 # ============================================
 # 로깅 설정
@@ -725,56 +729,55 @@ class AdvancedDockerSandbox(SandboxBackendProtocol):
                 occurrences=None
             )
     
-    def read(self, file_path: str, offset: int = 0, limit: int = 2000) -> str:
+    def read(self, file_path: str, offset: int = 0, limit: int = 2000) -> ReadResult:
         """파일 읽기 (줄 단위, 번호 포함, 개선된 에러 메시지)"""
         self._increment_tool_call()
 
         if not self.container:
             logger.error("Container not started")
-            return "Error: Container not started. Please use the sandbox within a 'with' statement."
+            return ReadResult(error="Container not started. Please use the sandbox within a 'with' statement.")
 
         # 경로 검증 (workspace 외부 접근 시 명시적 에러)
         try:
             file_path = self._validate_path(file_path)
         except ValueError as e:
             error_msg = str(e)
-            # workspace 경계 위반을 명시적으로 표시
             if "WORKSPACE BOUNDARY VIOLATION" in error_msg or "PATH TRAVERSAL" in error_msg:
                 logger.warning(f"🚫 Read operation blocked: Attempted to access outside workspace")
-            return f"Error: {error_msg}"
-        
+            return ReadResult(error=error_msg)
+
         logger.info(f"Reading file: {file_path}, offset={offset}, limit={limit}")
-        
+
         exit_code, output = self.container.exec_run(
             ["cat", file_path],
             workdir=self.workspace
         )
-        
+
         if exit_code != 0:
             error_output = output.decode('utf-8', errors='replace') if output else ''
-            
+
             if "No such file" in error_output:
                 error_msg = (
                     f"File not found: {file_path}\n"
                     f"Suggestions:\n"
                     f"  1. Check if the path is correct\n"
-                    f"  2. List directory contents with ls_info()\n"
+                    f"  2. List directory contents with ls()\n"
                     f"  3. Create the file using write()"
                 )
             elif "Permission denied" in error_output:
                 error_msg = f"Permission denied: {file_path}"
             else:
                 error_msg = f"Error reading file: {error_output}"
-            
+
             logger.warning(error_msg)
-            return error_msg
-        
+            return ReadResult(error=error_msg)
+
         content = output.decode('utf-8', errors='replace') if output else ""
         lines = content.splitlines()
-        
+
         start_idx = offset
         end_idx = min(start_idx + limit, len(lines))
-        
+
         result_lines = []
         for i, line in enumerate(lines[start_idx:end_idx], start=start_idx + 1):
             if len(line) > 2000:
@@ -782,25 +785,25 @@ class AdvancedDockerSandbox(SandboxBackendProtocol):
                 result_lines.append(f"{i:6d}\t{truncated_line} [TRUNCATED: {len(line)} chars total]")
             else:
                 result_lines.append(f"{i:6d}\t{line}")
-        
+
         total_lines = len(lines)
         footer = ""
         if end_idx < total_lines:
             footer = f"\n\n[Showing lines {start_idx + 1}-{end_idx} of {total_lines} total. Use offset={end_idx} to continue.]"
         elif total_lines == 0:
             footer = "\n[File is empty]"
-        
+
         logger.debug(f"Read {len(result_lines)} lines from {file_path}")
-        
-        return '\n'.join(result_lines) + footer
+
+        return ReadResult(file_data=FileData(content='\n'.join(result_lines) + footer, encoding="utf-8"))
     
-    def glob_info(self, pattern: str, path: str = "/") -> list[dict]:
+    def glob(self, pattern: str, path: str = "/") -> GlobResult:
         """파일 패턴 매칭 (workspace 내부만)"""
         self._increment_tool_call()
 
         if not self.container:
             logger.error("Container not started")
-            raise RuntimeError("Container not started. Please use the sandbox within a 'with' statement.")
+            return GlobResult(error="Container not started. Please use the sandbox within a 'with' statement.")
 
         # "/" 또는 빈 문자열은 workspace로 리다이렉트 (명시적)
         if path == "/" or path == "":
@@ -816,10 +819,10 @@ class AdvancedDockerSandbox(SandboxBackendProtocol):
                 if "WORKSPACE BOUNDARY VIOLATION" in error_msg or "PATH TRAVERSAL" in error_msg:
                     logger.warning(f"🚫 Glob operation blocked: Attempted to access outside workspace")
                 logger.error(f"Invalid path for glob: {error_msg}")
-                return []
-        
+                return GlobResult(error=error_msg)
+
         logger.info(f"Globbing: pattern={pattern}, path={path}")
-        
+
         # 인자를 sys.argv로 안전하게 전달 (코드 인젝션 방지)
         python_code = """
 import glob
@@ -849,19 +852,20 @@ print(json.dumps(results))
             ["python", "-c", python_code, path, pattern],
             workdir=self.workspace
         )
-        
+
         if exit_code != 0:
-            logger.warning(f"Glob failed: {output.decode('utf-8', errors='replace') if output else 'Unknown error'}")
-            return []
-        
+            err = output.decode('utf-8', errors='replace') if output else 'Unknown error'
+            logger.warning(f"Glob failed: {err}")
+            return GlobResult(error=err)
+
         try:
             import json
             results = json.loads(output.decode('utf-8', errors='replace'))
             logger.debug(f"Glob found {len(results)} matches")
-            return results
+            return GlobResult(matches=results)
         except Exception as e:
             logger.error(f"Error parsing glob results: {e}")
-            return []
+            return GlobResult(error=str(e))
     
     def upload_files(self, files: list[tuple[str, bytes]]) -> list[FileUploadResponse]:
         """여러 파일 업로드 (workspace 내부만)"""
@@ -948,13 +952,13 @@ print(json.dumps(results))
         
         return responses
 
-    def ls_info(self, path: str = ".") -> List[FileInfo]:
+    def ls(self, path: str = ".") -> LsResult:
         """디렉토리 내용 조회 (workspace 내부만)"""
         self._increment_tool_call()
 
         if not self.container:
             logger.error("Container not started")
-            raise RuntimeError("Container not started. Please use the sandbox within a 'with' statement.")
+            return LsResult(error="Container not started. Please use the sandbox within a 'with' statement.")
 
         # 경로 검증 (workspace 외부 접근 시 명시적 에러)
         try:
@@ -964,10 +968,10 @@ print(json.dumps(results))
             if "WORKSPACE BOUNDARY VIOLATION" in error_msg or "PATH TRAVERSAL" in error_msg:
                 logger.warning(f"🚫 List operation blocked: Attempted to access outside workspace")
             logger.error(f"Invalid path for ls: {error_msg}")
-            return []
-        
+            return LsResult(error=error_msg)
+
         logger.info(f"Listing directory: {path}")
-        
+
         # 인자를 sys.argv로 안전하게 전달 (코드 인젝션 방지)
         python_code = """
 import os
@@ -996,22 +1000,23 @@ else:
             ["python", "-c", python_code, path],
             workdir=self.workspace
         )
-        
+
         if exit_code != 0:
-            logger.warning(f"ls_info failed: {output.decode('utf-8', errors='replace')}")
-            return []
-        
+            err = output.decode('utf-8', errors='replace')
+            logger.warning(f"ls failed: {err}")
+            return LsResult(error=err)
+
         try:
             import json
             results = json.loads(output.decode('utf-8', errors='replace'))
             if isinstance(results, dict) and "error" in results:
-                logger.error(f"ls_info error: {results['error']}")
-                return []
+                logger.error(f"ls error: {results['error']}")
+                return LsResult(error=results["error"])
             logger.debug(f"Found {len(results)} entries in {path}")
-            return results
+            return LsResult(entries=results)
         except Exception as e:
-            logger.error(f"Error parsing ls_info results: {e}")
-            return []
+            logger.error(f"Error parsing ls results: {e}")
+            return LsResult(error=str(e))
     
     def get_stats(self) -> dict:
         """
@@ -1031,12 +1036,12 @@ else:
             "timeout_count": self.performance_stats["timeout_count"]
         }
 
-    def grep_raw(self, pattern: str, path: Optional[str] = None, glob: Optional[str] = None) -> List[GrepMatch] | str:
-        """파일 내용 검색 (workspace 내부만, DeepAgents 호환)"""
+    def grep(self, pattern: str, path: Optional[str] = None, glob: Optional[str] = None) -> GrepResult:
+        """파일 내용 검색 (workspace 내부만)"""
         self._increment_tool_call()
 
         if not self.container:
-            return "Error: Container not started"
+            return GrepResult(error="Container not started")
 
         # path가 None이면 기본값 설정 (현재 workspace)
         search_path = path if path is not None else "."
@@ -1049,10 +1054,10 @@ else:
             if "WORKSPACE BOUNDARY VIOLATION" in error_msg or "PATH TRAVERSAL" in error_msg:
                 logger.warning(f"🚫 Grep operation blocked: Attempted to access outside workspace")
             logger.error(f"Invalid path for grep: {error_msg}")
-            return f"Error: {error_msg}"
-        
+            return GrepResult(error=error_msg)
+
         logger.info(f"Grepping: pattern={pattern}, path={search_path}, glob={glob}")
-        
+
         # grep 명령어 구성 (shlex.quote로 셸 인젝션 방지)
         # -H: 항상 파일명 출력 (단일 파일에서도 file:line:content 형식 보장)
         grep_flags = "-rHn"
@@ -1065,12 +1070,12 @@ else:
             command = f"find {safe_path} -name {safe_glob} -type f -exec grep -Hn {safe_pattern} {{}} +"
         else:
             command = f"grep {grep_flags} {safe_pattern} {safe_path} 2>/dev/null || true"
-        
+
         result = self._execute_internal(command)
-        
+
         if result.exit_code != 0 and result.exit_code != -1:
-            return []
-        
+            return GrepResult(matches=[])
+
         # 결과 파싱
         matches = []
         for line in result.output.splitlines():
@@ -1081,11 +1086,11 @@ else:
                     matches.append({
                         "path": file_path,
                         "line": int(line_num),
-                        "text": content.strip()  # ← 'content' → 'text' 변경
+                        "text": content.strip()
                     })
-        
+
         logger.debug(f"Grep found {len(matches)} matches")
-        return matches
+        return GrepResult(matches=matches)
 
 # ============================================
 # 사용 예시
@@ -1253,7 +1258,7 @@ def example_with_deepagents():
             print(f"  Timeouts: {stats['timeout_count']}")
             
             # 생성된 파일 확인
-            files = sandbox.ls_info(".")
+            files = sandbox.ls(".").entries or []
             print(f"\n📁 Files created:")
             for f in files:
                 if not f['is_dir']:
@@ -1268,7 +1273,7 @@ def example_with_deepagents():
             print(f"  Operations performed: {stats['iteration_count']}")
             print(f"  Total time: {stats['total_execution_time']:.2f}s")
             
-            files = sandbox.ls_info(".")
+            files = sandbox.ls(".").entries or []
             created_files = [f['name'] for f in files if not f['is_dir']]
             print(f"\n📁 Files created before limit: {created_files}")
             

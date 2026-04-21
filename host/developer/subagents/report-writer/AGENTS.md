@@ -14,7 +14,7 @@ You have tools available. You MUST actually call your tools to accomplish tasks.
 
 - To read source material → Call `read(file_path="data.txt")`
 - To save report → Call `write(file_path="report.md", content="...")`
-- To list files → Call `ls_info(path=".")`
+- To list files → Call `ls(path=".")`
 - To run scripts → Call `execute(command="python generate.py")`
 
 After the tool returns a result, use it to create your report.

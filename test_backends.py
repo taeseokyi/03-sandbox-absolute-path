@@ -12,9 +12,9 @@
 3. execute pwd: 작업 디렉토리 확인
 4. write → read: 파일 쓰기 → 읽기
 5. edit: 파일 편집
-6. ls_info: 디렉토리 조회
-7. glob_info: 패턴 매칭
-8. grep_raw: 파일 내용 검색
+6. ls: 디렉토리 조회
+7. glob: 패턴 매칭
+8. grep: 파일 내용 검색
 9. host/ 읽기 (상대경로)
 10. SkillsMiddleware: 스킬 로드 (/tmp/workspace/host/ 경로)
 11. (Docker only) host/ 읽기 전용 검증
@@ -35,6 +35,13 @@ results = {"docker": {}, "local": {}}
 PASS = "PASS"
 FAIL = "FAIL"
 SKIP = "SKIP"
+
+
+def _content(read_result):
+    """ReadResult에서 문자열 내용 추출"""
+    if read_result.error:
+        return f"Error: {read_result.error}"
+    return (read_result.file_data or {}).get("content", "")
 
 
 def run_test(backend_name, test_name, fn):
@@ -109,7 +116,7 @@ try:
         wr = sandbox.write("_test_backend.txt", "docker-content-123")
         if wr.error:
             return False, f"write error: {wr.error}"
-        rd = sandbox.read("_test_backend.txt")
+        rd = _content(sandbox.read("_test_backend.txt"))
         ok = "docker-content-123" in rd
         sandbox.execute("rm -f /tmp/workspace/_test_backend.txt")
         return ok, f"read={'docker-content-123' in rd}"
@@ -122,37 +129,37 @@ try:
         er = sandbox.edit("_test_edit.txt", "old-value", "new-value")
         if er.error:
             return False, f"edit error: {er.error}"
-        rd = sandbox.read("_test_edit.txt")
+        rd = _content(sandbox.read("_test_edit.txt"))
         ok = "new-value-here" in rd
         sandbox.execute("rm -f /tmp/workspace/_test_edit.txt")
         return ok, f"occurrences={er.occurrences}"
     run_test("docker", "edit", test_docker_edit)
 
-    # 6) ls_info
-    run_test("docker", "ls_info", lambda: (
-        isinstance(sandbox.ls_info("."), list),
-        f"count={len(sandbox.ls_info('.'))}"
+    # 6) ls
+    run_test("docker", "ls", lambda: (
+        sandbox.ls(".").entries is not None,
+        f"count={len(sandbox.ls('.').entries or [])}"
     ))
 
-    # 7) glob_info
-    run_test("docker", "glob_info", lambda: (
-        isinstance(sandbox.glob_info("*.py"), list),
-        f"matches={len(sandbox.glob_info('*.py'))}"
+    # 7) glob
+    run_test("docker", "glob", lambda: (
+        sandbox.glob("*.py").matches is not None,
+        f"matches={len(sandbox.glob('*.py').matches or [])}"
     ))
 
-    # 8) grep_raw
+    # 8) grep
     def test_docker_grep():
         sandbox.execute("rm -f /tmp/workspace/_test_grep.txt")
         sandbox.write("_test_grep.txt", "line1 findme\nline2 nope\nline3 findme")
-        gr = sandbox.grep_raw("findme", "_test_grep.txt")
-        ok = isinstance(gr, list) and len(gr) >= 2
+        gr = sandbox.grep("findme", "_test_grep.txt")
+        ok = gr.matches is not None and len(gr.matches) >= 2
         sandbox.execute("rm -f /tmp/workspace/_test_grep.txt")
-        return ok, f"matches={len(gr) if isinstance(gr, list) else gr}"
-    run_test("docker", "grep_raw", test_docker_grep)
+        return ok, f"matches={len(gr.matches or [])}"
+    run_test("docker", "grep", test_docker_grep)
 
     # 9) host/ 읽기 (상대경로)
     def test_docker_host_read():
-        rd = sandbox.read("host/skills/basic-python/SKILL.md")
+        rd = _content(sandbox.read("host/skills/basic-python/SKILL.md"))
         ok = "not found" not in rd.lower() and "error" not in rd[:50].lower() and len(rd) > 10
         return ok, f"read_ok={ok}, len={len(rd)}"
     run_test("docker", "host_read", test_docker_host_read)
@@ -161,7 +168,7 @@ try:
     def test_docker_skills():
         from deepagents.middleware.skills import SkillsMiddleware
         mw = SkillsMiddleware(backend=sandbox, sources=[f"{HOST_PREFIX}/skills/"])
-        items = sandbox.ls_info("host/skills")
+        items = sandbox.ls("host/skills").entries or []
         skill_names = [i["name"] for i in items if i.get("is_dir")]
         return len(skill_names) > 0, f"skills={skill_names}"
     run_test("docker", "skills_middleware", test_docker_skills)
@@ -169,7 +176,7 @@ try:
     # 11) host/ 읽기 전용 검증
     def test_docker_host_readonly():
         # 읽기: 성공해야 함
-        rd = sandbox.read("host/skills/basic-python/SKILL.md")
+        rd = _content(sandbox.read("host/skills/basic-python/SKILL.md"))
         read_ok = "not found" not in rd.lower() and "error" not in rd[:50].lower()
         # 쓰기: 차단되어야 함
         wr = sandbox.write("host/test_write.txt", "should-fail")
@@ -185,8 +192,8 @@ try:
 
 except Exception as e:
     print(f"  ⚠️  Docker 백엔드 초기화 실패: {e}")
-    for t in ["id", "execute", "pwd", "write+read", "edit", "ls_info", "glob_info",
-              "grep_raw", "host_read", "skills_middleware", "host_readonly"]:
+    for t in ["id", "execute", "pwd", "write+read", "edit", "ls", "glob",
+              "grep", "host_read", "skills_middleware", "host_readonly"]:
         results["docker"][t] = (SKIP, str(e))
 
 # ════════════════════════════════════════════
@@ -249,7 +256,7 @@ try:
         wr = local.write(test_file, "local-content-456")
         if wr.error:
             return False, f"write error: {wr.error}"
-        rd = local.read(test_file)
+        rd = _content(local.read(test_file))
         ok = "local-content-456" in rd
         if os.path.exists(full_path):
             os.remove(full_path)
@@ -266,42 +273,42 @@ try:
         er = local.edit(test_file, "old-value", "new-value")
         if er.error:
             return False, f"edit error: {er.error}"
-        rd = local.read(test_file)
+        rd = _content(local.read(test_file))
         ok = "new-value-here" in rd
         if os.path.exists(full_path):
             os.remove(full_path)
         return ok, f"occurrences={er.occurrences}"
     run_test("local", "edit", test_local_edit)
 
-    # 6) ls_info
-    run_test("local", "ls_info", lambda: (
-        isinstance(local.ls_info("."), list),
-        f"count={len(local.ls_info('.'))}"
+    # 6) ls
+    run_test("local", "ls", lambda: (
+        local.ls(".").entries is not None,
+        f"count={len(local.ls('.').entries or [])}"
     ))
 
-    # 7) glob_info
-    run_test("local", "glob_info", lambda: (
-        isinstance(local.glob_info("*.py"), list),
-        f"matches={len(local.glob_info('*.py'))}"
+    # 7) glob
+    run_test("local", "glob", lambda: (
+        local.glob("*.py").matches is not None,
+        f"matches={len(local.glob('*.py').matches or [])}"
     ))
 
-    # 8) grep_raw
+    # 8) grep
     def test_local_grep():
         test_file = "_test_grep.txt"
         full_path = os.path.join(WORKSPACE_PATH, test_file)
         if os.path.exists(full_path):
             os.remove(full_path)
         local.write(test_file, "line1 findme\nline2 nope\nline3 findme")
-        gr = local.grep_raw("findme", test_file)
-        ok = isinstance(gr, list) and len(gr) >= 2
+        gr = local.grep("findme", test_file)
+        ok = gr.matches is not None and len(gr.matches) >= 2
         if os.path.exists(full_path):
             os.remove(full_path)
-        return ok, f"matches={len(gr) if isinstance(gr, list) else gr}"
-    run_test("local", "grep_raw", test_local_grep)
+        return ok, f"matches={len(gr.matches or [])}"
+    run_test("local", "grep", test_local_grep)
 
     # 9) host/ 읽기 (상대경로)
     def test_local_host_read():
-        rd = local.read("host/skills/basic-python/SKILL.md")
+        rd = _content(local.read("host/skills/basic-python/SKILL.md"))
         ok = len(rd) > 10
         return ok, f"read_ok={ok}, len={len(rd)}"
     run_test("local", "host_read", test_local_host_read)
@@ -318,8 +325,8 @@ try:
 except Exception as e:
     print(f"  ⚠️  Local 백엔드 초기화 실패: {e}")
     traceback.print_exc()
-    for t in ["id", "execute", "pwd", "write+read", "edit", "ls_info", "glob_info",
-              "grep_raw", "host_read", "skills_middleware"]:
+    for t in ["id", "execute", "pwd", "write+read", "edit", "ls", "glob",
+              "grep", "host_read", "skills_middleware"]:
         if t not in results["local"]:
             results["local"][t] = (SKIP, str(e))
 

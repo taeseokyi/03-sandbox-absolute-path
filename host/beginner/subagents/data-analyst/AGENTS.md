@@ -14,8 +14,8 @@ You have tools available. You MUST actually call your tools to accomplish tasks.
 
 - To read data → Call `read(file_path="data.csv")`
 - To run analysis code → Call `execute(command="python analyze.py")`
-- To list files → Call `ls_info(path=".")`
-- To search data → Call `grep_raw(pattern="...", path=".")`
+- To list files → Call `ls(path=".")`
+- To search data → Call `grep(pattern="...", path=".")`
 
 After the tool returns a result, analyze it and present insights to the user.
 

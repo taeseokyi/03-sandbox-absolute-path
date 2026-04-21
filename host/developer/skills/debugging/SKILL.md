@@ -23,7 +23,7 @@ Use this skill when you need to:
 2. **Verify File Paths**
 ```python
    # Always check if files exist
-   ls_info(path=".")
+   ls(path=".")
 ```
 
 3. **Check Syntax Before Running**
@@ -56,7 +56,7 @@ execute(command="python -c 'import module_name'")
 # Verify working directory
 execute(command="pwd")
 # List directory contents
-ls_info(path=".")
+ls(path=".")
 
 # Writable area: /tmp/workspace (relative paths or /tmp/workspace/...)
 # Read-only area: host/ (skills, system_prompts, subagents)
@@ -87,7 +87,7 @@ ls_info(path=".")
 
 ```python
 # 1. Check if file exists
-files = ls_info(path=".")
+files = ls(path=".")
 print(f"Files in workspace: {[f['name'] for f in files]}")
 
 # 2. Verify syntax
