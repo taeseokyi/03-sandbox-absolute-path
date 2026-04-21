@@ -128,13 +128,16 @@ read_file(file_path="../outside.txt")           # BLOCKED
 
 Non-obvious behaviors to keep in mind for each tool.
 
-### `write_file` — new files only
+### `write_file` — new files only, auto-creates directories
 
 `write_file` **fails if the file already exists**. To modify an existing file, use `edit_file`.
 
+Parent directories are created automatically — no need to create them first.
+
 ```python
-write_file(file_path="result.txt", content="hello")   # OK — creates new file
-write_file(file_path="result.txt", content="updated") # ERROR — file already exists
+write_file(file_path="result.txt", content="hello")         # OK — creates new file
+write_file(file_path="src/utils/helper.py", content="...")  # OK — src/utils/ auto-created
+write_file(file_path="result.txt", content="updated")       # ERROR — file already exists
 edit_file(file_path="result.txt", old_string="hello", new_string="updated")  # OK
 ```
 
@@ -153,16 +156,17 @@ edit_file(file_path="app.py", old_string="old_name",
           new_string="new_name", replace_all=True)
 ```
 
-`replace_all=False` (default) requires exactly one match — fails if the string appears multiple times.
+`replace_all=False` (default) requires exactly one match — fails if the string appears 0 times or multiple times. When it fails due to multiple matches, the error message includes the actual count so you know to use `replace_all=True`.
 
 ### `read_file` — paging, line numbers, large files
 
-`read_file` returns up to **2000 lines** by default (not 100).
+`read_file` returns up to **100 lines** by default. Use `limit` to read more at once (backend supports up to ~2000 per call).
 
 ```python
-read_file(file_path="data.csv")                        # lines 1–2000
-read_file(file_path="data.csv", offset=2000, limit=2000)  # lines 2001–4000
-read_file(file_path="data.csv", offset=500, limit=50)     # lines 501–550
+read_file(file_path="data.csv")                         # lines 1–100 (default)
+read_file(file_path="data.csv", offset=100, limit=100)  # lines 101–200
+read_file(file_path="data.csv", offset=500, limit=50)   # lines 501–550
+read_file(file_path="data.csv", limit=500)              # lines 1–500
 ```
 
 **`offset`** = number of lines to skip (0-based). `offset=0` starts at line 1; `offset=100` starts at line 101.
@@ -176,7 +180,7 @@ read_file(file_path="data.csv", offset=500, limit=50)     # lines 501–550
 
 **Footer when more lines remain**:
 ```
-[Showing lines 1-2000 of 5000 total. Use offset=2000 to continue.]
+[Showing lines 1-100 of 5000 total. Use offset=100 to continue.]
 ```
 
 **Special cases**:
@@ -204,13 +208,9 @@ grep(pattern="TODO", path=".", glob="*.py")     # Python files only
 grep(pattern="error", path=".", glob="**/*.log") # all .log files recursively
 ```
 
-### `execute` — timeout parameter, cd does not persist
+### `execute` — cd does not persist, default 30s timeout
 
-Use `timeout` (seconds) to cap long-running commands:
-
-```python
-execute(command="python train.py", timeout=300)  # fail after 5 minutes
-```
+`execute` only takes a `command` parameter. There is no `timeout` argument — the backend applies a default 30-second timeout automatically.
 
 `cd` inside `execute` does **not** affect subsequent calls. Each call starts from `/tmp/workspace`.
 
@@ -219,6 +219,8 @@ execute(command="cd src && python main.py")   # OK — chained in one call
 execute(command="cd src")                     # has no effect on next execute()
 execute(command="python src/main.py")         # use path directly instead
 ```
+
+stdout and stderr are merged into a single output string. Output longer than ~10 000 characters is truncated with `[Output was truncated due to size limits]`.
 
 ## Best Practices
 
@@ -242,18 +244,18 @@ execute(command="python src/main.py")         # use path directly instead
 
 4. **Read Large Files in Pages**
 
-   `read_file` returns up to 2000 lines by default. Use `offset` and `limit` to page through large files:
+   `read_file` returns up to 100 lines by default. Use `offset` and `limit` to page through large files:
    ```python
-   # First 2000 lines (default)
+   # First 100 lines (default)
    read_file(file_path="data.csv")
 
-   # Next 2000 lines
-   read_file(file_path="data.csv", offset=2000, limit=2000)
+   # Next 100 lines
+   read_file(file_path="data.csv", offset=100, limit=100)
 
-   # Lines 501–700
+   # Lines 501–700 (larger chunk)
    read_file(file_path="data.csv", offset=500, limit=200)
    ```
-   When more lines remain, the footer shows: `[Showing lines 1-2000 of 5000 total. Use offset=2000 to continue.]`
+   When more lines remain, the footer shows: `[Showing lines 1-100 of 5000 total. Use offset=100 to continue.]`
 
 5. **Read Host References When Needed**
    ```python
@@ -266,15 +268,32 @@ execute(command="python src/main.py")         # use path directly instead
    ```
 
 6. **Track Progress with Todos**
+
+   Each todo is a dict with `content` (text) and `status` (`"pending"`, `"in_progress"`, `"completed"`).
+   Call `write_todos` with the **full updated list** every time — it replaces the previous list entirely.
+
    ```python
-   write_todos(todos=["step 1", "step 2", "step 3"])   # Create todo list
-   write_todos(todos=["~~step 1~~", "step 2", "step 3"])  # Mark step 1 done
+   # Create initial list
+   write_todos(todos=[
+       {"content": "step 1", "status": "pending"},
+       {"content": "step 2", "status": "pending"},
+       {"content": "step 3", "status": "pending"},
+   ])
+
+   # Mark step 1 done, step 2 in progress
+   write_todos(todos=[
+       {"content": "step 1", "status": "completed"},
+       {"content": "step 2", "status": "in_progress"},
+       {"content": "step 3", "status": "pending"},
+   ])
    ```
 
 7. **Delegate to Subagents**
    ```python
-   task(subagent="data-analyst", content="analyze data.csv and summarize")
-   task(subagent="code-reviewer", content="review src/main.py for issues")
+   task(description="analyze data.csv and summarize key trends",
+        subagent_type="data-analyst")
+   task(description="review src/main.py for bugs and style issues",
+        subagent_type="code-reviewer")
    ```
    Available subagents are defined under `host/{profile}/subagents/`.
 
@@ -285,8 +304,8 @@ execute(command="python src/main.py")         # use path directly instead
 | Create new file | `write_file(file_path="file.txt", content="...")` |
 | Modify existing file | `edit_file(file_path="file.txt", old_string="old", new_string="new")` |
 | Rename/replace all occurrences | `edit_file(file_path="file.txt", old_string="x", new_string="y", replace_all=True)` |
-| Read file (first 2000 lines) | `read_file(file_path="file.txt")` |
-| Read file (next page) | `read_file(file_path="file.txt", offset=2000, limit=2000)` |
+| Read file (first 100 lines) | `read_file(file_path="file.txt")` |
+| Read file (next page) | `read_file(file_path="file.txt", offset=100, limit=100)` |
 | Read specific line range | `read_file(file_path="file.txt", offset=500, limit=50)` |
 | List directory | `ls(path=".")` |
 | Search — file paths only | `grep(pattern="TODO", path=".")` |
@@ -295,9 +314,8 @@ execute(command="python src/main.py")         # use path directly instead
 | Search in specific file type | `grep(pattern="import", path=".", glob="*.py")` |
 | Find files by pattern | `glob(pattern="**/*.py", path=".")` |
 | Run command | `execute(command="python script.py")` |
-| Run with timeout | `execute(command="python train.py", timeout=300)` |
-| Manage todos | `write_todos(todos=["task1", "task2"])` |
-| Call subagent | `task(subagent="data-analyst", content="...")` |
+| Manage todos | `write_todos(todos=[{"content": "task", "status": "pending"}])` |
+| Call subagent | `task(description="...", subagent_type="data-analyst")` |
 | Read host file | `read_file(file_path="host/shared/skills/workspace-awareness/SKILL.md")` |
 | List host dir | `ls(path="host/developer/subagents")` |
 | Find host skills | `glob(pattern="**/SKILL.md", path="host")` |
