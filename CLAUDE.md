@@ -45,7 +45,6 @@ docker compose ps
   └── skills/     ← 공통 스킬 (메인 에이전트 및 모든 서브에이전트에 노출)
       ├── __init__.py
       ├── kisti-mcp/
-      ├── kisti-research/
       └── workspace-awareness/
   ```
 - `PYTHONPATH=/tmp/workspace/host`로 고정 — `.env`(Local 백엔드)와 `docker-compose.yml`(Docker 백엔드) 양쪽에 설정.
@@ -96,7 +95,7 @@ sources=[
 ]
 ```
 
-- `host/shared/skills/`의 스킬(`workspace-awareness`, `kisti-mcp`, `kisti-research`)은 모든 서브에이전트에 자동 노출된다.
+- `host/shared/skills/`의 스킬(`workspace-awareness`, `kisti-mcp`)은 모든 서브에이전트에 자동 노출된다.
 - 서브에이전트 전용 `skills/`에 같은 이름의 스킬을 두면 shared 스킬을 재정의(override)할 수 있다.
 - `host/data_pipeline/skills/`는 서브에이전트에 자동 노출되지 않는다 — 필요한 스킬의 `SKILL.md`만 서브에이전트 `skills/`에 복사해 선택 노출한다.
 

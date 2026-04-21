@@ -91,3 +91,21 @@ search_dataon_research_data_details(data_id="<데이터셋ID>")
 3. DataON JSON `관련논문`, `관련특허` 필드 삽입
 ```
 
+## 사용자 요청 → 도구 매핑
+
+| 사용자 요청 | 사용 도구 |
+|---|---|
+| "논문 검색해줘", "papers about X" | `search_scienceon_papers` |
+| "특허 찾아줘", "patents for X" | `search_scienceon_patents` |
+| "보고서 검색", "research reports" | `search_scienceon_reports` |
+| "국가과제 검색", "NTIS 과제 검색", "R&D projects" | `search_ntis_rnd_projects` |
+| "연구데이터 찾아줘", "datasets" | `search_dataon_research_data` |
+| "이 논문 상세 정보" | `search_scienceon_paper_details` |
+| "특허 인용 관계" | `search_scienceon_patent_citations` |
+
+## Tips
+
+- **한국어 키워드**가 더 나은 결과를 반환한다: "인공지능" > "AI", "자연어처리" > "NLP"
+- **워크플로우**: 목록 검색 → ID 획득 → `_details` 도구로 상세 조회
+- **도구 조합**: 논문 + 특허를 함께 검색하면 종합적인 연구 현황 파악 가능
+- 결과는 한국어로 반환된다. 사용자 언어에 맞춰 요약 제공

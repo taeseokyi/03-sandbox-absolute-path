@@ -248,7 +248,6 @@ host/
 │   ├── src/              ← 도메인 로직 패키지 (collectors, transformers, storages 등)
 │   └── skills/           ← 공통 스킬 (모든 에이전트에 노출)
 │       ├── kisti-mcp/
-│       ├── kisti-research/
 │       └── workspace-awareness/
 ├── data_pipeline/        ← AGENTS.md 없음 → 프로파일로 인식되지 않음
 │   ├── lib/              ← 데이터 파이프라인 유틸리티
@@ -261,11 +260,11 @@ host/
 │       ├── kopri/
 │       └── url2dataon/   ← 범용 URL → DataON 변환
 ├── beginner/
-│   └── skills/           ← 프로파일 전용 스킬 (basic-python, kisti-research*, workspace-awareness*)
+│   └── skills/           ← 프로파일 전용 스킬 (basic-python, workspace-awareness*)
 └── developer/
     └── skills/           ← 프로파일 전용 스킬 (data-processing, debugging, find-ntis-project-number-from-research-data, python-dev)
 
-*beginner는 shared/skills/의 kisti-research, workspace-awareness를 override
+*beginner는 shared/skills/의 workspace-awareness를 override
 ```
 
 ### PYTHONPATH 설정

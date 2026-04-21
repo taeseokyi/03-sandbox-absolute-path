@@ -23,7 +23,6 @@
 │   │   ├── tools.json           # 메인 에이전트 MCP 도구
 │   │   ├── skills/              # SkillsMiddleware (3개)
 │   │   │   ├── basic-python/
-│   │   │   ├── kisti-research/
 │   │   │   └── workspace-awareness/
 │   │   └── subagents/           # SubAgentMiddleware
 │   │       ├── code-reviewer/
@@ -47,7 +46,6 @@
 │   │   ├── src/                 # 공유 소스 패키지
 │   │   └── skills/              # 공유 스킬 (모든 에이전트에 자동 노출)
 │   │       ├── kisti-mcp/
-│   │       ├── kisti-research/
 │   │       └── workspace-awareness/
 │   ├── data_pipeline/           # 데이터 파이프라인 스킬 (프로파일 아님 - AGENTS.md 없음)
 │   │   ├── lib/
@@ -299,13 +297,13 @@ SANDBOX_BACKEND=docker
 
 | 에이전트 | 모델 | Temperature | MCP 도구 | 스킬 | 역할 |
 |---------|------|-------------|----------|------|------|
-| main (beginner) | kistillm (KISTI) | 0.5 | 9개 | 공유 3 + 프로파일 3개 | 초보자 오케스트레이션 |
-| main (developer) | stepfun-ai/step-3.5-flash (NVIDIA) | 1.0 | 9개 | 공유 3 + 프로파일 4개 | 개발자 오케스트레이션 |
+| main (beginner) | kistillm (KISTI) | 0.5 | 9개 | 공유 2 + 프로파일 2개 | 초보자 오케스트레이션 |
+| main (developer) | stepfun-ai/step-3.5-flash (NVIDIA) | 1.0 | 9개 | 공유 2 + 프로파일 4개 | 개발자 오케스트레이션 |
 | data-analyst | kistillm (KISTI) | 0.3 | 3개 | 2개 | 데이터 분석 |
 | code-reviewer | kistillm (KISTI) | 0.2 | 0개 | 0개 | 코드 리뷰 |
 | report-writer | kistillm (KISTI) | 0.8 | 0개 | 0개 | 문서 작성 |
 
-> **스킬 로딩**: 공유 스킬 3개(kisti-mcp, kisti-research, workspace-awareness)는 모든 메인 에이전트에 자동 노출. 프로파일 전용 스킬과 동일 이름이면 프로파일 우선.
+> **스킬 로딩**: 공유 스킬 2개(kisti-mcp, workspace-awareness)는 모든 메인 에이전트에 자동 노출. 프로파일 전용 스킬과 동일 이름이면 프로파일 우선.
 
 ## 서브에이전트 추가 방법
 
