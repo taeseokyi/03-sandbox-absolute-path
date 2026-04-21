@@ -140,20 +140,22 @@ read_file(file_path="../outside.txt")           # BLOCKED
    ls(path=".")              # See workspace contents
    ```
 
-5. **Track Progress with Todos**
-   ```python
-   write_todos(todos=["step 1", "step 2", "step 3"])   # Create todo list
-   write_todos(todos=["~~step 1~~", "step 2", "step 3"])  # Mark step 1 done
-   ```
+4. **Read Large Files in Pages**
 
-6. **Delegate to Subagents**
+   `read_file` returns up to 100 lines by default. Use `offset` and `limit` to page through large files:
    ```python
-   task(subagent="data-analyst", content="analyze data.csv and summarize")
-   task(subagent="code-reviewer", content="review src/main.py for issues")
-   ```
-   Available subagents are defined under `host/{profile}/subagents/`.
+   # First 100 lines (default)
+   read_file(file_path="data.csv")
 
-4. **Read Host References When Needed**
+   # Next 100 lines
+   read_file(file_path="data.csv", offset=100, limit=100)
+
+   # Lines 500–699
+   read_file(file_path="data.csv", offset=500, limit=200)
+   ```
+   Output includes line numbers (`cat -n` format) and a summary when the file has more lines remaining.
+
+5. **Read Host References When Needed**
    ```python
    # Check available shared skills
    ls(path="host/shared/skills")
@@ -163,12 +165,27 @@ read_file(file_path="../outside.txt")           # BLOCKED
    read_file(file_path="host/shared/skills/workspace-awareness/SKILL.md")
    ```
 
+6. **Track Progress with Todos**
+   ```python
+   write_todos(todos=["step 1", "step 2", "step 3"])   # Create todo list
+   write_todos(todos=["~~step 1~~", "step 2", "step 3"])  # Mark step 1 done
+   ```
+
+7. **Delegate to Subagents**
+   ```python
+   task(subagent="data-analyst", content="analyze data.csv and summarize")
+   task(subagent="code-reviewer", content="review src/main.py for issues")
+   ```
+   Available subagents are defined under `host/{profile}/subagents/`.
+
 ## Quick Reference
 
 | What You Want | How to Do It |
 |---------------|--------------|
 | Create file | `write_file("file.txt", "...")` |
-| Read file | `read_file("file.txt")` |
+| Read file (first 100 lines) | `read_file("file.txt")` |
+| Read file (next page) | `read_file("file.txt", offset=100, limit=100)` |
+| Read specific line range | `read_file("file.txt", offset=499, limit=50)` |
 | Edit file | `edit_file("file.txt", "old", "new")` |
 | List directory | `ls(".")` |
 | Search content | `grep("pattern", ".")` |
