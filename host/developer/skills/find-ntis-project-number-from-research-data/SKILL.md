@@ -1,7 +1,7 @@
 ---
 name: find-ntis-project-number-from-research-data
 description: "연구데이터 제목으로 DataON과 NTIS를 순차적으로 검색하여 국가 R&D 과제번호(10자리 숫자)를 찾는다. Use when user provides a research data title and wants to find the corresponding NTIS national R&D task number. Do NOT use when task number is already known, when research data has no DOI, or when the request is not related to Korean national R&D projects. Keywords: NTIS, 과제번호, 국가과제, 연구데이터, DataON, R&D, 과제번호 찾기, task number, research data, 국가R&D, KOPRI, KPDC, DOI"
-allowed-tools: write_todos, execute, kisti-mcp_search_dataon_research_data, kisti-mcp_search_dataon_research_data_details, kisti-mcp_search_ntis_rnd_projects
+allowed-tools: write_todos, execute, mcp__kisti-aida__search_dataon_research_data, mcp__kisti-aida__search_dataon_research_data_details, mcp__kisti-aida__search_ntis_rnd_projects
 ---
 
 # find-ntis-project-number-from-research-data

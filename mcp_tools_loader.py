@@ -94,31 +94,30 @@ async def load_mcp_tools_from_json(tools_json_path: str) -> List[BaseTool]:
                         sse_read_timeout=server_config.get("sse_read_timeout", 60),
                     )
 
-                # MCP 도구 로드 (타임아웃 적용)
+                # MCP 도구 로드 (타임아웃 적용) — prefix 없이 로드 후 mcp__{name}__{tool} 형식으로 rename
                 load_timeout = server_config.get("timeout", 30)
                 tools = await asyncio.wait_for(
                     load_mcp_tools(
                         session=None,
                         connection=connection,
                         server_name=server_name,
-                        tool_name_prefix=True,
+                        tool_name_prefix=False,
                     ),
                     timeout=load_timeout,
                 )
 
-                # 특정 도구만 필터링 (설정된 경우)
+                # 특정 도구만 필터링 (설정된 경우) — 이 시점 tool.name은 짧은 이름
                 if "tools" in server_config and server_config["tools"]:
                     allowed_tools = set(server_config["tools"])
                     filtered_tools = []
                     matched_names = set()
 
                     for tool in tools:
-                        tool_name_without_prefix = tool.name.split('_', 1)[-1] if '_' in tool.name else tool.name
-                        if tool_name_without_prefix in allowed_tools:
+                        if tool.name in allowed_tools:
                             filtered_tools.append(tool)
-                            matched_names.add(tool_name_without_prefix)
+                            matched_names.add(tool.name)
                         else:
-                            logger.debug(f"    필터 불일치: {tool.name} → {tool_name_without_prefix}")
+                            logger.debug(f"    필터 불일치: {tool.name}")
 
                     # 매칭 안 된 허용 목록 도구 표시
                     unmatched = allowed_tools - matched_names
@@ -127,6 +126,10 @@ async def load_mcp_tools_from_json(tools_json_path: str) -> List[BaseTool]:
 
                     tools = filtered_tools
                     logger.info(f"  필터링: {len(allowed_tools)}개 중 {len(tools)}개 매칭")
+
+                # Claude MCP 네이밍 형식으로 rename: mcp__{server_name}__{tool_name}
+                for tool in tools:
+                    object.__setattr__(tool, "name", f"mcp__{server_name}__{tool.name}")
 
                 logger.info(f"  {server_name}: {len(tools)}개 도구 로드 완료")
 
@@ -212,7 +215,7 @@ if __name__ == "__main__":
     test_config = {
         "mcp_servers": [
             {
-                "name": "kisti-mcp",
+                "name": "kisti-aida",
                 "url": "https://aida.kisti.re.kr:10498/mcp/",  # base URL (no /sse/)
                 "transport": "streamable_http",  # Streamable HTTP 사용!
                 "tools": ["search_scienceon_papers", "search_ntis_rnd_projects"]

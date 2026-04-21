@@ -1,7 +1,7 @@
 {
   "mcp_servers": [
     {
-      "name": "kisti-mcp",
+      "name": "kisti-aida",
       "url": "https://aida.kisti.re.kr:10498/mcp/",
       "transport": "streamable_http",
       "tools": [
