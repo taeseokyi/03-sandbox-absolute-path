@@ -269,6 +269,9 @@ class AdvancedDockerSandbox(BaseSandbox):
         responses = []
         for file_path, content in files:
             try:
+                # 상대 경로는 workspace 기준 절대 경로로 변환
+                if not os.path.isabs(file_path):
+                    file_path = f"{self.workspace}/{file_path}"
                 dir_path = '/'.join(file_path.split('/')[:-1]) or '/'
                 self._execute_internal(f"mkdir -p {shlex.quote(dir_path)}")
                 self._put_file(file_path, content)
@@ -323,11 +326,21 @@ class AdvancedDockerSandbox(BaseSandbox):
         dir_path = '/'.join(file_path.split('/')[:-1]) or '/'
         file_name = file_path.split('/')[-1]
 
+        # uid/gid 미설정 시 root 소유 파일이 생성돼 컨테이너 유저(1000:1000)가 편집 불가
+        uid, gid = 0, 0
+        if self.user and ':' in self.user:
+            try:
+                uid, gid = (int(x) for x in self.user.split(':', 1))
+            except ValueError:
+                pass
+
         tar_stream = io.BytesIO()
         with tarfile.open(fileobj=tar_stream, mode='w') as tar:
             tarinfo = tarfile.TarInfo(name=file_name)
             tarinfo.size = len(data)
             tarinfo.mode = 0o644
+            tarinfo.uid = uid
+            tarinfo.gid = gid
             tar.addfile(tarinfo, io.BytesIO(data))
 
         tar_stream.seek(0)

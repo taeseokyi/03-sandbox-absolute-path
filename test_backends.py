@@ -159,30 +159,31 @@ try:
 
     # 9) host/ 읽기 (상대경로)
     def test_docker_host_read():
-        rd = _content(sandbox.read("host/skills/basic-python/SKILL.md"))
-        ok = "not found" not in rd.lower() and "error" not in rd[:50].lower() and len(rd) > 10
+        result = sandbox.read("host/shared/skills/workspace-awareness/SKILL.md")
+        ok = result.error is None and result.file_data is not None and len(result.file_data.get("content", "")) > 10
+        rd = _content(result)
         return ok, f"read_ok={ok}, len={len(rd)}"
     run_test("docker", "host_read", test_docker_host_read)
 
-    # 10) SkillsMiddleware - /tmp/workspace/host/ 경로에서 스킬 로드
+    # 10) SkillsMiddleware - /tmp/workspace/host/shared/skills/ 경로에서 스킬 로드
     def test_docker_skills():
         from deepagents.middleware.skills import SkillsMiddleware
-        mw = SkillsMiddleware(backend=sandbox, sources=[f"{HOST_PREFIX}/skills/"])
-        items = sandbox.ls("host/skills").entries or []
-        skill_names = [i["name"] for i in items if i.get("is_dir")]
+        mw = SkillsMiddleware(backend=sandbox, sources=[f"{HOST_PREFIX}/shared/skills/"])
+        items = sandbox.ls("host/shared/skills").entries or []
+        skill_names = [os.path.basename(i["path"]) for i in items if i.get("is_dir")]
         return len(skill_names) > 0, f"skills={skill_names}"
     run_test("docker", "skills_middleware", test_docker_skills)
 
     # 11) host/ 읽기 전용 검증
     def test_docker_host_readonly():
         # 읽기: 성공해야 함
-        rd = _content(sandbox.read("host/skills/basic-python/SKILL.md"))
-        read_ok = "not found" not in rd.lower() and "error" not in rd[:50].lower()
+        result = sandbox.read("host/shared/skills/workspace-awareness/SKILL.md")
+        read_ok = result.error is None and result.file_data is not None and len(result.file_data.get("content", "")) > 10
         # 쓰기: 차단되어야 함
         wr = sandbox.write("host/test_write.txt", "should-fail")
         write_blocked = wr.error is not None and "read-only" in wr.error.lower()
-        # 편집: 차단되어야 함
-        er = sandbox.edit("host/skills/basic-python/SKILL.md", "a", "b")
+        # 편집: 차단되어야 함 (replace_all=True로 실제 쓰기 시도까지 도달)
+        er = sandbox.edit("host/shared/skills/workspace-awareness/SKILL.md", "a", "a", replace_all=True)
         edit_blocked = er.error is not None and "read-only" in er.error.lower()
         ok = read_ok and write_blocked and edit_blocked
         return ok, f"read={read_ok}, write_blocked={write_blocked}, edit_blocked={edit_blocked}"
@@ -209,17 +210,23 @@ try:
 
     # /tmp/workspace 준비 (agent_server.py와 동일 로직)
     tmp_workspace = Path(WORKSPACE_PATH)
+    host_src = Path("./host").resolve()
+    host_dst = (tmp_workspace / "host").resolve()
+
     if not tmp_workspace.exists():
         shutil.copytree("./workspace", str(tmp_workspace))
-        shutil.copytree("./host", str(tmp_workspace / "host"), dirs_exist_ok=True)
-        print(f"  ℹ️  /tmp/workspace 생성 및 복사 완료")
+        if host_src != host_dst:
+            shutil.copytree(str(host_src), str(tmp_workspace / "host"), dirs_exist_ok=True)
+        print(f"  ℹ️  /tmp/workspace 생성 완료")
     elif not (tmp_workspace / "host").exists():
-        shutil.copytree("./host", str(tmp_workspace / "host"))
+        shutil.copytree(str(host_src), str(tmp_workspace / "host"))
         print(f"  ℹ️  host/ 디렉토리 복사 완료")
-    else:
-        # host/ 내용 갱신 (이미 존재하면 덮어쓰기)
-        shutil.copytree("./host", str(tmp_workspace / "host"), dirs_exist_ok=True)
+    elif host_src != host_dst:
+        # host/ 내용 갱신 (이미 존재하면 덮어쓰기, 동일 위치면 skip)
+        shutil.copytree(str(host_src), str(tmp_workspace / "host"), dirs_exist_ok=True)
         print(f"  ℹ️  host/ 디렉토리 갱신 완료")
+    else:
+        print(f"  ℹ️  host/ 이미 마운트됨 (symlink)")
 
     local = LocalShellBackend(
         root_dir=WORKSPACE_PATH,
@@ -308,16 +315,17 @@ try:
 
     # 9) host/ 읽기 (상대경로)
     def test_local_host_read():
-        rd = _content(local.read("host/skills/basic-python/SKILL.md"))
-        ok = len(rd) > 10
+        result = local.read("host/shared/skills/workspace-awareness/SKILL.md")
+        ok = result.error is None and result.file_data is not None and len(result.file_data.get("content", "")) > 10
+        rd = _content(result)
         return ok, f"read_ok={ok}, len={len(rd)}"
     run_test("local", "host_read", test_local_host_read)
 
-    # 10) SkillsMiddleware - /tmp/workspace/host/ 경로에서 스킬 로드
+    # 10) SkillsMiddleware - /tmp/workspace/host/shared/skills/ 경로에서 스킬 로드
     def test_local_skills():
         from deepagents.middleware.skills import SkillsMiddleware
-        mw = SkillsMiddleware(backend=local, sources=[f"{HOST_PREFIX}/skills/"])
-        skills_path = Path(HOST_PREFIX) / "skills"
+        mw = SkillsMiddleware(backend=local, sources=[f"{HOST_PREFIX}/shared/skills/"])
+        skills_path = Path(HOST_PREFIX) / "shared" / "skills"
         skill_names = [d.name for d in skills_path.iterdir() if d.is_dir()]
         return len(skill_names) > 0, f"skills={skill_names}"
     run_test("local", "skills_middleware", test_local_skills)

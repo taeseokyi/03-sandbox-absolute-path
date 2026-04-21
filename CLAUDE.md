@@ -116,3 +116,25 @@ skill-project/
 - 개발 시 PYTHONPATH = `skill-project/` (단일 경로)
 - 임포트: `from data_pipeline.lib.x`, `from data_pipeline.src.x`
 - SKILL.md 실행 명령: `python -m data_pipeline.skills.kopri.main`
+
+## 백엔드 아키텍처 (docker_util.py)
+
+`AdvancedDockerSandbox`는 `deepagents.backends.sandbox.BaseSandbox`를 상속한다.
+
+- **직접 구현**: `execute()`, `upload_files()`, `download_files()`, `id` 프로퍼티
+- **위임**: `read`, `write`, `edit`, `ls`, `glob`, `grep` — BaseSandbox가 `execute()`를 통해 서버 사이드 Python 스크립트로 처리
+
+### 주요 구현 주의사항
+
+- `_put_file()`: tar 아카이브로 파일 업로드 시 `tarinfo.uid / .gid`를 `self.user`에서 파싱해 설정한다.
+  설정하지 않으면 root 소유 파일이 생성돼 컨테이너 유저(1000:1000)가 편집 불가.
+- `upload_files()`: 상대 경로를 `{workspace}/{path}` 절대 경로로 변환 후 `put_archive` 호출.
+  미변환 시 루트(`/`)에 파일이 업로드되며 read-only 오류 발생.
+
+### 테스트
+
+```bash
+python3 test_backends.py
+```
+
+Docker + Local 백엔드의 동작을 비교 검증한다. Local 백엔드는 `host_readonly` 항목을 제외하고 동일한 11개 항목을 검증한다.
