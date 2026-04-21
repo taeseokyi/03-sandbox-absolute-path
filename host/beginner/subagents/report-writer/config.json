@@ -5,5 +5,6 @@
   "temperature": 0.8,
   "timeout": 120,
   "max_retries": 2,
+  "max_tokens": 8192,
   "description": "리포트 작성용 - 높은 온도로 창의적 작성"
 }

@@ -1,13 +1,9 @@
 {
-  "provider": "openai",
-  "model": "stepfun-ai/step-3.5-flash",
-  "base_url": "https://integrate.api.nvidia.com/v1",
-  "api_key": "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",
-  "max_tokens": 100000,
+  "model": "kistillm",
+  "base_url": "https://aida.kisti.re.kr:10430/v1",
+  "api_key": "dummy",
+  "max_tokens": 8192,
   "timeout": 120,
   "max_retries": 2,
-  "temperature":1,
-  "top_p":0.95,
-  "top_k":40,
-  "description": "메인 에이전트 모델 설정 (Google Gemini 2.5 Flash)"
+  "description": "메인 에이전트 모델 설정 (OpenRouter Qwen3 Coder Next)"
 }
