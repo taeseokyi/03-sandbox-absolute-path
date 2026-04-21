@@ -155,6 +155,36 @@ edit_file(file_path="app.py", old_string="old_name",
 
 `replace_all=False` (default) requires exactly one match — fails if the string appears multiple times.
 
+### `read_file` — paging, line numbers, large files
+
+`read_file` returns up to **2000 lines** by default (not 100).
+
+```python
+read_file(file_path="data.csv")                        # lines 1–2000
+read_file(file_path="data.csv", offset=2000, limit=2000)  # lines 2001–4000
+read_file(file_path="data.csv", offset=500, limit=50)     # lines 501–550
+```
+
+**`offset`** = number of lines to skip (0-based). `offset=0` starts at line 1; `offset=100` starts at line 101.
+
+**Output format**: 6-digit right-aligned line numbers followed by a tab.
+
+```
+     1	first line
+     2	second line
+```
+
+**Footer when more lines remain**:
+```
+[Showing lines 1-2000 of 5000 total. Use offset=2000 to continue.]
+```
+
+**Special cases**:
+- Empty file → `[File is empty]`
+- Line longer than 2000 chars → `[TRUNCATED: N chars total]` appended
+- File not found → error string with suggestions (not an exception)
+- Directory path → `Error reading file: Is a directory` — use `ls()` instead
+
 ### `grep` — literal search, output_mode, glob filter
 
 `grep` searches for **literal strings**, not regular expressions. Special characters like `(`, `|`, `.*` are matched as-is.
@@ -212,18 +242,18 @@ execute(command="python src/main.py")         # use path directly instead
 
 4. **Read Large Files in Pages**
 
-   `read_file` returns up to 100 lines by default. Use `offset` and `limit` to page through large files:
+   `read_file` returns up to 2000 lines by default. Use `offset` and `limit` to page through large files:
    ```python
-   # First 100 lines (default)
+   # First 2000 lines (default)
    read_file(file_path="data.csv")
 
-   # Next 100 lines
-   read_file(file_path="data.csv", offset=100, limit=100)
+   # Next 2000 lines
+   read_file(file_path="data.csv", offset=2000, limit=2000)
 
-   # Lines 500–699
+   # Lines 501–700
    read_file(file_path="data.csv", offset=500, limit=200)
    ```
-   Output includes line numbers (`cat -n` format) and a summary when the file has more lines remaining.
+   When more lines remain, the footer shows: `[Showing lines 1-2000 of 5000 total. Use offset=2000 to continue.]`
 
 5. **Read Host References When Needed**
    ```python
@@ -255,9 +285,9 @@ execute(command="python src/main.py")         # use path directly instead
 | Create new file | `write_file(file_path="file.txt", content="...")` |
 | Modify existing file | `edit_file(file_path="file.txt", old_string="old", new_string="new")` |
 | Rename/replace all occurrences | `edit_file(file_path="file.txt", old_string="x", new_string="y", replace_all=True)` |
-| Read file (first 100 lines) | `read_file(file_path="file.txt")` |
-| Read file (next page) | `read_file(file_path="file.txt", offset=100, limit=100)` |
-| Read specific line range | `read_file(file_path="file.txt", offset=499, limit=50)` |
+| Read file (first 2000 lines) | `read_file(file_path="file.txt")` |
+| Read file (next page) | `read_file(file_path="file.txt", offset=2000, limit=2000)` |
+| Read specific line range | `read_file(file_path="file.txt", offset=500, limit=50)` |
 | List directory | `ls(path=".")` |
 | Search — file paths only | `grep(pattern="TODO", path=".")` |
 | Search — matching lines | `grep(pattern="TODO", path=".", output_mode="content")` |
