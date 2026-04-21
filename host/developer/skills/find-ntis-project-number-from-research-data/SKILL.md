@@ -39,7 +39,7 @@ allowed-tools: write_todos, execute, mcp__kisti-aida__search_dataon_research_dat
 
 ### Step 1. DataON 연구데이터 검색
 
-kisti-mcp_search_dataon_research_data 도구를 사용하여 연구데이터 제목 전체로 검색한다.
+mcp__kisti-aida__search_dataon_research_data 도구를 사용하여 연구데이터 제목 전체로 검색한다.
 
 - 검색 결과가 없으면 → **중지**: "DataON 검색 결과 없음" 보고
 
@@ -47,7 +47,7 @@ kisti-mcp_search_dataon_research_data 도구를 사용하여 연구데이터 제
 
 ### Step 2. 연구데이터 상세정보 조회
 
-kisti-mcp_search_dataon_research_data_details 도구를 사용하여 Step 1의 `svc_id`로 상세정보를 조회한다.
+mcp__kisti-aida__search_dataon_research_data_details 도구를 사용하여 Step 1의 `svc_id`로 상세정보를 조회한다.
 
 아래 항목을 확인한다.
 
@@ -107,7 +107,7 @@ grep -A 5 "Project" landing_page.html
 DOI 랜딩페이지에서 추출한 **영문 과제명**을 한국어로 번역한다.
 
 #### 4-2. NTIS 검색
-kisti-mcp_search_ntis_rnd_projects 도구를 사용하여 **번역된 한국어 과제명**으로 검색한다.
+mcp__kisti-aida__search_ntis_rnd_projects 도구를 사용하여 **번역된 한국어 과제명**으로 검색한다.
 
 결과가 없으면, 한국어 핵심 키워드로 축약하여 재 검색 (최대 3회)
 
