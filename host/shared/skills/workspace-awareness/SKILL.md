@@ -95,26 +95,16 @@ host/
 These will fail with clear error messages:
 
 ```python
-# System paths
-read_file(file_path="/etc/passwd")              # BLOCKED
-write_file(file_path="/usr/bin/tool", content="...")  # BLOCKED
-
-# Root access
-ls(path="/")                          # BLOCKED
-
 # Path traversal
 read_file(file_path="../outside.txt")           # BLOCKED
+read_file(file_path="../../etc/passwd")         # BLOCKED
 ```
 
 ## Error Messages
 
-### "WORKSPACE BOUNDARY VIOLATION"
-**Cause**: Tried to access a path outside `/tmp/workspace`.
-**Fix**: Use relative paths or paths starting with `/tmp/workspace/`.
-
-### "PATH TRAVERSAL ATTACK BLOCKED"
-**Cause**: Used `..` to navigate outside workspace.
-**Fix**: Use direct paths within workspace.
+### "Path traversal not allowed"
+**Cause**: Used `..` or `~` in a path.
+**Fix**: Use direct relative paths or absolute paths starting with `/tmp/workspace/`.
 
 ### "Cannot write to read-only host path"
 **Cause**: Tried to write or edit a file under `host/`.
@@ -123,6 +113,14 @@ read_file(file_path="../outside.txt")           # BLOCKED
 ### "File already exists" (write_file)
 **Cause**: `write_file` creates new files only. Calling it on an existing path fails.
 **Fix**: Use `edit_file` to modify an existing file, or delete it first.
+
+### "string_not_found" (edit_file)
+**Cause**: `old_string` was not found in the file.
+**Fix**: Re-read the file to confirm the exact string, including whitespace and indentation.
+
+### "multiple_occurrences" (edit_file)
+**Cause**: `old_string` matches more than one place and `replace_all` is False.
+**Fix**: Use `replace_all=True` or provide a longer, unique `old_string`.
 
 ## Tool Behaviors
 
@@ -204,13 +202,11 @@ grep(pattern="import os", path=".", output_mode="count")    # per-file match cou
 Use `glob` to restrict search to specific file types:
 
 ```python
-grep(pattern="TODO", path=".", glob="*.py")     # Python files only
+grep(pattern="TODO", path=".", glob="*.py")      # Python files only
 grep(pattern="error", path=".", glob="**/*.log") # all .log files recursively
 ```
 
-### `execute` — cd does not persist, default 30s timeout
-
-`execute` only takes a `command` parameter. There is no `timeout` argument — the backend applies a default 30-second timeout automatically.
+### `execute` — cd does not persist, optional timeout
 
 `cd` inside `execute` does **not** affect subsequent calls. Each call starts from `/tmp/workspace`.
 
@@ -220,7 +216,50 @@ execute(command="cd src")                     # has no effect on next execute()
 execute(command="python src/main.py")         # use path directly instead
 ```
 
+Use `timeout` to override the default 30-second limit:
+
+```python
+execute(command="python train.py")             # default 30s timeout
+execute(command="python train.py", timeout=120) # allow 2 minutes
+execute(command="pip install -r req.txt", timeout=0)  # no timeout (0 = unlimited)
+```
+
 stdout and stderr are merged into a single output string. Output longer than ~10 000 characters is truncated with `[Output was truncated due to size limits]`.
+
+### `task` — subagent delegation, parallel execution
+
+`task` delegates work to a specialized subagent. When you call multiple `task()` tools **in the same turn**, they run in **parallel** — use this whenever tasks are independent.
+
+```python
+# Sequential (only when task B needs task A's result)
+task(description="collect data from source A", subagent_type="data-collector")
+# ... wait for result, then:
+task(description="summarize the collected data", subagent_type="report-writer")
+
+# Parallel (independent tasks — much faster)
+# Call both in the same response:
+task(description="analyze sales.csv for trends", subagent_type="data-analyst")
+task(description="review src/main.py for bugs", subagent_type="code-reviewer")
+```
+
+Available subagents are defined under `host/{profile}/subagents/`.
+
+### `start_async_task` / `check_async_task` — background tasks (optional feature)
+
+These tools are only available when the agent is configured with `AsyncSubAgent` specs. If present, they let you launch tasks that run in the background on a remote server and poll for results without blocking.
+
+```python
+# Start and immediately get a task_id (non-blocking)
+task_id = start_async_task(description="...", subagent_type="data-collector")
+
+# Check later (poll when needed — don't loop automatically)
+result = check_async_task(task_id=task_id)  # returns status + result when done
+
+# Other async management tools (if available):
+update_async_task(task_id=task_id, message="focus on Q4 only")
+cancel_async_task(task_id=task_id)
+list_async_tasks(status_filter="running")  # or "success", "error", "all"
+```
 
 ## Best Practices
 
@@ -288,14 +327,15 @@ stdout and stderr are merged into a single output string. Output longer than ~10
    ])
    ```
 
-7. **Delegate to Subagents**
+7. **Run Independent Tasks in Parallel**
+
+   Use multiple `task()` calls in the same turn — they run concurrently:
    ```python
-   task(description="analyze data.csv and summarize key trends",
-        subagent_type="data-analyst")
-   task(description="review src/main.py for bugs and style issues",
-        subagent_type="code-reviewer")
+   # Same turn → parallel execution
+   task(description="analyze q1_sales.csv", subagent_type="data-analyst")
+   task(description="analyze q2_sales.csv", subagent_type="data-analyst")
+   task(description="analyze q3_sales.csv", subagent_type="data-analyst")
    ```
-   Available subagents are defined under `host/{profile}/subagents/`.
 
 ## Quick Reference
 
@@ -313,9 +353,12 @@ stdout and stderr are merged into a single output string. Output longer than ~10
 | Search — count per file | `grep(pattern="TODO", path=".", output_mode="count")` |
 | Search in specific file type | `grep(pattern="import", path=".", glob="*.py")` |
 | Find files by pattern | `glob(pattern="**/*.py", path=".")` |
-| Run command | `execute(command="python script.py")` |
+| Run command (default 30s) | `execute(command="python script.py")` |
+| Run with custom timeout | `execute(command="python train.py", timeout=120)` |
+| Run without timeout | `execute(command="pip install ...", timeout=0)` |
 | Manage todos | `write_todos(todos=[{"content": "task", "status": "pending"}])` |
 | Call subagent | `task(description="...", subagent_type="data-analyst")` |
+| Call subagents in parallel | Multiple `task()` in the same turn |
 | Read host file | `read_file(file_path="host/shared/skills/workspace-awareness/SKILL.md")` |
 | List host dir | `ls(path="host/developer/subagents")` |
 | Find host skills | `glob(pattern="**/SKILL.md", path="host")` |
