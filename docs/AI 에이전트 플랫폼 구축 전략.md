@@ -430,7 +430,125 @@ host/
 
 ---
 
-## 10. 참고
+## 10. 샌드박스 개선 로드맵
+
+본 절은 `agent_server.py`와 `host/` 디렉토리의 실제 코드를 검토한 결과를 토대로, 본 전략(§3 ~ §7)을 실행하기 위해 [03-sandbox-absolute-path](../README.md) 에이전트 서버에 필요한 개선 항목을 정리한다.
+
+### 10.1 현 시점에서 이미 갖춰진 것
+
+전략 문서가 가정하는 다음 기능은 **이미 코드에 있다**. 신규 개발이 아니라 확장으로 다뤄야 한다.
+
+| 기능 | 위치 | 비고 |
+|------|------|------|
+| DataON 등록 표준 스키마 (Pydantic) | [`host/shared/lib/dataon_reg.py`](../host/shared/lib/dataon_reg.py) | `DataON_연구데이터등록` 완전 정의 · 11개 Enum |
+| 범용 URL → DataON 자동 변환 스킬 | [`host/data_pipeline/skills/url2dataon/`](../host/data_pipeline/skills/url2dataon/) | Jina AI + LLM 추출 + Pydantic 검증 7단계 (§3.3 PoC급 구현) |
+| NTIS 과제번호 자동 매칭 | [`host/developer/skills/find-ntis-project-number-from-research-data/`](../host/developer/skills/find-ntis-project-number-from-research-data/) | DataON → DOI 랜딩 → 과제명 번역 → NTIS 검색 |
+| 기관별 전용 스킬 5개 | `host/data_pipeline/skills/{kaeri,kfe,kier,kigam,kopri}/` | 각 기관 URL 패턴 인식 + 메타데이터 추출 |
+| KISTI AIDA MCP 도구 9종 | `host/{profile}/tools.json` | ScienceON·NTIS·DataON 검색 (검색 전용) |
+| 멀티 LLM provider | [`agent_config_loader.py`](../agent_config_loader.py) | openai/anthropic/google — failover 인프라 기반 마련 |
+| 프로파일 자동 등록 | `agent_server.py:_auto_register_profiles` | `host/{name}/AGENTS.md` 추가만으로 신규 그래프 인식 |
+| 단계별 진행 표시 | `write_todos()` 패턴 | 자동 채움 UI 진행도에 그대로 활용 가능 |
+
+**시사점**: §3.3 `registration-autofill-agent`는 새로 만들 게 아니라 `url2dataon`을 확장한다. §5.2의 스킬 목록은 신규/기존을 구분해서 다뤄야 한다.
+
+### 10.2 Critical — Phase 1 PoC 진입 전 필수
+
+#### 10.2.1 DataON 쓰기 API MCP 신설 (가장 큰 갭)
+
+**현 상태**: `kisti-aida` MCP는 **검색만** 가능. 컬렉션 생성·OpenAPI 키 발급·레코드 등록 등 쓰기 API 없음. 자동 등록 마지막 단계가 사람에게 넘어감.
+
+**필요**: `dataon-admin` MCP 서버 신설 — `create_collection`, `issue_openapi_key`, `submit_record`, `update_metadata_schema`, `list_my_records`. read-only 메서드부터 단계적 공개.
+
+#### 10.2.2 사용자 컨텍스트(thread state) 주입
+
+**현 상태**: `_create_agent()`는 thread 시작 시 user_id/institution_id를 받지 않는다. `_agent_cache`로 프로파일당 1개 에이전트가 모든 사용자의 thread를 공유.
+
+**필요**: LangGraph thread state에 `{user_id, institution_id, role, permissions}` 주입. system_prompt에 동적 바인딩. 감사 로그와 기관별 권한 분리의 전제.
+
+#### 10.2.3 스키마 매핑 검증
+
+**현 상태**: `dataon_reg.py`(Pydantic) ↔ `docs/dataon_register_form.html`(폼) 1:1 매핑 검증 미수행. 폼에는 한·영 분리 키워드, 책임자·참여자·기여자 구분이 있는데 Pydantic이 모두 포함하는지 미확인.
+
+**필요**: 일치 검증 스크립트(`test_schema_form_alignment.py`) + 누락 필드 보강.
+
+#### 10.2.4 컨테이너 1개 동시성 직렬화
+
+**현 상태**: `container_name="deepagents-sandbox"` + `reuse_container=True` — 모든 thread가 단일 컨테이너 공유. `/tmp/workspace`도 단일 디렉토리 → A 사용자 산출물이 B 사용자에게 노출.
+
+**필요**: thread_id 기반 workspace 격리 (`/tmp/workspace/threads/{thread_id}/`) + 컨테이너 풀 또는 동적 컨테이너 매니저. 단기적으로는 workspace 격리만 우선.
+
+### 10.3 High — Phase 2 (등록 자동화 확장) 전
+
+| # | 항목 | 내용 |
+|---|------|------|
+| 10.3.1 | **신뢰도·출처 사이드카** | `url2dataon` 출력 JSON은 값만 있고 `confidence`·`source_ref` 부재. 등록 페이로드는 그대로 두고 별도 `_provenance.json`에 필드별 `{value, confidence, source_url, extracted_by, extracted_at}` 저장. UI는 양쪽을 함께 받아 표시. |
+| 10.3.2 | **외부 API 재시도·캐싱** | `host/shared/lib/http_client.py` 신설 — exponential backoff + 5분 캐시 (URL·DOI 키). url2dataon이 직접 curl 대신 이 클라이언트 사용. |
+| 10.3.3 | **등록 게이트 강제** | `validate_dataon.py`를 LLM 선택이 아닌 스킬 종료 직전 강제 호출. exit code 1이면 누락 필드를 LLM에 통보하고 재시도. 3회 실패 시 사용자 호출. |
+| 10.3.4 | **첨부 파일 파싱 표준화** | `host/shared/skills/parse-attachment/` — pdfplumber·python-docx·openpyxl 통합 → `{text, tables, metadata}` 표준 반환. |
+| 10.3.5 | **한·영 자동 번역 명시 스킬** | `host/shared/skills/translate-ko-en/` — KISTI AIDA 번역이 있으면 우선, 없으면 LLM. 입출력 형식 표준화. |
+| 10.3.6 | **PII·민감정보 자동 탐지** | `host/shared/skills/detect-pii/` — 주민번호·전화·이메일·계좌 패턴 + 한국어 이름 NER. 의심 항목은 confidence를 인위적으로 낮춰 사용자 컨펌 유도. |
+| 10.3.7 | **3개 전용 프로파일 신설** | `host/institution-linking/` · `host/registration-autofill/` · `host/quality-review/`. developer 프로파일은 일반 개발자용으로 유지. |
+| 10.3.8 | **DataCite·Crossref MCP** | NTIS·ScienceON은 `kisti-aida`에 이미 있으므로 추가 불필요. DataCite·Crossref만 신규 MCP. |
+
+### 10.4 Medium — Phase 3 (운영) 통합
+
+| # | 항목 | 내용 |
+|---|------|------|
+| 10.4.1 | **SKILL.md 변경 감지** | `langgraph.json:watch`가 `host/{profile}/`를 보지만 SkillsMiddleware가 시작 시 1회 스캔이라 SKILL.md 변경은 reload 안 됨. ADMIN_UI_DESIGN.md §8.1 매트릭스에 "SKILL.md 변경 → 재시작" 항목 추가, 또는 SkillsMiddleware에 reload API. |
+| 10.4.2 | **비동기 일괄 처리(큐)** | 47건 일괄 등록은 단일 thread → 타임아웃 위험. `AsyncSubAgent` 활용 또는 SQLite 작업 테이블 + 폴링 worker. 진행은 SSE로 push. |
+| 10.4.3 | **외부 인터넷 격리** | `docker-compose.yml: networks.internal: false` — 컨테이너가 외부 직접 호출. 외부 호출을 컨테이너 밖 또는 MCP 프록시 게이트웨이로 옮기고 컨테이너 네트워크는 internal로 잠금. |
+| 10.4.4 | **감사 로그·메트릭** | `logs/audit.jsonl` — 모든 쓰기/등록 user/time/action/before/after 기록. 일일 KPI(자동 채움 정확도·수정률·P95 응답시간) 자동 산출 스크립트. |
+| 10.4.5 | **회귀 테스트 — Golden Dataset** | 과거 등록 사례 50~100건 입력 URL → 정답 JSON 페어로 자동 채움 정확도 회귀 측정. 모델·프롬프트 변경 시 자동 실행. |
+| 10.4.6 | **빈 디렉토리 정리** | `host/shared/src/{collectors,monitors,storages,transformers,validators}/` 전부 비어 있음. 설계가 살아 있으면 채우고 아니면 삭제. |
+
+### 10.5 Low — 장기
+
+| # | 항목 | 내용 |
+|---|------|------|
+| 10.5.1 | 모델 라우팅 | 단순 추출 → 경량 모델, 복잡 매핑 → 고성능 모델 |
+| 10.5.2 | LLM failover | KISTI LLM 장애 시 Anthropic/Google fallback (provider 인프라는 이미 있음) |
+| 10.5.3 | 자가 학습 | 사용자 수정 패턴 → 매핑 규칙 보강, 유사 기관 노하우 재사용 (RAG) |
+| 10.5.4 | 무중단 배포 | blue-green 또는 rolling restart — ADMIN_UI_DESIGN.md §8.4 확장 |
+| 10.5.5 | 다국어 UI | 영어 UI, 해외 기관 연계 (KAKEN, OpenAIRE) |
+
+### 10.6 권장 진행 순서
+
+```
+Phase 0 (2주, Phase 1 진입 전 필수):
+  - 10.2.1 dataon-admin MCP 신설 (검색 → 쓰기 API 확장)
+  - 10.2.2 thread state user_context 주입
+  - 10.2.3 dataon_reg.py vs HTML 폼 매핑 검증
+  - 10.2.4 thread_id 기반 workspace 격리
+
+Phase 1 (4~6주, 기관 연계 PoC):
+  - 10.3.7 institution-linking 프로파일 신설
+  - 10.3.2 외부 API 재시도·캐싱
+  - 10.3.3 검증 게이트 강제
+
+Phase 2 (6~8주, 등록 자동화):
+  - 10.3.1 신뢰도·출처 사이드카
+  - 10.3.4 첨부 파일 파싱 / 10.3.5 번역 스킬 / 10.3.6 PII 탐지
+  - 10.3.7 registration-autofill / quality-review 프로파일
+  - 10.3.8 DataCite·Crossref MCP
+
+Phase 3 (4주, 운영):
+  - 10.4.1 ~ 10.4.5
+  - 10.4.6 빈 디렉토리 정리
+
+Phase 4 (지속): 10.5.x 점진 도입
+```
+
+### 10.7 §3·§5와의 정합성 갱신
+
+본 절을 반영하면 §3·§5의 다음 내용을 보정해야 한다.
+
+- §3.3 `registration-autofill-agent`: 신규 개발이 아니라 `url2dataon` 확장으로 표기
+- §5.2 스킬 목록: 기존 5개 기관 스킬 + url2dataon + find-ntis가 이미 있음을 반영
+- §5.3 MCP 도구 표: `kisti-aida`(검색)와 `dataon-admin`(쓰기 — 신규) 구분
+
+---
+
+## 11. 참고
 
 | 문서 | 설명 |
 |------|------|
