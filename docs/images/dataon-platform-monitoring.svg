@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 800" font-family="-apple-system,Segoe UI,sans-serif">
+  <rect width="1100" height="800" fill="#f9fafb"/>
+
+  <!-- Top nav -->
+  <rect x="0" y="0" width="1100" height="56" fill="#1e3a8a"/>
+  <text x="24" y="35" fill="#fff" font-size="16" font-weight="700">DataON AI 에이전트 플랫폼</text>
+  <text x="280" y="35" fill="#ffffff" font-size="14" font-weight="600">모니터링</text>
+  <text x="370" y="35" fill="#cbd5e1" font-size="14">기관 연계</text>
+  <text x="460" y="35" fill="#cbd5e1" font-size="14">에이전트 관리</text>
+  <text x="590" y="35" fill="#cbd5e1" font-size="14">로그</text>
+  <text x="660" y="35" fill="#cbd5e1" font-size="14">설정</text>
+  <text x="1020" y="35" fill="#cbd5e1" font-size="13">운영자 ▾</text>
+
+  <!-- Page header + period filter -->
+  <text x="24" y="86" fill="#111827" font-size="20" font-weight="700">운영 대시보드</text>
+  <text x="24" y="106" fill="#6b7280" font-size="12">기관 연계·연구자 등록 자동화 처리 현황 · 마지막 갱신 10:14:32</text>
+  <rect x="820" y="78" width="100" height="32" rx="6" fill="#fff" stroke="#d1d5db"/>
+  <text x="870" y="98" fill="#374151" font-size="12" text-anchor="middle">최근 7일 ▾</text>
+  <rect x="928" y="78" width="80" height="32" rx="6" fill="#fff" stroke="#d1d5db"/>
+  <text x="968" y="98" fill="#374151" font-size="12" text-anchor="middle">CSV ↓</text>
+  <rect x="1016" y="78" width="60" height="32" rx="6" fill="#fff" stroke="#d1d5db"/>
+  <text x="1046" y="98" fill="#374151" font-size="14" text-anchor="middle">⟳</text>
+
+  <!-- ── KPI Cards (4) ── -->
+  <rect x="24" y="124" width="252" height="100" rx="8" fill="#fff" stroke="#e5e7eb"/>
+  <text x="44" y="146" fill="#6b7280" font-size="11" font-weight="600">신규 기관 연계 (이번 주)</text>
+  <text x="44" y="180" fill="#111827" font-size="32" font-weight="700">3</text>
+  <text x="100" y="180" fill="#10b981" font-size="13" font-weight="600">↑ 200%</text>
+  <text x="44" y="204" fill="#6b7280" font-size="11">평균 처리시간 1.4일 (목표 2일)</text>
+
+  <rect x="284" y="124" width="252" height="100" rx="8" fill="#fff" stroke="#e5e7eb"/>
+  <text x="304" y="146" fill="#6b7280" font-size="11" font-weight="600">데이터 등록 (이번 주)</text>
+  <text x="304" y="180" fill="#111827" font-size="32" font-weight="700">847</text>
+  <text x="386" y="180" fill="#10b981" font-size="13" font-weight="600">↑ 34%</text>
+  <text x="304" y="204" fill="#6b7280" font-size="11">자동 채움 90.2% · 평균 4.8초</text>
+
+  <rect x="544" y="124" width="252" height="100" rx="8" fill="#fff" stroke="#e5e7eb"/>
+  <text x="564" y="146" fill="#6b7280" font-size="11" font-weight="600">자동 채움 정확도</text>
+  <text x="564" y="180" fill="#111827" font-size="32" font-weight="700">93.7%</text>
+  <text x="660" y="180" fill="#10b981" font-size="13" font-weight="600">↑ 2.1%p</text>
+  <text x="564" y="204" fill="#6b7280" font-size="11">사용자 수정률 6.3% · 반려 1.2%</text>
+
+  <rect x="804" y="124" width="272" height="100" rx="8" fill="#fff" stroke="#e5e7eb"/>
+  <text x="824" y="146" fill="#6b7280" font-size="11" font-weight="600">활성 에이전트 / 가동률</text>
+  <text x="824" y="180" fill="#111827" font-size="32" font-weight="700">12</text>
+  <text x="870" y="180" fill="#6b7280" font-size="13">/ 14</text>
+  <circle cx="1010" cy="170" r="20" fill="none" stroke="#e5e7eb" stroke-width="6"/>
+  <circle cx="1010" cy="170" r="20" fill="none" stroke="#10b981" stroke-width="6" stroke-dasharray="108 18" transform="rotate(-90 1010 170)"/>
+  <text x="1010" y="174" fill="#111827" font-size="11" font-weight="700" text-anchor="middle">86%</text>
+  <text x="824" y="204" fill="#6b7280" font-size="11">2개 점검 중 · 가용률 SLA 95%</text>
+
+  <!-- ── 기관별 막대그래프 + 에이전트 성능 ── -->
+  <rect x="24" y="240" width="660" height="270" rx="8" fill="#fff" stroke="#e5e7eb"/>
+  <text x="44" y="266" fill="#111827" font-size="14" font-weight="700">기관별 연계 현황 (이번 주 등록 건수)</text>
+  <text x="44" y="282" fill="#6b7280" font-size="11">상위 8개 기관 · 막대: 등록 · ▲: 전주 대비</text>
+
+  <!-- Y axis baseline -->
+  <line x1="100" y1="480" x2="664" y2="480" stroke="#e5e7eb"/>
+  <line x1="100" y1="430" x2="664" y2="430" stroke="#f3f4f6"/>
+  <line x1="100" y1="380" x2="664" y2="380" stroke="#f3f4f6"/>
+  <line x1="100" y1="330" x2="664" y2="330" stroke="#f3f4f6"/>
+  <text x="92" y="484" fill="#9ca3af" font-size="10" text-anchor="end">0</text>
+  <text x="92" y="434" fill="#9ca3af" font-size="10" text-anchor="end">100</text>
+  <text x="92" y="384" fill="#9ca3af" font-size="10" text-anchor="end">200</text>
+  <text x="92" y="334" fill="#9ca3af" font-size="10" text-anchor="end">300</text>
+
+  <!-- Bars -->
+  <rect x="116" y="346" width="50" height="134" rx="3" fill="#2563eb"/>
+  <text x="141" y="496" fill="#374151" font-size="11" text-anchor="middle">KIGAM</text>
+  <text x="141" y="340" fill="#111827" font-size="11" font-weight="700" text-anchor="middle">268</text>
+
+  <rect x="184" y="360" width="50" height="120" rx="3" fill="#2563eb"/>
+  <text x="209" y="496" fill="#374151" font-size="11" text-anchor="middle">KIER</text>
+  <text x="209" y="354" fill="#111827" font-size="11" font-weight="700" text-anchor="middle">240</text>
+
+  <rect x="252" y="386" width="50" height="94" rx="3" fill="#2563eb"/>
+  <text x="277" y="496" fill="#374151" font-size="11" text-anchor="middle">KAERI</text>
+  <text x="277" y="380" fill="#111827" font-size="11" font-weight="700" text-anchor="middle">188</text>
+
+  <rect x="320" y="408" width="50" height="72" rx="3" fill="#2563eb"/>
+  <text x="345" y="496" fill="#374151" font-size="11" text-anchor="middle">KFE</text>
+  <text x="345" y="402" fill="#111827" font-size="11" font-weight="700" text-anchor="middle">144</text>
+
+  <rect x="388" y="422" width="50" height="58" rx="3" fill="#2563eb"/>
+  <text x="413" y="496" fill="#374151" font-size="11" text-anchor="middle">KOPRI</text>
+  <text x="413" y="416" fill="#111827" font-size="11" font-weight="700" text-anchor="middle">116</text>
+
+  <rect x="456" y="438" width="50" height="42" rx="3" fill="#94a3b8"/>
+  <text x="481" y="496" fill="#374151" font-size="11" text-anchor="middle">KASI</text>
+  <text x="481" y="432" fill="#111827" font-size="11" font-weight="700" text-anchor="middle">84</text>
+
+  <rect x="524" y="450" width="50" height="30" rx="3" fill="#94a3b8"/>
+  <text x="549" y="496" fill="#374151" font-size="11" text-anchor="middle">KISS</text>
+  <text x="549" y="444" fill="#111827" font-size="11" font-weight="700" text-anchor="middle">60</text>
+
+  <rect x="592" y="462" width="50" height="18" rx="3" fill="#94a3b8"/>
+  <text x="617" y="496" fill="#374151" font-size="11" text-anchor="middle">KISTI</text>
+  <text x="617" y="456" fill="#111827" font-size="11" font-weight="700" text-anchor="middle">36</text>
+
+  <!-- Right: agent latency trend (line chart) -->
+  <rect x="696" y="240" width="380" height="270" rx="8" fill="#fff" stroke="#e5e7eb"/>
+  <text x="716" y="266" fill="#111827" font-size="14" font-weight="700">에이전트 평균 응답 시간 (초)</text>
+  <text x="716" y="282" fill="#6b7280" font-size="11">최근 7일 일별 추이 · 목표 &lt; 6초</text>
+
+  <!-- chart area -->
+  <line x1="740" y1="470" x2="1060" y2="470" stroke="#e5e7eb"/>
+  <line x1="740" y1="420" x2="1060" y2="420" stroke="#f3f4f6" stroke-dasharray="3 3"/>
+  <line x1="740" y1="370" x2="1060" y2="370" stroke="#f3f4f6" stroke-dasharray="3 3"/>
+  <line x1="740" y1="320" x2="1060" y2="320" stroke="#f3f4f6" stroke-dasharray="3 3"/>
+  <text x="734" y="474" fill="#9ca3af" font-size="10" text-anchor="end">0</text>
+  <text x="734" y="424" fill="#9ca3af" font-size="10" text-anchor="end">3</text>
+  <text x="734" y="374" fill="#9ca3af" font-size="10" text-anchor="end">6</text>
+  <text x="734" y="324" fill="#9ca3af" font-size="10" text-anchor="end">9</text>
+
+  <!-- target line -->
+  <line x1="740" y1="370" x2="1060" y2="370" stroke="#f59e0b" stroke-dasharray="4 2"/>
+  <text x="1060" y="367" fill="#f59e0b" font-size="10" text-anchor="end">목표 6s</text>
+
+  <!-- registration agent line -->
+  <polyline points="760,400 805,408 850,392 895,388 940,395 985,402 1030,398" stroke="#2563eb" stroke-width="2" fill="none"/>
+  <circle cx="760" cy="400" r="3" fill="#2563eb"/>
+  <circle cx="805" cy="408" r="3" fill="#2563eb"/>
+  <circle cx="850" cy="392" r="3" fill="#2563eb"/>
+  <circle cx="895" cy="388" r="3" fill="#2563eb"/>
+  <circle cx="940" cy="395" r="3" fill="#2563eb"/>
+  <circle cx="985" cy="402" r="3" fill="#2563eb"/>
+  <circle cx="1030" cy="398" r="3" fill="#2563eb"/>
+
+  <!-- linking agent line -->
+  <polyline points="760,335 805,340 850,355 895,358 940,360 985,355 1030,348" stroke="#10b981" stroke-width="2" fill="none"/>
+  <circle cx="760" cy="335" r="3" fill="#10b981"/>
+  <circle cx="1030" cy="348" r="3" fill="#10b981"/>
+
+  <text x="760" y="490" fill="#9ca3af" font-size="9" text-anchor="middle">05-08</text>
+  <text x="850" y="490" fill="#9ca3af" font-size="9" text-anchor="middle">05-10</text>
+  <text x="940" y="490" fill="#9ca3af" font-size="9" text-anchor="middle">05-12</text>
+  <text x="1030" y="490" fill="#9ca3af" font-size="9" text-anchor="middle">05-14</text>
+
+  <!-- legend -->
+  <rect x="754" y="504" width="10" height="3" fill="#2563eb"/>
+  <text x="772" y="508" fill="#374151" font-size="10">등록 에이전트 4.2s</text>
+  <rect x="884" y="504" width="10" height="3" fill="#10b981"/>
+  <text x="902" y="508" fill="#374151" font-size="10">기관 연계 에이전트 5.6s</text>
+
+  <!-- ── 진행 중 작업 + 알림 ── -->
+  <rect x="24" y="526" width="540" height="252" rx="8" fill="#fff" stroke="#e5e7eb"/>
+  <text x="44" y="552" fill="#111827" font-size="14" font-weight="700">진행 중 작업</text>
+  <text x="500" y="552" fill="#2563eb" font-size="11" font-weight="600" text-anchor="end">모두 보기 ▸</text>
+
+  <!-- task 1 -->
+  <rect x="44" y="568" width="500" height="58" rx="6" fill="#f9fafb" stroke="#e5e7eb"/>
+  <circle cx="62" cy="586" r="6" fill="#2563eb"/>
+  <text x="78" y="588" fill="#111827" font-size="12" font-weight="600">KIGAM 메타데이터 매핑</text>
+  <text x="78" y="606" fill="#6b7280" font-size="11">기관 연계 · 24필드 매핑 중 — 18/24 완료</text>
+  <rect x="78" y="612" width="300" height="6" rx="3" fill="#e5e7eb"/>
+  <rect x="78" y="612" width="225" height="6" rx="3" fill="#2563eb"/>
+  <text x="530" y="606" fill="#6b7280" font-size="11" text-anchor="end">3분 32초</text>
+
+  <!-- task 2 -->
+  <rect x="44" y="634" width="500" height="58" rx="6" fill="#f9fafb" stroke="#e5e7eb"/>
+  <circle cx="62" cy="652" r="6" fill="#10b981"/>
+  <text x="78" y="654" fill="#111827" font-size="12" font-weight="600">KIER 일괄 등록 (배치)</text>
+  <text x="78" y="672" fill="#6b7280" font-size="11">등록 자동 · 47건 중 42건 완료 · 5건 확인 필요</text>
+  <rect x="78" y="678" width="300" height="6" rx="3" fill="#e5e7eb"/>
+  <rect x="78" y="678" width="268" height="6" rx="3" fill="#10b981"/>
+  <text x="530" y="672" fill="#6b7280" font-size="11" text-anchor="end">10분 11초</text>
+
+  <!-- task 3 -->
+  <rect x="44" y="700" width="500" height="58" rx="6" fill="#f9fafb" stroke="#e5e7eb"/>
+  <circle cx="62" cy="718" r="6" fill="#f59e0b"/>
+  <text x="78" y="720" fill="#111827" font-size="12" font-weight="600">KAERI 컬렉션 재정의</text>
+  <text x="78" y="738" fill="#6b7280" font-size="11">담당자 응답 대기 중 — 매핑 모호 4건</text>
+  <text x="530" y="738" fill="#f59e0b" font-size="11" font-weight="600" text-anchor="end">⚠ 대기 22시간</text>
+
+  <!-- Alerts panel -->
+  <rect x="584" y="526" width="492" height="252" rx="8" fill="#fff" stroke="#e5e7eb"/>
+  <text x="604" y="552" fill="#111827" font-size="14" font-weight="700">알림 · 이벤트</text>
+  <text x="1040" y="552" fill="#2563eb" font-size="11" font-weight="600" text-anchor="end">전체 보기 ▸</text>
+
+  <!-- alert 1 (error) -->
+  <rect x="604" y="568" width="452" height="46" rx="6" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="620" y="586" fill="#dc2626" font-size="11" font-weight="700">● 오류</text>
+  <text x="664" y="586" fill="#7f1d1d" font-size="11">KASI 컬렉션 OpenAPI 키 만료 — 1시간 전</text>
+  <text x="620" y="603" fill="#7f1d1d" font-size="10">자동 갱신 실패 (인증 토큰 거부) — 운영자 개입 필요</text>
+
+  <!-- alert 2 (warn) -->
+  <rect x="604" y="622" width="452" height="46" rx="6" fill="#fffbeb" stroke="#fde68a"/>
+  <text x="620" y="640" fill="#d97706" font-size="11" font-weight="700">▲ 경고</text>
+  <text x="664" y="640" fill="#92400e" font-size="11">등록 에이전트 응답 시간 P95 7.2초 — 30분 전</text>
+  <text x="620" y="657" fill="#92400e" font-size="10">목표(6초) 초과 · LLM 응답 지연 추세 모니터링 중</text>
+
+  <!-- alert 3 (info) -->
+  <rect x="604" y="676" width="452" height="46" rx="6" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="620" y="694" fill="#2563eb" font-size="11" font-weight="700">● 정보</text>
+  <text x="664" y="694" fill="#1e3a8a" font-size="11">신규 기관 연계 완료: KIGAM — 12시간 전</text>
+  <text x="620" y="711" fill="#1e3a8a" font-size="10">컬렉션 kigam-geo-2026 생성 · OpenAPI 키 발급 · 샘플 검증 통과</text>
+
+  <!-- alert 4 (info) -->
+  <rect x="604" y="730" width="452" height="40" rx="6" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="620" y="748" fill="#6b7280" font-size="11" font-weight="700">● 정상</text>
+  <text x="664" y="748" fill="#374151" font-size="11">일일 정기 백업 완료 · 14:00 — 어제</text>
+  <text x="620" y="763" fill="#9ca3af" font-size="10">host/ + git repo · 312 MB</text>
+</svg>

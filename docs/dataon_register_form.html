@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>연구데이터 등록 - DataON</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans KR','Malgun Gothic',sans-serif;font-size:16px;font-weight:300;color:#555;background:#f4f4f4}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit}
+input,textarea,select{font-family:inherit;font-size:14px}
+.blind{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+header{background:#040110;height:60px;display:flex;align-items:center;padding:0 30px;position:sticky;top:0;z-index:500}
+.hd-logo-text{color:#fff;font-size:20px;font-weight:900;letter-spacing:-1px;margin-right:6px}
+.hd-logo-text em{color:#5bc8f5;font-style:normal}
+.hd-logo-sub{color:#6a9ab8;font-size:13px;margin-right:40px}
+.hd-gnb{display:flex;list-style:none;flex:1}
+.hd-gnb>li>a{display:block;padding:0 20px;color:#b8cedd;font-size:15px;line-height:60px}
+.hd-gnb>li>a:hover{color:#fff;background:rgba(255,255,255,.07)}
+.hd-right{display:flex;align-items:center;gap:8px;margin-left:auto}
+.hd-btn{background:transparent;border:1px solid #445566;color:#aabbcc;font-size:12px;padding:4px 12px;border-radius:20px}
+.hd-avatar{width:32px;height:32px;background:#334455;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
+.hd-hamburger{background:transparent;border:none;color:#fff;font-size:22px;padding:4px}
+.visual{background:#040110 url('https://dataon.kisti.re.kr/dr/ps/images/layout/bg_search_new.jpg') center/cover no-repeat;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 20px;text-align:center}
+.visual h2{color:#fff;font-size:26px;font-weight:700;letter-spacing:3px;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.breadcrumb{margin-top:12px;list-style:none;display:flex;gap:4px;align-items:center;font-size:12px;color:#7a9ab8}
+.breadcrumb li::after{content:'›';margin-left:4px;color:#4a6a88}
+.breadcrumb li:last-child::after{content:''}
+.breadcrumb a{color:#7a9ab8}
+.quick-wrap{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:400;display:flex;align-items:stretch}
+.quick-search-btn{background:#17448b;color:#fff;border:none;padding:8px 5px;writing-mode:vertical-rl;font-size:10px;font-weight:700;letter-spacing:2px;cursor:pointer}
+.quick-panel{background:#1a2535;width:62px;display:flex;flex-direction:column;align-items:center;padding:4px 0}
+.quick-panel .qtitle{color:#fff;font-size:9px;font-weight:700;text-align:center;padding:8px 2px;border-bottom:1px solid #253545;width:100%}
+.quick-item{width:100%;display:flex;flex-direction:column;align-items:center;padding:7px 4px;color:#8aacbc;font-size:9px;text-align:center;gap:3px;border:none;background:none;cursor:pointer;border-bottom:1px solid #253545}
+.quick-item:hover{background:#253545;color:#fff}
+.qi{font-size:16px}
+.quick-top-btn{background:#17448b;color:#fff;width:100%;text-align:center;padding:7px 4px;font-size:10px;border:none;cursor:pointer;font-weight:700}
+#container{max-width:1300px;margin:0 auto;padding:24px 20px 60px}
+.brick{background:#fff;border:1px solid #e1e2e2;margin-bottom:8px}
+.data_form_inner{padding:15px 35px}
+.inner_h3{font-size:22px;font-weight:700;color:#111;padding-left:12px;border-left:4px solid #17448b;margin-bottom:14px;line-height:1.4}
+.d_f_title_box{border-bottom:2px solid #414141;padding:0 0 6px;margin:20px 0 4px}
+.d_f_title_box h4{font-size:20px;font-weight:700;color:#222;display:inline}
+.d_f_title_box h4.pointer{cursor:pointer}
+.d_f_title_box h4.pointer::after{content:' ▲';font-size:12px;color:#666}
+.d_f_title_box h4.collapsed::after{content:' ▼'}
+.d_f_title_box>span{font-size:13px;color:#666;margin-left:10px}
+.asterisk_t{color:#e05000;font-style:normal;font-size:13px}
+.add_item_box{position:relative;padding:14px 0;border-bottom:2px solid #ddd;margin-top:8px}
+.add_item_box h5{font-size:17px;font-weight:600;color:#333;margin:6px 0 0 10px;line-height:1.8}
+.item_info_wrap{margin-left:200px;padding-right:70px}
+.item_info_box{border:1px solid #ddd}
+.add_plus_area{position:absolute;top:0;right:0;display:flex;align-items:flex-start}
+.add_plus_bt{width:40px;height:40px;background:transparent;border:1px solid #276bd7;color:#276bd7;font-size:22px;display:flex;align-items:center;justify-content:center;padding:0}
+.add_plus_bt:hover{background:#276bd7;color:#fff}
+.add_drop_box{position:relative}
+.add_drop_bt{width:40px;height:40px;background:transparent;border:1px solid #276bd7;border-left:none;display:flex;align-items:center;justify-content:center;padding:0;color:#276bd7}
+.add_drop_bt::after{content:'▾';font-size:13px}
+.add_drop_bt:hover,.add_drop_bt:hover::after{background:#276bd7;color:#fff}
+.dropdown-menu{display:none;position:absolute;right:0;top:40px;background:#fff;border:1px solid #ccc;min-width:110px;z-index:100;box-shadow:0 3px 8px rgba(0,0,0,.15)}
+.dropdown-menu.show{display:block}
+.dropdown-menu li{list-style:none}
+.dropdown-menu li a{display:block;padding:8px 14px;font-size:13px;color:#333;cursor:pointer}
+.dropdown-menu li a:hover{background:#f0f4ff}
+.d_f_item_row{padding:0;margin-bottom:0}
+.a_i_row{padding:0}
+.add_row{padding:12px}
+.row{display:flex;flex-wrap:wrap;margin:0 -12px}
+.d_f_item{padding:0 12px}
+.col-lg-6{flex:0 0 50%;max-width:50%}
+.col-lg-12{flex:0 0 100%;max-width:100%}
+.col-md-4{flex:0 0 33.333%;max-width:33.333%}
+.d_f_i_title{width:145px;float:left;clear:left;padding-top:10px}
+.d_f_i_title label{font-size:13px;color:#444;font-weight:500;cursor:default}
+.d_label_t{font-size:13px}
+.d_f_i_int{margin-left:150px;padding:6px 0;min-height:40px}
+.row-clear{clear:both}
+input[type=text],input[type=email]{height:38px;border:1px solid #d8d8d8;background:#fcfbfb;padding:0 0 0 8px;color:#111;outline:none;border-radius:0}
+input[type=text]:focus,input[type=email]:focus{border-color:#276bd7}
+input[readonly]{background:#f0f0f0;color:#888}
+textarea{border:1px solid #d8d8d8;background:#fcfbfb;padding:8px;color:#111;outline:none;border-radius:0;resize:vertical;width:100%;min-height:100px}
+textarea:focus{border-color:#276bd7}
+select{height:38px;border:1px solid #d8d8d8;background:#fcfbfb;padding:0 8px;color:#111;outline:none;border-radius:0}
+.d_f_i_int input[type=text],.d_f_i_int input[type=email],.d_f_i_int select,.d_f_i_int textarea{width:100%}
+.panel_radio_wrap{display:inline-flex;align-items:center;gap:5px;margin-right:16px;margin-bottom:4px}
+.panel_radio_wrap input[type=radio]{accent-color:#276bd7;width:15px;height:15px;margin:0}
+.panel_radio_wrap label{font-size:14px;color:#333;cursor:pointer}
+.code-radio{display:flex;flex-wrap:wrap;padding:4px 0}
+.help_more{display:inline-block;position:relative;margin-left:3px;vertical-align:middle}
+.help_more>span{display:inline-block;width:15px;height:15px;background:#e05000;color:#fff;border-radius:50%;font-size:10px;text-align:center;line-height:15px;cursor:help}
+.help_more>em{display:none;position:absolute;left:18px;top:-4px;background:#222;color:#fff;font-style:normal;font-size:11px;padding:4px 8px;border-radius:3px;white-space:nowrap;z-index:200;min-width:100px}
+.help_more:hover>em{display:block}
+.detail-border{text-align:center;padding:10px 0;border-top:1px solid #eee;margin-top:6px}
+.pretty.p-switch{display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.pretty.p-switch input[type=checkbox]{display:none}
+.switch-track{width:44px;height:22px;background:#ccc;border-radius:11px;position:relative;transition:background .25s;flex-shrink:0;display:inline-block}
+.switch-track::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:left .25s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.pretty.p-switch input:checked~.switch-track{background:#276bd7}
+.pretty.p-switch input:checked~.switch-track::after{left:24px}
+.switch-label{font-size:14px;color:#555}
+.detailed{display:none}
+.detailed.open{display:block}
+.relation-content.collapsed{display:none}
+.tag-input-wrap{border:1px solid #d8d8d8;background:#fcfbfb;min-height:38px;padding:3px 6px;display:flex;flex-wrap:wrap;gap:4px;align-items:center;cursor:text}
+.tag-item{background:#276bd7;color:#fff;padding:2px 8px;border-radius:2px;font-size:12px;display:inline-flex;align-items:center;gap:4px}
+.tag-item button{background:none;border:none;color:#fff;font-size:13px;padding:0;cursor:pointer}
+.tag-input-wrap>input{border:none;outline:none;background:transparent;font-size:14px;min-width:80px;height:28px;color:#111}
+.email-wrap{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.email-wrap input[type=text]{height:38px;flex:1;min-width:80px}
+.email-at{color:#666;font-size:15px}
+.inline-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.inline-row label{font-size:13px;color:#555;white-space:nowrap}
+.inline-row input[type=text]{height:38px}
+.ai-recommendation{background:#f2f4fb;border:1px dashed #b0c0e0;padding:10px 14px;margin-top:6px}
+.ai-recommendation__header{font-weight:700;color:#4a5fa0;font-size:13px;margin-bottom:4px}
+.ai-recommendation__placeholder-text{font-size:12px;color:#8090b0}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:6px 12px;font-size:13px;border-radius:4px;border:1px solid transparent;cursor:pointer}
+.btn-primary{background:#337ab7;color:#fff;border-color:#2e6da4;height:34px;font-size:13px}
+.btn-primary:hover{background:#286090}
+.normal_bt{background:#3b3d3d;color:#fff;border:1px solid #3b3d3d;height:40px;min-width:120px;border-radius:0;font-size:14px;cursor:pointer}
+.primary_bt{background:#17448b;color:#fff;border:1px solid #17448b;height:40px;min-width:120px;border-radius:0;font-size:14px;cursor:pointer}
+.primary_bt:hover{background:#0f2f6a}
+.btn-danger-bt{background:#c0001a;color:#fff;border:1px solid #a00017;height:40px;min-width:120px;border-radius:0;font-size:14px;cursor:pointer}
+.btn-dark-sm{background:#444;color:#fff;border:1px solid #333;padding:0 12px;font-size:12px;height:34px;border-radius:2px;cursor:pointer}
+.btn-outline-sm{background:#fff;border:1px solid #aaa;color:#333;padding:0 12px;font-size:12px;height:34px;border-radius:2px;cursor:pointer}
+.d_b_top{display:flex;gap:8px;margin-bottom:8px}
+.d_b_upload{border:2px dashed #ccc;padding:28px;text-align:center;color:#aaa;font-size:13px;background:#fafafa;min-height:90px;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.add_l_bt{display:inline-flex;gap:0;margin-top:4px}
+.add_l_bt button{width:32px;height:32px;border:1px solid #276bd7;background:transparent;color:#276bd7;font-size:16px;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}
+.add_l_bt button:hover{background:#276bd7;color:#fff}
+.add_l_bt button+button{border-left:none}
+.license_chk_date{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.embargo_date_int{display:inline-flex;align-items:center;gap:6px;margin-left:4px}
+.embargo_date_int input{width:140px;height:34px;border:1px solid #d8d8d8;padding:0 8px;background:#fcfbfb}
+.data_bottom_box{display:flex;justify-content:flex-end;gap:8px;padding:24px 0 8px}
+.notice-red{color:#c00;font-size:12px;margin-top:4px}
+.person-label{font-size:17px;font-weight:600;color:#333;margin:6px 0 0 10px}
+.mgb_10{margin-bottom:10px}
+.add_plus_box_inline{display:flex;align-items:flex-start;gap:8px}
+.add_plus_box_inline .fields{flex:1}
+footer{background:#2e2e2e;padding:24px 40px;text-align:center}
+.footer-links{display:flex;justify-content:center;gap:16px;list-style:none;margin-bottom:10px}
+.footer-links a{color:#9abccc;font-size:13px}
+.footer-info{color:#7890aa;font-size:12px;line-height:2}
+.footer-logos{display:flex;justify-content:center;gap:12px;margin-top:14px;align-items:center}
+.footer-logo-box{border:1px solid #3a5070;border-radius:3px;padding:4px 10px;font-size:11px;color:#9abccc}
+.footer-dataon-logo{color:#5bc8f5;font-size:22px;font-weight:900;letter-spacing:-1px}
+@media(max-width:900px){.hd-gnb{display:none}.item_info_wrap{margin-left:0;padding-right:0}.d_f_i_title{width:100%;float:none;padding-top:4px}.d_f_i_int{margin-left:0}.data_form_inner{padding:10px 12px}.col-lg-6{flex:0 0 100%;max-width:100%}}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="hd-logo-text">data<em>·</em>on</span>
+  <span class="hd-logo-sub">DataON</span>
+  <ul class="hd-gnb">
+    <li><a href="#">검색</a></li><li><a href="#">등록</a></li><li><a href="#">분석</a></li><li><a href="#">서비스</a></li><li><a href="#">경진대회</a></li>
+  </ul>
+  <div class="hd-right">
+    <button class="hd-btn">사용자 가이드</button>
+    <button class="hd-btn">ENG</button>
+    <div class="hd-avatar">👤</div>
+    <button class="hd-hamburger">☰</button>
+  </div>
+</header>
+<div class="visual">
+  <h2>연구데이터 등록</h2>
+  <ul class="breadcrumb"><li><a href="#">🏠</a></li><li><a href="#">연구데이터 등록</a></li><li>연구데이터 등록</li></ul>
+</div>
+<div class="quick-wrap">
+  <button class="quick-search-btn">SEARCH Q</button>
+  <div class="quick-panel">
+    <div class="qtitle">QUICK<br>MENU</div>
+    <button class="quick-item"><span class="qi">📖</span><span>사용자가이드</span></button>
+    <button class="quick-item"><span class="qi">☁</span><span>마이드라이브</span></button>
+    <button class="quick-item"><span class="qi">📊</span><span>분석(CANVAS)</span></button>
+    <button class="quick-item"><span class="qi">👥</span><span>커뮤니티</span></button>
+    <button class="quick-item"><span class="qi">❓</span><span>FAQ</span></button>
+    <button class="quick-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">TOP</button>
+  </div>
+</div>
+<div id="container">
+<form id="form-submission" onsubmit="return false;">
+<div class="brick">
+  <div class="data_form_inner">
+    <h3 class="inner_h3" style="border:none;padding-left:0;font-size:18px;margin-bottom:0">컬렉션 : <span style="color:#276bd7">국가연구데이터플랫폼</span></h3>
+  </div>
+</div>
+<div class="brick">
+<div class="data_form_inner">
+<h3 class="inner_h3">메타데이터</h3>
+<div class="d_f_title_box">
+  <h4 class="pointer" id="relFoldH4" onclick="toggleRelation()">연관정보</h4>
+  <span>필수는 아니지만 연관 정보를 입력하면, 자동 완성할 수 있는 추천 목록을 제공합니다.</span>
+</div>
+<div id="relationContent">
+
+<div class="add_item_box" id="projectWrap">
+<div class="add_plus_area">
+    <button type="button" class="add_plus_bt" onclick="cloneBlock('projectWrap')" title="추가">+</button>
+    <div class="add_drop_box">
+      <button type="button" class="add_drop_bt" onclick="toggleDropdown(this)"><span class="blind">메뉴</span></button>
+      <ul class="dropdown-menu">
+        <li><a onclick="deleteBlock(this)">삭제</a></li>
+        <li><a onclick="moveBlock(this,'up')">위로 이동</a></li>
+        <li><a onclick="moveBlock(this,'down')">아래로 이동</a></li>
+      </ul>
+    </div>
+  </div>
+<h5>과제정보 <button type="button" class="btn btn-primary">NTIS 과제검색</button></h5>
+<div class="item_info_wrap"><div class="item_info_box">
+<div class="add_row a_i_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">관계유형</span><em class="asterisk_t">*</em></label></div>
+  <div class="d_f_i_int"><div class="code-radio">
+    <div class="panel_radio_wrap"><input type="radio" name="proj_rel" value="isOutputOf" checked><div class="panel_radio_box"><label>유발과제<span class="help_more"><span>!</span><em>연구데이터나 논문 등이 생산물로 나온 과제</em></span></label></div></div>
+    <div class="panel_radio_wrap"><input type="radio" name="proj_rel" value="hasOutput"><div class="panel_radio_box"><label>관련과제<span class="help_more"><span>!</span><em>직접적인 생산 과제는 아니지만 연계 과제</em></span></label></div></div>
+    <div class="panel_radio_wrap"><input type="radio" name="proj_rel" value="none"><div class="panel_radio_box"><label>해당사항 없음</label></div></div>
+  </div></div><div class="row-clear"></div>
+</div>
+<div class="add_row a_i_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">식별자 (식별자유형)</span></label></div>
+  <div class="d_f_i_int"><div class="code-radio">
+    <div class="panel_radio_wrap"><input type="radio" name="proj_id_type" value="ntis"><div class="panel_radio_box"><label>NTIS<span class="help_more"><span>!</span><em>ntis 제공 식별자</em></span></label></div></div>
+    <div class="panel_radio_wrap"><input type="radio" name="proj_id_type" value="doi"><div class="panel_radio_box"><label>DOI<span class="help_more"><span>!</span><em>DataON 식별자</em></span></label></div></div>
+    <div class="panel_radio_wrap"><input type="radio" name="proj_id_type" value="etc"><div class="panel_radio_box"><label>ETC<span class="help_more"><span>!</span><em>기타 식별자</em></span></label></div></div>
+  </div></div><div class="row-clear"></div>
+</div>
+<div class="add_row a_i_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">식별자 (식별자)</span></label></div>
+  <div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div>
+</div>
+<div class="add_row a_i_row">
+  <div class="row">
+    <div class="d_f_item col-lg-6"><div class="d_f_i_title"><label><span class="d_label_t">과제명 (한글)</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+    <div class="d_f_item col-lg-6"><div class="d_f_i_title"><label><span class="d_label_t">과제명 (영문)</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+  </div>
+</div>
+<div class="add_row a_i_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">부처명</span><em class="asterisk_t">*</em></label></div>
+  <div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div>
+</div>
+<div class="add_row a_i_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">과학기술표준분류</span></label></div>
+  <div class="d_f_i_int"><input type="text" readonly placeholder="선택"></div><div class="row-clear"></div>
+</div>
+<div class="add_row a_i_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">과제수행기관</span><em class="asterisk_t">*</em></label></div>
+  <div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div>
+</div>
+<div class="add_row a_i_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">과제책임자</span></label></div>
+  <div class="d_f_i_int">
+    <div class="row">
+      <div class="d_f_item col-lg-6"><div class="inline-row"><label>책임자명(한글)</label><input type="text" style="flex:1"></div></div>
+      <div class="d_f_item col-lg-6"><div class="inline-row"><label>책임자명(영문)</label><input type="text" style="flex:1"></div></div>
+      <div class="d_f_item col-lg-6"><div class="inline-row"><label>기관명(한글)</label><input type="text" style="flex:1"></div></div>
+      <div class="d_f_item col-lg-6"><div class="inline-row"><label>국가연구자번호</label><input type="text" style="flex:1"></div></div>
+    </div>
+  </div><div class="row-clear"></div>
+</div>
+<div class="a_i_row detail-border">
+  <label class="pretty p-switch" onclick="toggleDetail(this)"><input type="checkbox"><span class="switch-track"></span><span class="switch-label">상세 입력</span></label>
+</div>
+<div class="detailed">
+  <div class="add_row a_i_row">
+    <div class="d_f_i_title"><label><span class="d_label_t">과제참여자</span></label></div>
+    <div class="d_f_i_int">
+      <div class="row">
+        <div class="d_f_item col-lg-6"><div class="inline-row"><label>참여자명(한글)</label><input type="text" style="flex:1"></div></div>
+        <div class="d_f_item col-lg-6"><div class="inline-row"><label>참여자명(영문)</label><input type="text" style="flex:1"></div></div>
+        <div class="d_f_item col-lg-6"><div class="inline-row"><label>기관명(한글)</label><input type="text" style="flex:1"></div></div>
+        <div class="d_f_item col-lg-6"><div class="inline-row"><label>국가연구자번호</label><input type="text" style="flex:1"></div></div>
+      </div>
+    </div><div class="row-clear"></div>
+  </div>
+  <div class="add_row a_i_row"><div class="d_f_i_title"><label><span class="d_label_t">출처서비스</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+  <div class="add_row a_i_row"><div class="d_f_i_title"><label><span class="d_label_t">과제URL</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+  <div class="add_row a_i_row">
+    <div class="d_f_i_title"><label><span class="d_label_t">키워드 (한글)</span></label></div>
+    <div class="d_f_i_int"><div class="tag-input-wrap" onclick="this.querySelector('input').focus()"><input type="text" placeholder="입력 후 Enter" onkeydown="addTag(event,this)"></div></div><div class="row-clear"></div>
+  </div>
+  <div class="add_row a_i_row">
+    <div class="d_f_i_title"><label><span class="d_label_t">키워드 (영문)</span></label></div>
+    <div class="d_f_i_int"><div class="tag-input-wrap" onclick="this.querySelector('input').focus()"><input type="text" placeholder="입력 후 Enter" onkeydown="addTag(event,this)"></div></div><div class="row-clear"></div>
+  </div>
+  <div class="add_row a_i_row"><div class="d_f_i_title"><label><span class="d_label_t">과제관리기관</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+  <div class="add_row a_i_row"><div class="d_f_i_title"><label><span class="d_label_t">기준년도</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+  <div class="add_row a_i_row">
+    <div class="d_f_i_title"><label><span class="d_label_t">연구기간</span></label></div>
+    <div class="d_f_i_int"><div class="inline-row"><label>시작일</label><input type="text" placeholder="yyyy-mm-dd" style="width:130px"><label>종료일</label><input type="text" placeholder="yyyy-mm-dd" style="width:130px"></div></div><div class="row-clear"></div>
+  </div>
+  <div class="add_row a_i_row"><div class="d_f_i_title"><label><span class="d_label_t">총연구비</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+</div>
+</div></div>
+</div>
+
+<div class="add_item_box" id="paperWrap">
+<div class="add_plus_area">
+    <button type="button" class="add_plus_bt" onclick="cloneBlock('paperWrap')" title="추가">+</button>
+    <div class="add_drop_box">
+      <button type="button" class="add_drop_bt" onclick="toggleDropdown(this)"><span class="blind">메뉴</span></button>
+      <ul class="dropdown-menu">
+        <li><a onclick="deleteBlock(this)">삭제</a></li>
+        <li><a onclick="moveBlock(this,'up')">위로 이동</a></li>
+        <li><a onclick="moveBlock(this,'down')">아래로 이동</a></li>
+      </ul>
+    </div>
+  </div>
+<h5>논문정보 <button type="button" class="btn btn-primary">ScienceON 논문검색</button></h5>
+<div class="item_info_wrap"><div class="item_info_box">
+<div class="add_row a_i_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">관계유형</span><em class="asterisk_t">*</em></label></div>
+  <div class="d_f_i_int"><div class="code-radio">
+    <div class="panel_radio_wrap"><input type="radio" name="paper_rel" value="isOutputOf" checked><div class="panel_radio_box"><label>유발논문<span class="help_more"><span>!</span><em>연구데이터나 논문 등이 생산물로 나온 논문</em></span></label></div></div>
+    <div class="panel_radio_wrap"><input type="radio" name="paper_rel" value="hasOutput"><div class="panel_radio_box"><label>관련논문<span class="help_more"><span>!</span><em>직접적인 생산 논문은 아니지만 연계 논문</em></span></label></div></div>
+    <div class="panel_radio_wrap"><input type="radio" name="paper_rel" value="none"><div class="panel_radio_box"><label>해당사항 없음</label></div></div>
+  </div></div><div class="row-clear"></div>
+</div>
+<div class="add_row a_i_row">
+  <div class="row">
+    <div class="d_f_item col-lg-6"><div class="d_f_i_title"><label><span class="d_label_t">식별자 (식별자유형)</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+    <div class="d_f_item col-lg-6"><div class="d_f_i_title"><label><span class="d_label_t">식별자 (식별자)</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+  </div>
+</div>
+<div class="add_row a_i_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">DOI</span><em class="asterisk_t">*</em></label></div>
+  <div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div>
+</div>
+<div class="add_row a_i_row">
+  <div class="row">
+    <div class="d_f_item col-lg-6"><div class="d_f_i_title"><label><span class="d_label_t">제목 (한글)</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+    <div class="d_f_item col-lg-6"><div class="d_f_i_title"><label><span class="d_label_t">제목 (영문)</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+  </div>
+</div>
+<div class="add_row a_i_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">저자</span><em class="asterisk_t">*</em></label></div>
+  <div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div>
+</div>
+<div class="add_row a_i_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">발행년도</span><em class="asterisk_t">*</em></label></div>
+  <div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div>
+</div>
+<div class="a_i_row detail-border">
+  <label class="pretty p-switch" onclick="toggleDetail(this)"><input type="checkbox"><span class="switch-track"></span><span class="switch-label">상세 입력</span></label>
+</div>
+<div class="detailed">
+  <div class="add_row a_i_row"><div class="d_f_i_title"><label><span class="d_label_t">출처서비스</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+  <div class="add_row a_i_row"><div class="d_f_i_title"><label><span class="d_label_t">초록</span></label></div><div class="d_f_i_int"><textarea></textarea></div><div class="row-clear"></div></div>
+  <div class="add_row a_i_row">
+    <div class="d_f_i_title"><label><span class="d_label_t">키워드 (한글)</span></label></div>
+    <div class="d_f_i_int"><div class="tag-input-wrap" onclick="this.querySelector('input').focus()"><input type="text" placeholder="입력 후 Enter" onkeydown="addTag(event,this)"></div></div><div class="row-clear"></div>
+  </div>
+  <div class="add_row a_i_row">
+    <div class="d_f_i_title"><label><span class="d_label_t">키워드 (영문)</span></label></div>
+    <div class="d_f_i_int"><div class="tag-input-wrap" onclick="this.querySelector('input').focus()"><input type="text" placeholder="입력 후 Enter" onkeydown="addTag(event,this)"></div></div><div class="row-clear"></div>
+  </div>
+  <div class="add_row a_i_row"><div class="d_f_i_title"><label><span class="d_label_t">출판사</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+  <div class="add_row a_i_row"><div class="d_f_i_title"><label><span class="d_label_t">저널명</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+  <div class="add_row a_i_row">
+    <div class="d_f_i_title"><label><span class="d_label_t">저널정보</span></label></div>
+    <div class="d_f_i_int">
+      <div class="row">
+        <div class="d_f_item col-lg-6"><div class="inline-row"><label>ISSN</label><input type="text" style="flex:1"></div></div>
+        <div class="d_f_item col-lg-6"><div class="inline-row"><label>ISBN</label><input type="text" style="flex:1"></div></div>
+        <div class="d_f_item col-lg-6"><div class="inline-row"><label>권</label><input type="text" style="flex:1"></div></div>
+        <div class="d_f_item col-lg-6"><div class="inline-row"><label>호</label><input type="text" style="flex:1"></div></div>
+      </div>
+    </div><div class="row-clear"></div>
+  </div>
+  <div class="add_row a_i_row"><div class="d_f_i_title"><label><span class="d_label_t">원문URL</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+</div>
+</div></div>
+</div>
+</div><!-- /relationContent -->
+
+<div class="d_f_title_box">
+  <h4>기본정보</h4>
+  <span><em class="asterisk_t">*</em> 표시는 필수 입력 항목입니다.</span>
+</div>
+<div class="d_f_item_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">국내외구분</span><span class="help_more"><span>!</span><em>데이터 등록자의 소속 기관에 따라 국내외여부를 선택해주세요.</em></span><em class="asterisk_t">*</em></label></div>
+  <div class="d_f_i_int"><div class="code-radio">
+    <div class="panel_radio_wrap"><input type="radio" name="dmabrType" value="DOMESTIC" checked><div class="panel_radio_box"><label>국내</label></div></div>
+    <div class="panel_radio_wrap"><input type="radio" name="dmabrType" value="ABROAD"><div class="panel_radio_box"><label>국외</label></div></div>
+  </div></div><div class="row-clear"></div>
+</div>
+<div class="d_f_item_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">언어 선택</span><span class="help_more"><span>!</span><em>데이터셋의 표기 언어를 선택해주세요.</em></span></label></div>
+  <div class="d_f_i_int">
+    <div class="row">
+      <div class="d_f_item col-lg-6"><div class="inline-row"><label>주언어 <em class="asterisk_t">*</em></label><select style="flex:1"><option value="GU">구자라트어 : GU</option><option value="EL">그리스어 : EL</option><option value="NL">네덜란드어 : NL</option><option value="NE">네팔어 : NE</option><option value="NO">노르웨이어 : NO</option><option value="DA">덴마크어 : DA</option><option value="DE">독일어 : DE</option><option value="RU">러시아어 : RU</option><option value="LT">리투아니아어 : LT</option><option value="MK">마케도니아어 : MK</option><option value="ML">말라얄람어 : ML</option><option value="MS">말레이어 : MS</option><option value="MN">몽고어 : MN</option><option value="VI">베트남어 : VI</option><option value="BN">벵골어 : BN</option><option value="BG">불가리아어 : BG</option><option value="SR">세르비아어 : SR</option><option value="SI">스리랑카어 : SI</option><option value="SW">스와힐리어 : SW</option><option value="SV">스웨덴어 : SV</option><option value="ES">스페인어 : ES</option><option value="SK">슬로바키아어 : SK</option><option value="SL">슬로베니아어 : SL</option><option value="AR">아랍어 : AR</option><option value="HY">아르메니아어 : HY</option><option value="IS">아이슬란드어 : IS</option><option value="GA">아일랜드어 : GA</option><option value="AZ">아제르바이잔어 : AZ</option><option value="SQ">알바니아어 : SQ</option><option value="AM">암하라어 : AM</option><option value="ET">에스토니아어 : ET</option><option value="EN">영어 : EN</option><option value="YO">요루바어 : YO</option><option value="UR">우르두어 : UR</option><option value="UK">우크라이나어 : UK</option><option value="CY">웨일스어 : CY</option><option value="IT">이탈리아어 : IT</option><option value="ID">인도네시아어 : ID</option><option value="JA">일본어 : JA</option><option value="KA">조지아어 : KA</option><option value="ZU">줄루어 : ZU</option><option value="CN">중국어(간체) : CN</option><option value="TW">중국어(번체) : TW</option><option value="CS">체코어 : CS</option><option value="KK">카자흐어 : KK</option><option value="CA">카탈로니아어 : CA</option><option value="KN">칸나다어 : KN</option><option value="KM">캄보디아어 : KM</option><option value="HR">크로아티아어 : HR</option><option value="TA">타밀어 : TA</option><option value="TH">태국어 : TH</option><option value="TR">터키어 : TR</option><option value="TE">텔루구어 : TE</option><option value="PA">펀잡어 : PA</option><option value="FA">페르시아어 : FA</option><option value="BR">포르투갈어(브라질) : BR</option><option value="PT">포르투갈어 : PT</option><option value="PL">폴란드어 : PL</option><option value="FR">프랑스어 : FR</option><option value="FI">핀란드어 : FI</option><option value="TL">필리핀어 : TL</option><option value="KO" selected>한국어 : KO</option><option value="HU">헝가리어 : HU</option><option value="IW">히브리어 : IW</option><option value="HI">힌디어 : HI</option></select></div></div>
+      <div class="d_f_item col-lg-6"><div class="inline-row"><label>부언어</label><select style="flex:1"><option value="GU">구자라트어 : GU</option><option value="EL">그리스어 : EL</option><option value="NL">네덜란드어 : NL</option><option value="NE">네팔어 : NE</option><option value="NO">노르웨이어 : NO</option><option value="DA">덴마크어 : DA</option><option value="DE">독일어 : DE</option><option value="RU">러시아어 : RU</option><option value="LT">리투아니아어 : LT</option><option value="MK">마케도니아어 : MK</option><option value="ML">말라얄람어 : ML</option><option value="MS">말레이어 : MS</option><option value="MN">몽고어 : MN</option><option value="VI">베트남어 : VI</option><option value="BN">벵골어 : BN</option><option value="BG">불가리아어 : BG</option><option value="SR">세르비아어 : SR</option><option value="SI">스리랑카어 : SI</option><option value="SW">스와힐리어 : SW</option><option value="SV">스웨덴어 : SV</option><option value="ES">스페인어 : ES</option><option value="SK">슬로바키아어 : SK</option><option value="SL">슬로베니아어 : SL</option><option value="AR">아랍어 : AR</option><option value="HY">아르메니아어 : HY</option><option value="IS">아이슬란드어 : IS</option><option value="GA">아일랜드어 : GA</option><option value="AZ">아제르바이잔어 : AZ</option><option value="SQ">알바니아어 : SQ</option><option value="AM">암하라어 : AM</option><option value="ET">에스토니아어 : ET</option><option value="EN" selected>영어 : EN</option><option value="YO">요루바어 : YO</option><option value="UR">우르두어 : UR</option><option value="UK">우크라이나어 : UK</option><option value="CY">웨일스어 : CY</option><option value="IT">이탈리아어 : IT</option><option value="ID">인도네시아어 : ID</option><option value="JA">일본어 : JA</option><option value="KA">조지아어 : KA</option><option value="ZU">줄루어 : ZU</option><option value="CN">중국어(간체) : CN</option><option value="TW">중국어(번체) : TW</option><option value="CS">체코어 : CS</option><option value="KK">카자흐어 : KK</option><option value="CA">카탈로니아어 : CA</option><option value="KN">칸나다어 : KN</option><option value="KM">캄보디아어 : KM</option><option value="HR">크로아티아어 : HR</option><option value="TA">타밀어 : TA</option><option value="TH">태국어 : TH</option><option value="TR">터키어 : TR</option><option value="TE">텔루구어 : TE</option><option value="PA">펀잡어 : PA</option><option value="FA">페르시아어 : FA</option><option value="BR">포르투갈어(브라질) : BR</option><option value="PT">포르투갈어 : PT</option><option value="PL">폴란드어 : PL</option><option value="FR">프랑스어 : FR</option><option value="FI">핀란드어 : FI</option><option value="TL">필리핀어 : TL</option><option value="KO">한국어 : KO</option><option value="HU">헝가리어 : HU</option><option value="IW">히브리어 : IW</option><option value="HI">힌디어 : HI</option></select></div></div>
+    </div>
+  </div><div class="row-clear"></div>
+</div>
+<div class="d_f_item_row">
+  <div class="row">
+    <div class="d_f_item col-lg-6"><div class="d_f_i_title"><label><span class="d_label_t">제목 (주언어)</span><em class="asterisk_t">*</em></label></div><div class="d_f_i_int"><input type="text" placeholder="제목 (주언어) *필수"></div><div class="row-clear"></div></div>
+    <div class="d_f_item col-lg-6"><div class="d_f_i_title"><label><span class="d_label_t">제목 (부언어)</span></label></div><div class="d_f_i_int"><input type="text" placeholder="제목 (부언어)"></div><div class="row-clear"></div></div>
+  </div>
+</div>
+<div class="d_f_item_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">설명 (주언어)</span><em class="asterisk_t">*</em></label></div>
+  <div class="d_f_i_int" style="padding-top:0">
+    <div style="text-align:right;margin-bottom:4px"><label class="pretty p-switch" onclick="toggleDetail(this)" style="gap:5px;font-size:12px"><input type="checkbox"><span class="switch-track" style="width:34px;height:18px"></span><span class="switch-label" style="font-size:12px">마크다운</span></label></div>
+    <textarea placeholder="설명 (주언어) *필수"></textarea>
+  </div><div class="row-clear"></div>
+</div>
+<div class="d_f_item_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">설명 (부언어)</span></label></div>
+  <div class="d_f_i_int" style="padding-top:0">
+    <div style="text-align:right;margin-bottom:4px"><label class="pretty p-switch" onclick="toggleDetail(this)" style="gap:5px;font-size:12px"><input type="checkbox"><span class="switch-track" style="width:34px;height:18px"></span><span class="switch-label" style="font-size:12px">마크다운</span></label></div>
+    <textarea placeholder="설명 (부언어)"></textarea>
+  </div><div class="row-clear"></div>
+</div>
+<div class="d_f_item_row">
+  <div class="row">
+    <div class="d_f_item col-lg-6">
+      <div class="d_f_i_title"><label><span class="d_label_t">키워드 (주언어)</span><em class="asterisk_t">*</em></label></div>
+      <div class="d_f_i_int"><div class="tag-input-wrap" onclick="this.querySelector('input').focus()"><input type="text" placeholder="입력 후 Enter" onkeydown="addTag(event,this)"></div></div><div class="row-clear"></div>
+    </div>
+    <div class="d_f_item col-lg-6">
+      <div class="d_f_i_title"><label><span class="d_label_t">키워드 (부언어)</span></label></div>
+      <div class="d_f_i_int"><div class="tag-input-wrap" onclick="this.querySelector('input').focus()"><input type="text" placeholder="입력 후 Enter" onkeydown="addTag(event,this)"></div></div><div class="row-clear"></div>
+    </div>
+  </div>
+</div>
+<div class="d_f_item_row add_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">과학기술표준분류</span><em class="asterisk_t">*</em></label></div>
+  <div class="d_f_i_int">
+    <div style="display:flex;gap:0;align-items:center">
+      <input type="text" readonly style="flex:1;background:#f0f0f0" placeholder="선택">
+      <div class="add_l_bt"><button type="button">+</button><button type="button">−</button></div>
+    </div>
+    <div class="ai-recommendation"><div class="ai-recommendation__header">AI 추천 정보</div><div class="ai-recommendation__placeholder-text">제목이나 설명을 입력하면 AI 추천 정보를 확인할 수 있습니다.</div></div>
+  </div><div class="row-clear"></div>
+</div>
+<div class="d_f_item_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">생성일자</span></label></div>
+  <div class="d_f_i_int"><div class="row"><div class="col-md-4"><input type="text" placeholder="yyyy-mm-dd"></div></div></div><div class="row-clear"></div>
+</div>
+
+<div class="d_f_title_box"><h4>인물정보</h4><span>생성자는 필수 항목입니다. 최소 1명 이상의 생성자를 입력하세요.</span></div>
+<div class="add_row" id="personWrap" style="position:relative">
+<div class="add_plus_area"><button type="button" class="add_plus_bt" onclick="cloneBlock('personWrap')" title="추가">+</button><div class="add_drop_box"><button type="button" class="add_drop_bt" onclick="toggleDropdown(this)"><span class="blind">메뉴</span></button><ul class="dropdown-menu"><li><a onclick="deleteBlock(this)">삭제</a></li><li><a onclick="moveBlock(this,'up')">위로 이동</a></li><li><a onclick="moveBlock(this,'down')">아래로 이동</a></li></ul></div></div>
+<div class="add_item_box" style="border:none;padding-top:0">
+  <h5 class="person-label">생성자 <em class="asterisk_t">*</em></h5>
+  <div class="item_info_wrap"><div class="item_info_box">
+  <div class="add_row a_i_row">
+    <div class="d_f_i_title"><label><span class="d_label_t">인물구분</span></label></div>
+    <div class="d_f_i_int"><div class="code-radio">
+      <div class="panel_radio_wrap"><input type="radio" name="person_type" value="CREATOR" checked><div class="panel_radio_box"><label>생성자</label></div></div>
+      <div class="panel_radio_wrap"><input type="radio" name="person_type" value="MANAGER"><div class="panel_radio_box"><label>담당자</label></div></div>
+      <div class="panel_radio_wrap"><input type="radio" name="person_type" value="CONTRIBUTOR"><div class="panel_radio_box"><label>기여자</label></div></div>
+    </div></div><div class="row-clear"></div>
+  </div>
+  <div class="add_row a_i_row">
+    <div class="row">
+      <div class="d_f_item col-lg-6"><div class="d_f_i_title"><label><span class="d_label_t">이름 (주언어)</span><em class="asterisk_t">*</em></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+      <div class="d_f_item col-lg-6"><div class="d_f_i_title"><label><span class="d_label_t">이름 (부언어)</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+    </div>
+  </div>
+  <div class="add_row a_i_row">
+    <div class="row">
+      <div class="d_f_item col-lg-6"><div class="d_f_i_title"><label><span class="d_label_t">기관 (주언어)</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+      <div class="d_f_item col-lg-6"><div class="d_f_i_title"><label><span class="d_label_t">기관 (부언어)</span></label></div><div class="d_f_i_int"><input type="text"></div><div class="row-clear"></div></div>
+    </div>
+  </div>
+  <div class="add_row a_i_row">
+    <div class="d_f_i_title"><label><span class="d_label_t">E-mail</span></label></div>
+    <div class="d_f_i_int">
+      <div class="email-wrap">
+        <input type="text" placeholder="email" style="max-width:160px">
+        <span class="email-at">@</span>
+        <input type="text" placeholder="example.com" style="max-width:160px">
+        <select style="min-width:110px"><option>직접입력</option><option>naver.com</option><option>hanmail.net</option><option>nate.com</option><option>gmail.com</option></select>
+      </div>
+    </div><div class="row-clear"></div>
+  </div>
+  <div class="add_row a_i_row">
+    <div class="d_f_i_title"><label><span class="d_label_t">국가연구자번호</span><span class="help_more"><span>!</span><em>기억이 나지 않는 경우 국가연구자번호 조회 버튼을 클릭하세요.</em></span></label></div>
+    <div class="d_f_i_int"><div style="display:flex;gap:8px"><input type="text" placeholder="'-'를 제외한 8자리 숫자만 입력해주세요." style="flex:1"><button type="button" class="btn-dark-sm">국가연구자번호</button></div></div><div class="row-clear"></div>
+  </div>
+  <div class="add_row a_i_row">
+    <div class="d_f_i_title"><label><span class="d_label_t">ORCID</span></label></div>
+    <div class="d_f_i_int"><div style="display:flex;gap:8px"><input type="text" style="flex:1;background:#f0f0f0" readonly><button type="button" class="btn-dark-sm">ORCID 검색</button></div></div><div class="row-clear"></div>
+  </div>
+  </div></div>
+</div>
+</div>
+
+<div class="d_f_title_box"><h4>추가정보</h4></div>
+<div class="d_f_item_row add_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">데이터 수집기간</span></label></div>
+  <div class="d_f_i_int">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <label style="font-size:13px">시작일자</label><input type="text" placeholder="yyyy-mm-dd" style="width:140px">
+      <label style="font-size:13px">종료일자</label><input type="text" placeholder="yyyy-mm-dd" style="width:140px">
+      <div class="add_l_bt"><button type="button">+</button><button type="button">−</button></div>
+    </div>
+  </div><div class="row-clear"></div>
+</div>
+<div class="d_f_item_row add_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">데이터 수집지역</span><span class="help_more"><span>!</span><em>수집지역 정보를 위도,경도로 표시해주세요.</em></span></label></div>
+  <div class="d_f_i_int">
+    <div class="row">
+      <div class="d_f_item col-lg-12 mgb_10">
+        <div class="inline-row">
+          <label>수집지역 유형</label>
+          <select style="width:260px"><option>geoLocationPoint</option><option>geoLocationPlace</option><option>geoLocationLine</option><option>geoLocationBox</option><option>geoLocationPolygon</option></select>
+          <div class="add_l_bt"><button type="button">+</button><button type="button">−</button></div>
+        </div>
+      </div>
+      <div class="d_f_item col-lg-12">
+        <div class="inline-row">
+          <label>수집지역 정보</label>
+          <label>위도</label><input type="text" style="width:120px">
+          <label>경도</label><input type="text" style="width:120px">
+        </div>
+      </div>
+    </div>
+  </div><div class="row-clear"></div>
+</div>
+</div><!-- /data_form_inner -->
+</div><!-- /brick metadata -->
+
+<!-- 공개 및 라이선스 설정 -->
+<div class="brick">
+<div class="data_form_inner">
+<div class="add_line_box"><h3 class="inner_h3">공개 및 라이선스 설정</h3></div>
+<div class="d_f_item_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">공개 구분</span><em class="asterisk_t">*</em></label></div>
+  <div class="d_f_i_int">
+    <div class="license_chk_box">
+      <div class="license_chk_date">
+        <div class="panel_radio_wrap"><input type="radio" name="embargoType" value="None" checked id="emb_none"><div class="panel_radio_box"><label for="emb_none">즉시공개</label></div></div>
+        <div class="panel_radio_wrap"><input type="radio" name="embargoType" value="Fixed" id="emb_fixed" onchange="toggleEmbargoDate(this)"><div class="panel_radio_box"><label for="emb_fixed">엠바고</label></div></div>
+        <span style="font-size:12px;color:#888;margin-left:4px">기간설정 (~이후 공개: 최대 2년)</span>
+        <div class="embargo_date_int"><input type="text" placeholder="yyyy-mm-dd" id="embargo_date_input" disabled></div>
+      </div>
+    </div>
+  </div><div class="row-clear"></div>
+</div>
+<div class="d_f_item_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">DOI 출판</span><em class="asterisk_t">*</em></label></div>
+  <div class="d_f_i_int">
+    <div class="panel_radio_wrap"><input type="radio" name="doiPublish" value="true" checked><div class="panel_radio_box"><label>예</label></div></div>
+    <span style="font-size:13px;color:#666;margin-left:8px">승인 완료 시 DOI가 자동 발급됩니다.</span>
+  </div><div class="row-clear"></div>
+</div>
+<div class="d_f_item_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">라이선스</span></label></div>
+  <div class="d_f_i_int"><input type="text" readonly style="background:#f0f0f0"></div><div class="row-clear"></div>
+</div>
+</div>
+</div>
+
+<!-- 파일 데이터 -->
+<div class="brick">
+<div class="data_form_inner">
+<div class="add_line_box" style="display:flex;align-items:center;justify-content:space-between;padding-bottom:8px">
+  <h3 class="inner_h3" style="margin-bottom:0">파일 데이터 <small style="font-size:13px;font-weight:400;color:#888;border:none">데이터 파일, 출처URL 둘 중 한가지는 필수로 입력바랍니다.</small></h3>
+  <button type="button" class="btn-dark-sm">파일 업로드 제한</button>
+</div>
+
+<div class="a_i_row add_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">데이터 파일</span></label></div>
+  <div class="d_f_i_int">
+    <div class="d_b_top">
+      <button type="button" class="btn-outline-sm">마이드라이브</button>
+      <button type="button" class="btn-outline-sm">사용자 파일 추가</button>
+    </div>
+    <div class="d_b_upload">
+      <span style="font-size:30px;color:#ccc;display:block;margin-bottom:6px">⬆</span>
+      업로드 된 파일이 없습니다.
+    </div>
+  </div><div class="row-clear"></div>
+</div>
+
+<div class="a_i_row add_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">파일설명</span></label></div>
+  <div class="d_f_i_int"><input type="text" placeholder="파일에 대한 간략한 설명을 입력하세요."></div><div class="row-clear"></div>
+</div>
+
+<div class="a_i_row add_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">공개 구분</span><span class="help_more"><span>!</span><em>데이터 파일에 대한 공개 방식을 설정합니다.</em></span></label></div>
+  <div class="d_f_i_int">
+    <div>
+      <div class="panel_radio_wrap"><input type="radio" name="file_access" value="PUBLIC" checked id="fa_pub"><div class="panel_radio_box"><label for="fa_pub">파일 공개<span class="help_more"><span>!</span><em>파일이 이용자에게 표시되며 다운로드도 가능합니다.</em></span></label></div></div>
+    </div>
+    <div>
+      <div class="panel_radio_wrap"><input type="radio" name="file_access" value="PROTECTED" id="fa_emb" onchange="toggleFileEmbargo(this)"><div class="panel_radio_box"><label for="fa_emb">엠바고<span class="help_more"><span>!</span><em>해당 일자에 파일공개로 공개권한이 전환됩니다.</em></span></label></div></div>
+      <div class="embargo_date_int"><input type="text" placeholder="yyyy-mm-dd" id="file_embargo_date" disabled></div>
+    </div>
+    <div>
+      <div class="panel_radio_wrap"><input type="radio" name="file_access" value="PRIVATE" id="fa_pri"><div class="panel_radio_box"><label for="fa_pri">파일 비공개<span class="help_more"><span>!</span><em>파일이 이용자에게 표시되지 않습니다.</em></span></label></div></div>
+    </div>
+    <p class="notice-red">※ 파일을 먼저 업로드하면 엠바고/비공개로 변경할 수 있습니다.</p>
+  </div><div class="row-clear"></div>
+</div>
+
+<div class="a_i_row add_row">
+  <div class="d_f_i_title"><label><span class="d_label_t">출처URL</span><span class="help_more"><span>!</span><em>직접 파일 등록을 하지 않는 경우, 파일을 다운로드 받을 수 있는 링크의 URL을 입력해주세요.</em></span></label></div>
+  <div class="d_f_i_int">
+    <div style="display:flex;gap:0;align-items:center">
+      <input type="text" placeholder="직접 파일 등록을 하지 않는 경우, 파일을 다운로드 받을 수 있는 링크의 URL을 입력해주세요." style="flex:1">
+      <div class="add_l_bt"><button type="button">+</button><button type="button">−</button></div>
+    </div>
+  </div><div class="row-clear"></div>
+</div>
+
+<div class="data_bottom_box">
+  <button type="button" class="btn-danger-bt">삭제</button>
+  <button type="button" class="normal_bt">임시 저장</button>
+  <button type="button" class="primary_bt">다음 단계</button>
+</div>
+</div>
+</div>
+</form>
+</div><!-- /container -->
+
+<footer>
+  <ul class="footer-links">
+    <li><a href="#">이용약관</a></li>
+    <li><a href="#">개인정보처리방침</a></li>
+    <li><a href="#">기관소개</a></li>
+  </ul>
+  <div class="footer-info">
+    (우)34141 대전광역시 유성구 대학로 245 한국과학기술정보연구원.<br>
+    Copyright 2024. DataON All Rights Reserved.
+  </div>
+  <div class="footer-logos">
+    <span class="footer-dataon-logo">data<em style="color:#5bc8f5;font-style:normal">·</em>on</span>
+    <span class="footer-logo-box">re3data.org</span>
+    <span class="footer-logo-box">CORE TRUST SEAL</span>
+  </div>
+</footer>
+
+<script>
+// ===== 연관정보 펼치기/접기 =====
+function toggleRelation() {
+  const content = document.getElementById('relationContent');
+  const h4 = document.getElementById('relFoldH4');
+  content.classList.toggle('collapsed');
+  h4.classList.toggle('collapsed');
+}
+
+// ===== 상세 입력 토글 =====
+function toggleDetail(label) {
+  const checkbox = label.querySelector('input[type=checkbox]');
+  const detailedDiv = label.closest('.item_info_box, .d_f_item_row, .add_item_box')
+    ? label.closest('.add_item_box, .item_info_box').querySelector('.detailed')
+    : null;
+  // checkbox 상태는 클릭 이벤트 전에 바뀌므로 약간 지연
+  setTimeout(() => {
+    const checked = checkbox.checked;
+    // 가장 가까운 .detailed 찾기 (form 내에서)
+    let el = label.parentElement;
+    while(el && !el.classList.contains('item_info_box') && !el.classList.contains('item_info_wrap') && el !== document.body) {
+      el = el.parentElement;
+    }
+    const det = el ? el.querySelector('.detailed') : null;
+    if(det) {
+      if(checked) det.classList.add('open');
+      else det.classList.remove('open');
+    }
+  }, 0);
+}
+
+// ===== 드롭다운 메뉴 =====
+function toggleDropdown(btn) {
+  const menu = btn.nextElementSibling;
+  const allMenus = document.querySelectorAll('.dropdown-menu.show');
+  allMenus.forEach(m => { if(m !== menu) m.classList.remove('show'); });
+  menu.classList.toggle('show');
+  event.stopPropagation();
+}
+document.addEventListener('click', () => {
+  document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+});
+
+// ===== 블록 삭제 =====
+function deleteBlock(aEl) {
+  const block = aEl.closest('.add_item_box');
+  if(block) {
+    if(confirm('삭제하시겠습니까?')) block.remove();
+  }
+}
+
+// ===== 블록 복제 =====
+function cloneBlock(blockId) {
+  const original = document.getElementById(blockId);
+  if(!original) return;
+  const parent = original.parentElement;
+  // 마지막 같은 타입 블록 찾기
+  const sameBlocks = parent.querySelectorAll('[id^="'+blockId+'"]');
+  const last = sameBlocks[sameBlocks.length-1];
+  const clone = last.cloneNode(true);
+  const newId = blockId + '_' + Date.now();
+  clone.id = newId;
+  // 내부 input 초기화
+  clone.querySelectorAll('input[type=text],input[type=email],textarea').forEach(i => i.value='');
+  clone.querySelectorAll('.detailed').forEach(d => d.classList.remove('open'));
+  clone.querySelectorAll('input[type=checkbox]').forEach(c => c.checked=false);
+  clone.querySelectorAll('.tag-item').forEach(t => t.remove());
+  // add_plus_bt onclick 업데이트
+  const addBtn = clone.querySelector('.add_plus_bt');
+  if(addBtn) addBtn.setAttribute('onclick', "cloneBlock('"+newId+"')");
+  last.insertAdjacentElement('afterend', clone);
+}
+
+// ===== 블록 이동 =====
+function moveBlock(aEl, dir) {
+  const block = aEl.closest('.add_item_box');
+  if(!block) return;
+  const parent = block.parentElement;
+  if(dir === 'up') {
+    const prev = block.previousElementSibling;
+    if(prev && prev.classList.contains('add_item_box')) parent.insertBefore(block, prev);
+  } else {
+    const next = block.nextElementSibling;
+    if(next && next.classList.contains('add_item_box')) parent.insertBefore(next, block);
+  }
+}
+
+// ===== 태그 입력 =====
+function addTag(e, input) {
+  if(e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    const val = input.value.trim();
+    if(!val) return;
+    const wrap = input.closest('.tag-input-wrap');
+    const tag = document.createElement('span');
+    tag.className = 'tag-item';
+    tag.innerHTML = val + '<button type="button" onclick="this.parentElement.remove()">×</button>';
+    wrap.insertBefore(tag, input);
+    input.value = '';
+  }
+}
+
+// ===== 엠바고 날짜 =====
+function toggleEmbargoDate(radio) {
+  const dateInput = document.getElementById('embargo_date_input');
+  if(dateInput) dateInput.disabled = (radio.value !== 'Fixed');
+}
+document.querySelectorAll('input[name="embargoType"]').forEach(r => {
+  r.addEventListener('change', function(){ toggleEmbargoDate(this); });
+});
+
+function toggleFileEmbargo(radio) {
+  const dateInput = document.getElementById('file_embargo_date');
+  if(dateInput) dateInput.disabled = (radio.value !== 'PROTECTED');
+}
+
+// ===== 이메일 도메인 선택 =====
+document.querySelectorAll('.email-wrap select').forEach(sel => {
+  sel.addEventListener('change', function(){
+    const inputs = this.closest('.email-wrap').querySelectorAll('input');
+    if(this.value !== '직접입력') {
+      inputs[1].value = this.value;
+      inputs[1].readOnly = true;
+    } else {
+      inputs[1].value = '';
+      inputs[1].readOnly = false;
+    }
+  });
+});
+</script>
+</body>
+</html>

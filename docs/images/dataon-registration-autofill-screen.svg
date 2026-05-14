@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 820" font-family="-apple-system,Segoe UI,sans-serif">
+  <rect width="1100" height="820" fill="#f9fafb"/>
+
+  <!-- Top nav -->
+  <rect x="0" y="0" width="1100" height="56" fill="#1e3a8a"/>
+  <text x="24" y="35" fill="#fff" font-size="16" font-weight="700">DataON 연구데이터 등록</text>
+  <text x="240" y="35" fill="#cbd5e1" font-size="14">내 데이터</text>
+  <text x="320" y="35" fill="#ffffff" font-size="14" font-weight="600">신규 등록</text>
+  <text x="400" y="35" fill="#cbd5e1" font-size="14">컬렉션 안내</text>
+  <text x="1020" y="35" fill="#cbd5e1" font-size="13">연구자 ▾</text>
+
+  <!-- Page header -->
+  <text x="24" y="86" fill="#6b7280" font-size="12">신규 등록 / 자동 채우기 모드</text>
+  <text x="24" y="118" fill="#111827" font-size="22" font-weight="700">데이터 등록</text>
+  <text x="24" y="140" fill="#6b7280" font-size="13">URL·파일·DOI 중 하나만 제공하면 AI 에이전트가 양식을 자동으로 채워드립니다.</text>
+
+  <!-- ── Source input panel ── -->
+  <rect x="24" y="158" width="1052" height="138" rx="8" fill="#fff" stroke="#e5e7eb"/>
+  <text x="44" y="184" fill="#111827" font-size="14" font-weight="700">데이터 소스 입력</text>
+
+  <!-- Tabs -->
+  <rect x="44" y="196" width="86" height="30" rx="6" fill="#eff6ff" stroke="#2563eb"/>
+  <text x="87" y="216" fill="#1e3a8a" font-size="12" font-weight="600" text-anchor="middle">URL</text>
+  <rect x="138" y="196" width="86" height="30" rx="6" fill="#fff" stroke="#d1d5db"/>
+  <text x="181" y="216" fill="#374151" font-size="12" text-anchor="middle">파일 업로드</text>
+  <rect x="232" y="196" width="86" height="30" rx="6" fill="#fff" stroke="#d1d5db"/>
+  <text x="275" y="216" fill="#374151" font-size="12" text-anchor="middle">DOI / DataCite</text>
+  <rect x="326" y="196" width="86" height="30" rx="6" fill="#fff" stroke="#d1d5db"/>
+  <text x="369" y="216" fill="#374151" font-size="12" text-anchor="middle">NTIS 과제</text>
+  <rect x="420" y="196" width="86" height="30" rx="6" fill="#fff" stroke="#d1d5db"/>
+  <text x="463" y="216" fill="#374151" font-size="12" text-anchor="middle">README.md</text>
+
+  <!-- URL input -->
+  <rect x="44" y="240" width="800" height="40" rx="6" fill="#fff" stroke="#d1d5db"/>
+  <text x="60" y="265" fill="#111827" font-size="13">https://kigam.re.kr/datasets/2026/groundwater-monitoring-q1</text>
+
+  <rect x="852" y="240" width="100" height="40" rx="6" fill="#fff" stroke="#d1d5db"/>
+  <text x="902" y="265" fill="#374151" font-size="13" text-anchor="middle">+ 추가</text>
+
+  <rect x="960" y="240" width="116" height="40" rx="6" fill="#2563eb"/>
+  <text x="1018" y="265" fill="#fff" font-size="13" font-weight="700" text-anchor="middle">🤖 분석 시작</text>
+
+  <!-- ── Left: progress log ── -->
+  <rect x="24" y="312" width="320" height="450" rx="8" fill="#fff" stroke="#e5e7eb"/>
+  <rect x="24" y="312" width="320" height="36" rx="8" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="44" y="335" fill="#111827" font-size="13" font-weight="700">🤖 추출 진행</text>
+  <circle cx="312" cy="330" r="5" fill="#10b981"/>
+  <text x="284" y="334" fill="#10b981" font-size="11" font-weight="600" text-anchor="end">완료</text>
+
+  <!-- log entries -->
+  <text x="44" y="368" fill="#10b981" font-size="11">✓ 09:23:01</text>
+  <text x="44" y="382" fill="#374151" font-size="11">URL 접근 · HTTP 200 · 47KB</text>
+
+  <text x="44" y="406" fill="#10b981" font-size="11">✓ 09:23:02</text>
+  <text x="44" y="420" fill="#374151" font-size="11">HTML 파싱 · 본문 추출</text>
+
+  <text x="44" y="444" fill="#10b981" font-size="11">✓ 09:23:03</text>
+  <text x="44" y="458" fill="#374151" font-size="11">참여 연구자 4명 식별</text>
+  <text x="44" y="472" fill="#6b7280" font-size="10">  · 국가연구자번호 3명 매칭</text>
+
+  <text x="44" y="496" fill="#10b981" font-size="11">✓ 09:23:05</text>
+  <text x="44" y="510" fill="#374151" font-size="11">키워드 12개 추출 (한/영)</text>
+
+  <text x="44" y="534" fill="#10b981" font-size="11">✓ 09:23:06</text>
+  <text x="44" y="548" fill="#374151" font-size="11">조사지점 좌표 EPSG:5179</text>
+  <text x="44" y="562" fill="#6b7280" font-size="10">  → WGS84 변환 완료</text>
+
+  <text x="44" y="586" fill="#10b981" font-size="11">✓ 09:23:08</text>
+  <text x="44" y="600" fill="#374151" font-size="11">관련 논문 DOI 2건 자동 매칭</text>
+
+  <text x="44" y="624" fill="#10b981" font-size="11">✓ 09:23:10</text>
+  <text x="44" y="638" fill="#374151" font-size="11">NTIS 과제번호 자동 확인</text>
+  <text x="44" y="652" fill="#6b7280" font-size="10">  · 1485012345 — 책임자 확인</text>
+
+  <text x="44" y="676" fill="#10b981" font-size="11">✓ 09:23:11</text>
+  <text x="44" y="690" fill="#374151" font-size="11">라이선스: CC BY 4.0 식별</text>
+
+  <text x="44" y="714" fill="#10b981" font-size="11">✓ 09:23:12</text>
+  <text x="44" y="728" fill="#374151" font-size="11">38 / 42 필드 자동 채움 (90%)</text>
+
+  <rect x="40" y="738" width="288" height="6" rx="3" fill="#e5e7eb"/>
+  <rect x="40" y="738" width="259" height="6" rx="3" fill="#10b981"/>
+
+  <!-- ── Right: pre-filled form ── -->
+  <rect x="356" y="312" width="720" height="450" rx="8" fill="#fff" stroke="#e5e7eb"/>
+  <rect x="356" y="312" width="720" height="36" rx="8" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="376" y="335" fill="#111827" font-size="13" font-weight="700">자동 채워진 등록 양식</text>
+  <rect x="600" y="320" width="20" height="20" rx="3" fill="#d1fae5"/>
+  <text x="624" y="335" fill="#065f46" font-size="11">자동 채움</text>
+  <rect x="690" y="320" width="20" height="20" rx="3" fill="#fef3c7"/>
+  <text x="714" y="335" fill="#92400e" font-size="11">확인 필요</text>
+  <rect x="784" y="320" width="20" height="20" rx="3" fill="#fff" stroke="#d1d5db"/>
+  <text x="808" y="335" fill="#6b7280" font-size="11">미채움</text>
+  <text x="860" y="335" fill="#2563eb" font-size="11" font-weight="600">전체 펼치기 ▾</text>
+  <text x="980" y="335" fill="#2563eb" font-size="11" font-weight="600">상세 보기 ▸</text>
+
+  <!-- Section: 기본정보 -->
+  <text x="376" y="370" fill="#111827" font-size="12" font-weight="700">▼ 기본정보</text>
+
+  <!-- Title (한) -->
+  <text x="376" y="394" fill="#374151" font-size="11">제목 (한글)</text>
+  <rect x="376" y="400" width="480" height="32" rx="4" fill="#ecfdf5" stroke="#10b981"/>
+  <text x="386" y="420" fill="#065f46" font-size="12">KIGAM 지하수 모니터링 데이터 (2026년 1분기)</text>
+  <text x="868" y="420" fill="#10b981" font-size="11" font-weight="600">✓ 자동</text>
+
+  <!-- Title (영) -->
+  <text x="376" y="448" fill="#374151" font-size="11">제목 (영문)</text>
+  <rect x="376" y="454" width="480" height="32" rx="4" fill="#ecfdf5" stroke="#10b981"/>
+  <text x="386" y="474" fill="#065f46" font-size="12">KIGAM Groundwater Monitoring Dataset Q1 2026</text>
+  <text x="868" y="474" fill="#10b981" font-size="11" font-weight="600">✓ 자동</text>
+
+  <!-- Description -->
+  <text x="376" y="502" fill="#374151" font-size="11">설명</text>
+  <rect x="376" y="508" width="680" height="48" rx="4" fill="#ecfdf5" stroke="#10b981"/>
+  <text x="386" y="526" fill="#065f46" font-size="11">전국 230개 관측정에서 측정한 2026년 1분기 지하수 수위/수질 데이터.</text>
+  <text x="386" y="544" fill="#065f46" font-size="11">EC, pH, 온도, NO3, SO4 항목 포함. WGS84 좌표계.</text>
+  <text x="1024" y="544" fill="#10b981" font-size="11" font-weight="600">✓</text>
+
+  <!-- Keywords -->
+  <text x="376" y="572" fill="#374151" font-size="11">키워드 (한)</text>
+  <rect x="376" y="578" width="60" height="24" rx="12" fill="#dbeafe"/>
+  <text x="406" y="594" fill="#1e3a8a" font-size="11" text-anchor="middle">지하수</text>
+  <rect x="442" y="578" width="60" height="24" rx="12" fill="#dbeafe"/>
+  <text x="472" y="594" fill="#1e3a8a" font-size="11" text-anchor="middle">수질</text>
+  <rect x="508" y="578" width="76" height="24" rx="12" fill="#dbeafe"/>
+  <text x="546" y="594" fill="#1e3a8a" font-size="11" text-anchor="middle">관측정</text>
+  <rect x="590" y="578" width="76" height="24" rx="12" fill="#dbeafe"/>
+  <text x="628" y="594" fill="#1e3a8a" font-size="11" text-anchor="middle">모니터링</text>
+  <rect x="672" y="578" width="60" height="24" rx="12" fill="#dbeafe"/>
+  <text x="702" y="594" fill="#1e3a8a" font-size="11" text-anchor="middle">EC/pH</text>
+  <text x="744" y="594" fill="#6b7280" font-size="11">+ 7</text>
+  <text x="868" y="594" fill="#10b981" font-size="11" font-weight="600">✓ 자동</text>
+
+  <!-- 책임자 -->
+  <text x="376" y="624" fill="#374151" font-size="11">책임자 (한글)</text>
+  <rect x="376" y="630" width="200" height="32" rx="4" fill="#ecfdf5" stroke="#10b981"/>
+  <text x="386" y="650" fill="#065f46" font-size="12">김지질</text>
+  <text x="586" y="650" fill="#10b981" font-size="11" font-weight="600">✓</text>
+  <text x="620" y="624" fill="#374151" font-size="11">국가연구자번호</text>
+  <rect x="620" y="630" width="200" height="32" rx="4" fill="#ecfdf5" stroke="#10b981"/>
+  <text x="630" y="650" fill="#065f46" font-size="12">10001234567</text>
+  <text x="830" y="650" fill="#10b981" font-size="11" font-weight="600">✓</text>
+
+  <!-- Section: 인물정보 -->
+  <text x="376" y="690" fill="#111827" font-size="12" font-weight="700">▼ 인물정보 (참여자 4명)</text>
+  <text x="376" y="710" fill="#6b7280" font-size="11">박수문, 이지하, 정모니터 — 3명 자동 매칭, </text>
+  <text x="616" y="710" fill="#92400e" font-size="11" font-weight="600">홍길동 1명 확인 필요</text>
+
+  <!-- Section: 좌표 -->
+  <text x="376" y="734" fill="#111827" font-size="12" font-weight="700">▼ 수집지역</text>
+  <text x="376" y="750" fill="#6b7280" font-size="11">위도 37.4659, 경도 127.0376 (대전 KIGAM 본원) · </text>
+  <text x="660" y="750" fill="#10b981" font-size="11" font-weight="600">EPSG:5179 → WGS84 변환됨</text>
+
+  <!-- Action bar -->
+  <rect x="24" y="776" width="1052" height="36" rx="8" fill="#fff" stroke="#e5e7eb"/>
+  <text x="44" y="800" fill="#6b7280" font-size="12">자동 38 · 확인 필요 3 · 미채움 1 · 총 42필드</text>
+  <rect x="700" y="780" width="116" height="28" rx="5" fill="#fff" stroke="#d1d5db"/>
+  <text x="758" y="799" fill="#374151" font-size="12" text-anchor="middle">다시 분석</text>
+  <rect x="824" y="780" width="116" height="28" rx="5" fill="#fff" stroke="#2563eb"/>
+  <text x="882" y="799" fill="#2563eb" font-size="12" font-weight="600" text-anchor="middle">임시 저장</text>
+  <rect x="948" y="780" width="116" height="28" rx="5" fill="#2563eb"/>
+  <text x="1006" y="799" fill="#fff" font-size="12" font-weight="700" text-anchor="middle">검토 후 제출 →</text>
+</svg>
